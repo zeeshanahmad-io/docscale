@@ -44,6 +44,7 @@ const Index = () => {
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <button onClick={() => scrollToSection('hero')} className="text-muted-foreground hover:text-foreground transition-smooth">Home</button>
+              <button onClick={() => scrollToSection('features')} className="text-muted-foreground hover:text-foreground transition-smooth">Features</button>
               <button onClick={() => scrollToSection('services')} className="text-muted-foreground hover:text-foreground transition-smooth">Services</button>
               <button onClick={() => scrollToSection('about')} className="text-muted-foreground hover:text-foreground transition-smooth">About</button>
               <button onClick={() => scrollToSection('case-study')} className="text-muted-foreground hover:text-foreground transition-smooth">Our Work</button>
@@ -235,6 +236,11 @@ const Index = () => {
                 icon: <MessageCircle className="h-8 w-8" />,
                 title: "WhatsApp Consultation Link",
                 description: "Offer a direct communication channel for patients to inquire about services or schedule a consultation via WhatsApp."
+              },
+              {
+                icon: <FileText className="h-8 w-8" />,
+                title: "Detailed Service Listings",
+                description: "Showcase your expertise with dedicated pages for each of your medical services, treatments, and procedures."
               }
             ].map((feature, index) => (
               <Card key={index} className="card-gradient p-8 hover:shadow-medium transition-spring border-0">
@@ -619,13 +625,15 @@ const Index = () => {
 
       {/* Floating WhatsApp Button */}
       <div className="fixed bottom-6 right-6 z-40">
-        <Button 
-          variant="primary" 
-          size="lg" 
-          className="rounded-full p-4 shadow-strong animate-float"
-        >
-          <MessageCircle className="h-6 w-6" />
-        </Button>
+        <a href="https://wa.me/919999999999?text=Hello%2C%20I%27m%20interested%20in%20your%20services." target="_blank" rel="noopener noreferrer">
+          <Button 
+            variant="primary" 
+            size="lg" 
+            className="rounded-full p-4 shadow-strong animate-float"
+          >
+            <MessageCircle className="h-6 w-6" />
+          </Button>
+        </a>
       </div>
     </div>
   );
