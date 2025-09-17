@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,9 +17,12 @@ import {
   Users,
   Clock,
   Shield,
-  Target
+  Target,
+  ExternalLink,
+  Smartphone
 } from "lucide-react";
 import heroImage from "@/assets/hero-doctor-patient.jpg";
+import qrCodeDemo from "@/assets/qr-code-demo.png";
 
 const Index = () => {
   const scrollToSection = (sectionId: string) => {
@@ -200,71 +203,144 @@ const Index = () => {
       {/* Case Study Section */}
       <section id="case-study" className="section-padding bg-secondary/30">
         <div className="container-width">
-          <div className="text-center space-y-4 mb-16">
+          <div className="text-center space-y-4 mb-16 animate-slide-up">
             <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
               See Our Work in Action
             </h2>
             <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
-              We build websites that are more than just a digital presence—they are patient acquisition machines. 
-              Explore a live example of our work.
+              We build websites that are more than just a digital presence—they are 
+              patient acquisition machines. Explore a live example of our work.
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <Card className="card-gradient p-8 lg:p-12 shadow-medium border-0">
-              <div className="grid lg:grid-cols-2 gap-12 items-center">
-                <div className="space-y-6">
+            <Card className="gradient-card border-0 shadow-large overflow-hidden animate-scale">
+              <CardHeader className="bg-gradient-to-r from-primary to-accent text-white p-8">
+                <CardTitle className="text-2xl mb-2">
+                  Case Study: Solo Practitioner Digital Growth
+                </CardTitle>
+                <CardDescription className="text-white/90 text-lg">
+                  A complete digital branding and marketing strategy for a leading 
+                  specialist in a Tier 1 city. We developed a professional website 
+                  with an integrated booking system and a patient-focused content strategy.
+                </CardDescription>
+              </CardHeader>
+
+              <CardContent className="p-8">
+                <div className="grid lg:grid-cols-2 gap-8 items-center">
+                  {/* Demo Links */}
                   <div>
-                    <Badge variant="secondary" className="mb-4">Case Study</Badge>
-                    <h3 className="text-2xl lg:text-3xl font-bold text-foreground mb-4">
-                      Solo Practitioner Digital Growth
+                    <h3 className="text-xl font-semibold text-foreground mb-6">
+                      Live Demo Available
                     </h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed">
-                      A complete digital branding and marketing strategy for a leading specialist in a Tier 1 city. 
-                      We developed a professional website with an integrated booking system and a patient-focused content strategy.
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-3">
-                    {[
-                      "300% increase in patient inquiries",
-                      "Doubled online appointment bookings",
-                      "Top 3 Google ranking for key specialties",
-                      "95% patient satisfaction score"
-                    ].map((result, index) => (
-                      <div key={index} className="flex items-center space-x-3">
-                        <CheckCircle className="h-5 w-5 text-success" />
-                        <span className="text-foreground">{result}</span>
+                    
+                    <div className="space-y-4 mb-8">
+                      <Button
+                        variant="primary"
+                        size="lg"
+                        className="w-full justify-between"
+                        onClick={() => window.open("https://demo-doctor-website.com", "_blank")}
+                      >
+                        <span>View Live Demo</span>
+                        <ExternalLink className="w-5 h-5" />
+                      </Button>
+                      
+                      <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
+                        <img
+                          src={qrCodeDemo}
+                          alt="QR code for mobile demo"
+                          className="w-16 h-16"
+                        />
+                        <div>
+                          <div className="font-medium text-foreground flex items-center gap-2">
+                            <Smartphone className="w-4 h-4" />
+                            Scan to view on your phone
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            Experience the mobile-optimized design
+                          </div>
+                        </div>
                       </div>
-                    ))}
+                    </div>
+
+                    {/* Results Metrics */}
+                    <div className="space-y-4">
+                      <h4 className="font-semibold text-foreground">
+                        Results Achieved:
+                      </h4>
+                      {[
+                        {
+                          icon: Users,
+                          value: "300%",
+                          label: "Patient Inquiries",
+                          description: "Increase in monthly patient bookings",
+                        },
+                        {
+                          icon: TrendingUp,
+                          value: "#1",
+                          label: "Google Ranking",
+                          description: "Top position for specialty keywords",
+                        },
+                        {
+                          icon: Star,
+                          value: "4.9",
+                          label: "Review Rating",
+                          description: "Average Google review score",
+                        },
+                      ].map((metric, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-4 p-3 bg-background rounded-lg shadow-soft"
+                        >
+                          <div className="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
+                            <metric.icon className="w-5 h-5 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-2xl font-bold text-accent">
+                                {metric.value}
+                              </span>
+                              <span className="text-sm font-medium text-foreground">
+                                {metric.label}
+                              </span>
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              {metric.description}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <Button variant="primary" size="lg" className="w-full sm:w-auto">
-                      View Live Demo
-                    </Button>
-                    <div className="flex items-center space-x-3">
-                      <img 
-                        src="/api/placeholder/80/80" 
-                        alt="QR Code to view demo" 
-                        className="w-16 h-16 rounded-lg border border-border"
-                      />
-                      <div className="text-sm text-muted-foreground">
-                        <p className="font-medium">Scan to view on your phone</p>
+                  {/* Screenshot Preview */}
+                  <div className="animate-fade-in">
+                    <div className="relative">
+                      <div className="bg-gradient-to-br from-primary to-accent p-1 rounded-2xl shadow-large">
+                        <div className="bg-background rounded-xl p-8 h-80 flex items-center justify-center">
+                          <div className="text-center space-y-4">
+                            <div className="w-20 h-20 bg-gradient-to-r from-primary to-accent rounded-full mx-auto flex items-center justify-center">
+                              <Users className="w-10 h-10 text-white" />
+                            </div>
+                            <h3 className="text-xl font-bold text-foreground">
+                              Dr. Smith's Clinic
+                            </h3>
+                            <p className="text-muted-foreground">
+                              Modern Healthcare Excellence
+                            </p>
+                            <Button variant="primary" size="sm">
+                              Book Appointment
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="absolute -bottom-4 -right-4 bg-accent text-white p-3 rounded-xl shadow-medium">
+                        <div className="text-xs font-medium">Mobile Optimized</div>
                       </div>
                     </div>
                   </div>
                 </div>
-                
-                <div className="relative">
-                  <img 
-                    src="/api/placeholder/600/400" 
-                    alt="Screenshot of professional medical website homepage" 
-                    className="rounded-xl shadow-medium w-full"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent rounded-xl"></div>
-                </div>
-              </div>
+              </CardContent>
             </Card>
           </div>
         </div>
