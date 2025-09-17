@@ -19,10 +19,13 @@ import {
   Shield,
   Target,
   ExternalLink,
-  Smartphone
+  Smartphone,
+  Calendar,
+  User
 } from "lucide-react";
 import heroImage from "@/assets/hero-doctor-patient.jpg";
 import qrCodeDemo from "@/assets/qr-code-demo.png";
+import analyticsImage from "@/assets/analytics-dashboard.jpg";
 
 const Index = () => {
   const scrollToSection = (sectionId: string) => {
@@ -37,7 +40,7 @@ const Index = () => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-2">
               <Stethoscope className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-foreground">MedGrow Digital</span>
+              <span className="text-xl font-bold text-foreground">DocScale</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <button onClick={() => scrollToSection('hero')} className="text-muted-foreground hover:text-foreground transition-smooth">Home</button>
@@ -152,50 +155,94 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
               <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
-                Your Partner in Digital Growth
+                Our Mission. Our Expertise.
               </h2>
               <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
                 <p>
-                  With over 10+ years of experience in software development, I bring a unique technical expertise 
-                  to healthcare marketing. I understand how to create efficient, AI-powered solutions that actually work.
+                  DocScale was founded to bring a modern, tech-driven approach to an industry that relies on trust and expertise. 
+                  We understand that healthcare is built on relationships, but we also know that technology can enhance these connections 
+                  and make them more accessible to patients who need care.
                 </p>
                 <p>
-                  My hands-on approach was proven with my first successful project—my brother-in-law's medical practice website. 
-                  Within 6 months, his patient inquiries increased by 300% and online bookings doubled. This success story 
-                  demonstrates my effectiveness in combining technical excellence with practical marketing strategies.
+                  Our mission is simple: to help healthcare professionals thrive in the digital age through efficient, 
+                  data-driven marketing solutions. We combine cutting-edge technology with a deep understanding of the healthcare 
+                  sector to deliver results that matter—more patients, stronger reputations, and sustainable growth.
                 </p>
                 <div className="flex items-center space-x-4 pt-4">
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="h-5 w-5 text-success" />
-                    <span className="font-semibold">10+ Years Experience</span>
+                    <span className="font-semibold">Technology-Driven</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="h-5 w-5 text-success" />
-                    <span className="font-semibold">AI-Powered Solutions</span>
+                    <span className="font-semibold">Healthcare-Focused</span>
                   </div>
                 </div>
               </div>
             </div>
             <div className="relative">
-              <div className="bg-gradient-to-br from-primary to-primary-dark p-8 rounded-2xl text-white shadow-strong">
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-bold">Why Choose Us?</h3>
-                  <div className="space-y-3">
-                    {[
-                      { icon: <Target className="h-5 w-5" />, text: "Results-focused approach" },
-                      { icon: <Clock className="h-5 w-5" />, text: "Quick implementation" },
-                      { icon: <Shield className="h-5 w-5" />, text: "Proven track record" },
-                      { icon: <Users className="h-5 w-5" />, text: "Personalized service" }
-                    ].map((item, index) => (
-                      <div key={index} className="flex items-center space-x-3">
-                        <div className="text-accent">{item.icon}</div>
-                        <span>{item.text}</span>
-                      </div>
-                    ))}
-                  </div>
+              <img 
+                src={analyticsImage} 
+                alt="Digital analytics dashboard showing healthcare practice growth metrics" 
+                className="rounded-2xl shadow-strong w-full"
+              />
+              <div className="absolute -bottom-6 -right-6 bg-accent text-white p-4 rounded-xl shadow-medium">
+                <div className="flex items-center space-x-2">
+                  <TrendingUp className="h-5 w-5" />
+                  <span className="font-semibold">Data-Driven Results</span>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Core Features Section */}
+      <section id="features" className="section-padding bg-secondary/50">
+        <div className="container-width">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
+              The Features Your Patients Need
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              We don't just build websites; we build powerful tools that connect you with your patients.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <User className="h-8 w-8" />,
+                title: "Professional About Section",
+                description: "Build trust and credibility with a dedicated section that highlights your qualifications, experience, and patient-first philosophy."
+              },
+              {
+                icon: <Calendar className="h-8 w-8" />,
+                title: "Easy Appointment Booking",
+                description: "Allow patients to book appointments directly from the website, simplifying the process for both you and your patients."
+              },
+              {
+                icon: <MapPin className="h-8 w-8" />,
+                title: "Find on Google Maps",
+                description: "Help patients find your clinic with ease. We integrate a direct link to your location on Google Maps."
+              },
+              {
+                icon: <Phone className="h-8 w-8" />,
+                title: "Call Now Button",
+                description: "A convenient, one-click button that allows patients to call your clinic directly from their mobile phone."
+              },
+              {
+                icon: <MessageCircle className="h-8 w-8" />,
+                title: "WhatsApp Consultation Link",
+                description: "Offer a direct communication channel for patients to inquire about services or schedule a consultation via WhatsApp."
+              }
+            ].map((feature, index) => (
+              <Card key={index} className="card-gradient p-8 hover:shadow-medium transition-spring border-0">
+                <div className="text-primary mb-4">{feature.icon}</div>
+                <h3 className="text-xl font-semibold mb-3 text-foreground">{feature.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
