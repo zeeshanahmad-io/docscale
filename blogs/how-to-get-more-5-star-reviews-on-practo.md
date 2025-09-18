@@ -3,6 +3,7 @@ title: How to Get More 5-Star Reviews on Practo
 description: A practical guide for doctors in India to increase their positive reviews and build a stellar reputation on Practo.
 published_date: 2025-09-18
 author: DocScale Team
+featuredImage: /images/how-to-get-more-5-star-reviews-on-practo.jpg
 ---
 
 ![How to Get More 5-Star Reviews on Practo](/images/how-to-get-more-5-star-reviews-on-practo.jpg)

@@ -52,7 +52,10 @@ const Blog = () => {
           <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
             {posts.map((post) => (
               <Card key={post.slug} className="card-gradient border-0 hover:shadow-medium transition-spring group">
-                <CardHeader className="p-6">
+                <CardHeader className="p-0">
+                  <img src={post.featuredImage} alt={post.title} className="rounded-t-lg" />
+                </CardHeader>
+                <CardContent className="p-6">
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
                     <div className="flex items-center gap-1">
                       <CalendarDays className="w-4 h-4" />
@@ -73,10 +76,8 @@ const Blog = () => {
                   <CardDescription className="text-muted-foreground mt-2">
                     {post.description}
                   </CardDescription>
-                </CardHeader>
-                <CardContent className="p-6 pt-0">
                   <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                    {post.excerpt}
+                    {post.excerpt.replace(/!\[[^\]]*\]\([^)]*\)/g, "").trim()}
                   </p>
                   <Link to={`/blog/${post.slug}`}>
                     <Button 

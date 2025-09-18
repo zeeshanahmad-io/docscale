@@ -4,6 +4,7 @@ import { CalendarDays, User, ArrowLeft, ArrowRight, List } from "lucide-react";
 import { getPostBySlug } from "@/utils/blogUtils";
 import ReactMarkdown from 'react-markdown';
 import { useState, useEffect } from 'react';
+import { Helmet } from "react-helmet-async";
 
 interface TableOfContentsItem {
   id: string;
@@ -73,6 +74,10 @@ const BlogPost = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{post.title}</title>
+        <meta name="description" content={post.description} />
+      </Helmet>
       {/* Header */}
       <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">

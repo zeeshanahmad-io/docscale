@@ -4,6 +4,7 @@ export interface BlogPost {
   description: string;
   published_date: string;
   author: string;
+  featuredImage: string;
   content: string;
   excerpt: string;
 }
@@ -68,10 +69,10 @@ export function getAllPosts(): BlogPost[] {
       return null;
     }
 
-    // Remove first image markdown if present
-    const contentNoImage = markdownContent.replace(/^!\[[^\]]*\]\([^\)]*\)\s*/m, '');
-    const words = contentNoImage.trim().split(/\s+/);
-    const excerpt = words.slice(0, 30).join(' ') + (words.length > 30 ? '...' : '');
+    // Remove featured image from content before generating excerpt
+    const contentWithoutImage = markdownContent.replace(/^![\[\]^]*\([^)]*\)\s*/, '');
+    const words = contentWithoutImage.trim().split(/\s+/);
+    const excerpt = words.slice(0, 20).join(' ') + (words.length > 20 ? '...' : '');
 
     return {
       slug,
@@ -79,6 +80,7 @@ export function getAllPosts(): BlogPost[] {
       description: data.description,
       published_date: data.published_date,
       author: data.author,
+      featuredImage: data.featuredImage,
       content: markdownContent,
       excerpt,
       postDate // For filtering
@@ -110,10 +112,10 @@ export function getPostBySlug(slug: string): BlogPost | null {
     return null; // Post is not published yet
   }
 
-  // Remove first image markdown if present
-  const contentNoImage = markdownContent.replace(/^!\[[^\]]*\]\([^\)]*\)\s*/m, '');
-  const words = contentNoImage.trim().split(/\s+/);
-  const excerpt = words.slice(0, 30).join(' ') + (words.length > 30 ? '...' : '');
+  // Remove featured image from content before generating excerpt
+  const contentWithoutImage = markdownContent.replace(/^![\[\]^]*\([^)]*\)\s*/, '');
+  const words = contentWithoutImage.trim().split(/\s+/);
+  const excerpt = words.slice(0, 20).join(' ') + (words.length > 20 ? '...' : '');
 
   return {
     slug,
@@ -121,6 +123,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     description: data.description,
     published_date: data.published_date,
     author: data.author,
+    featuredImage: data.featuredImage,
     content: markdownContent,
     excerpt
   };
