@@ -40,8 +40,11 @@ const Index = () => {
         <div className="container-width">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-2">
-              <Stethoscope className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-foreground">DocScale</span>
+              <img src="/src/assets/logo/logo.png" alt="DocScale Logo" className="h-8" />
+              <span className="text-xl font-bold">
+                <span className="text-primary">Doc</span>
+                <span className="text-foreground">Scale</span>
+              </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <button onClick={() => scrollToSection('hero')} className="text-muted-foreground hover:text-foreground transition-smooth">Home</button>
@@ -598,9 +601,8 @@ const Index = () => {
       <footer className="bg-foreground text-background py-12">
         <div className="container-width">
           <div className="text-center space-y-4">
-            <div className="flex items-center justify-center space-x-2">
-              <Stethoscope className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold">MedGrow Digital</span>
+            <div className="flex items-center justify-center">
+              <img src="/src/assets/logo/logo.png" alt="DocScale Logo" className="h-8" />
             </div>
             <p className="text-background/80 max-w-2xl mx-auto">
               Helping healthcare professionals build powerful digital practices that attract more patients and grow their reputation online.

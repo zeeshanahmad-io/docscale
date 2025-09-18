@@ -16,8 +16,12 @@ const Blog = () => {
       {/* Header */}
       <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-primary">
-            DocScale
+          <Link to="/" className="flex items-center space-x-2">
+            <img src="/src/assets/logo/logo.png" alt="DocScale Logo" className="h-8" />
+            <span className="text-xl font-bold">
+              <span className="text-primary">Doc</span>
+              <span className="text-foreground">Scale</span>
+            </span>
           </Link>
           <nav className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-muted-foreground hover:text-foreground transition-smooth">
@@ -95,7 +99,7 @@ const Blog = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <div className="text-2xl font-bold text-primary mb-4">DocScale</div>
+              <img src="/src/assets/logo/logo.png" alt="DocScale Logo" className="h-8" />
               <p className="text-muted-foreground">
                 Building powerful digital solutions for healthcare professionals across India.
               </p>
