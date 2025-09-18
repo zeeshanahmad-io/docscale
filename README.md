@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="src/assets/logo/logo.png" alt="DocScale Logo" width="200" />
+</div>
+
 # 🚀 DocScale - Digital Growth for Doctors
 
 Welcome to **DocScale**, your premier partner for modern digital marketing and lead generation for doctors and clinics. This project is the front end for the **DocScale** business, designed to attract new clients and showcase our expertise in building powerful online platforms for the healthcare industry.
