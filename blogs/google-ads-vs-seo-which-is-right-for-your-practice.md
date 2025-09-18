@@ -8,7 +8,7 @@ featuredImage: /images/google-ads-vs-seo-which-is-right-for-your-practice.jpg
 
 ![Google Ads vs. SEO: Which Is Right for Your Practice?](/images/google-ads-vs-seo-which-is-right-for-your-practice.jpg)
 
-When it comes to digital marketing, doctors in India often ask, "Should I focus on Google Ads or SEO?" The truth is, they are two different strategies that work best together. Here's a simple breakdown to help you decide what's best for your practice.
+When it comes to digital marketing, doctors in India often ask, "Should I focus on [Google Ads](/#services) or [SEO](/#services)?" The truth is, they are two different strategies that work best together. Here's a simple breakdown to help you decide what's best for your practice.
 
 ## What is SEO?
 

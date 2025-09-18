@@ -8,7 +8,7 @@ featuredImage: /images/how-to-get-more-5-star-reviews-on-practo.jpg
 
 ![How to Get More 5-Star Reviews on Practo](/images/how-to-get-more-5-star-reviews-on-practo.jpg)
 
-Practo is the leading platform for finding doctors in India, and your profile is a key part of your online brand. Patients rely heavily on reviews to make a decision, so building a strong reputation is crucial. Here's a step-by-step guide to getting more 5-star reviews on Practo.
+Practo is the leading platform for finding doctors in India, and your profile is a key part of your online brand. Patients rely heavily on reviews to make a decision, so building a strong [online reputation](/#services) is crucial. Here's a step-by-step guide to getting more 5-star reviews on Practo.
 
 ## 1. The Proactive Approach: Just Ask
 
