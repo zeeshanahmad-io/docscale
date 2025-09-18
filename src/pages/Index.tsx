@@ -48,6 +48,7 @@ const Index = () => {
               <button onClick={() => scrollToSection('services')} className="text-muted-foreground hover:text-foreground transition-smooth">Services</button>
               <button onClick={() => scrollToSection('about')} className="text-muted-foreground hover:text-foreground transition-smooth">About</button>
               <button onClick={() => scrollToSection('case-study')} className="text-muted-foreground hover:text-foreground transition-smooth">Our Work</button>
+              <a href="/blog" className="text-muted-foreground hover:text-foreground transition-smooth">Blog</a>
               <button onClick={() => scrollToSection('pricing')} className="text-muted-foreground hover:text-foreground transition-smooth">Pricing</button>
               <Button onClick={() => scrollToSection('contact')} variant="primary" size="sm">Get Started</Button>
             </div>
