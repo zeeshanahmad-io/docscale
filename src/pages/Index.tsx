@@ -12,7 +12,6 @@ import {
   TrendingUp, 
   FileText, 
   Phone, 
-  MessageCircle, 
   MapPin,
   CheckCircle,
   Users,
@@ -24,6 +23,7 @@ import {
   Calendar,
   User
 } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import heroImage from "@/assets/hero-doctor-patient.jpg";
 import qrCodeDemo from "@/assets/qr-code-demo.png";
 import analyticsImage from "@/assets/analytics-dashboard.jpg";
@@ -239,7 +239,7 @@ const Index = () => {
                 description: "A convenient, one-click button that allows patients to call your clinic directly from their mobile phone."
               },
               {
-                icon: <MessageCircle className="h-8 w-8" />,
+                icon: <FaWhatsapp className="h-8 w-8" />,
                 title: "WhatsApp Consultation Link",
                 description: "Offer a direct communication channel for patients to inquire about services or schedule a consultation via WhatsApp."
               },
@@ -623,14 +623,13 @@ const Index = () => {
 
       {/* Floating WhatsApp Button */}
       <div className="fixed bottom-6 right-6 z-40">
-        <a href="https://wa.me/919999999999?text=Hello%2C%20I%27m%20interested%20in%20your%20services." target="_blank" rel="noopener noreferrer">
-          <Button 
-            variant="primary" 
-            size="lg" 
-            className="rounded-full p-4 shadow-strong animate-float"
-          >
-            <MessageCircle className="h-6 w-6" />
-          </Button>
+        <a
+          href="https://wa.me/919999999999?text=Hello%2C%20I%27m%20interested%20in%20your%20services."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-full p-3 shadow-strong animate-float bg-green-500 hover:bg-green-600 flex items-center justify-center text-white [&_svg]:!size-10"
+        >
+          <FaWhatsapp />
         </a>
       </div>
     </div>
