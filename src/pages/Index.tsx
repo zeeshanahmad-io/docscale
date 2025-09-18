@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Link } from "react-router-dom";
 import { 
   Stethoscope, 
   Search, 
@@ -49,6 +50,7 @@ const Index = () => {
               <button onClick={() => scrollToSection('about')} className="text-muted-foreground hover:text-foreground transition-smooth">About</button>
               <button onClick={() => scrollToSection('case-study')} className="text-muted-foreground hover:text-foreground transition-smooth">Our Work</button>
               <button onClick={() => scrollToSection('pricing')} className="text-muted-foreground hover:text-foreground transition-smooth">Pricing</button>
+              <Link to="/blog" className="text-muted-foreground hover:text-foreground transition-smooth">Blog</Link>
               <Button onClick={() => scrollToSection('contact')} variant="primary" size="sm">Get Started</Button>
             </div>
           </div>
@@ -240,7 +242,7 @@ const Index = () => {
               {
                 icon: <FileText className="h-8 w-8" />,
                 title: "Detailed Service Listings",
-                description: "Showcase your expertise with dedicated pages for each of your medical services, treatments, and procedures."
+                description: "Clearly showcase the full range of services you provide, from treatments to consultations, helping patients make informed decisions."
               }
             ].map((feature, index) => (
               <Card key={index} className="card-gradient p-8 hover:shadow-medium transition-spring border-0">
