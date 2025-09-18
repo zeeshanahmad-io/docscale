@@ -202,4 +202,54 @@ All colors MUST be HSL.
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Blog content styling for optimal reading experience */
+  .blog-content {
+    /* Optimize reading experience */
+    max-width: 75ch;
+    line-height: 1.7;
+    
+    /* Enhanced typography */
+    letter-spacing: 0.01em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .blog-content img {
+    @apply w-full h-auto rounded-lg shadow-medium my-8;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .blog-content pre {
+    @apply bg-muted p-6 rounded-lg overflow-x-auto my-8 border;
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  }
+
+  .blog-content table {
+    @apply w-full border-collapse border border-border my-8;
+  }
+
+  .blog-content th,
+  .blog-content td {
+    @apply border border-border px-4 py-2;
+  }
+
+  .blog-content th {
+    @apply bg-muted font-semibold text-foreground;
+  }
+
+  /* Table of contents scroll behavior */
+  .toc-item {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .toc-item:hover {
+    @apply text-primary transform translate-x-1;
+  }
+
+  .toc-active {
+    @apply text-primary font-medium border-l-2 border-primary pl-4 -ml-4 bg-primary/5 rounded-r;
+  }
 }
