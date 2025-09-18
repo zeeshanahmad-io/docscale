@@ -27,6 +27,7 @@ import {
 import heroImage from "@/assets/hero-doctor-patient.jpg";
 import qrCodeDemo from "@/assets/qr-code-demo.png";
 import analyticsImage from "@/assets/analytics-dashboard.jpg";
+import demoWebsiteScreenshot from "@/assets/demo-website-screenshot.png";
 
 const Index = () => {
   const scrollToSection = (sectionId: string) => {
@@ -297,7 +298,7 @@ const Index = () => {
                         variant="primary"
                         size="lg"
                         className="w-full justify-between"
-                        onClick={() => window.open("https://demo-doctor-website.com", "_blank")}
+                        onClick={() => window.open("https://drfaiyazahmad.com/", "_blank")}
                       >
                         <span>View Live Demo</span>
                         <ExternalLink className="w-5 h-5" />
@@ -375,22 +376,11 @@ const Index = () => {
                   <div className="animate-fade-in">
                     <div className="relative">
                       <div className="bg-gradient-to-br from-primary to-accent p-1 rounded-2xl shadow-large">
-                        <div className="bg-background rounded-xl p-8 h-80 flex items-center justify-center">
-                          <div className="text-center space-y-4">
-                            <div className="w-20 h-20 bg-gradient-to-r from-primary to-accent rounded-full mx-auto flex items-center justify-center">
-                              <Users className="w-10 h-10 text-white" />
-                            </div>
-                            <h3 className="text-xl font-bold text-foreground">
-                              Dr. Smith's Clinic
-                            </h3>
-                            <p className="text-muted-foreground">
-                              Modern Healthcare Excellence
-                            </p>
-                            <Button variant="primary" size="sm">
-                              Book Appointment
-                            </Button>
-                          </div>
-                        </div>
+                        <img
+                          src={demoWebsiteScreenshot}
+                          alt="Live Demo Website Screenshot"
+                          className="rounded-xl w-full h-auto object-cover"
+                        />
                       </div>
                       <div className="absolute -bottom-4 -right-4 bg-accent text-white p-3 rounded-xl shadow-medium">
                         <div className="text-xs font-medium">Mobile Optimized</div>
