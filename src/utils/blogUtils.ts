@@ -54,9 +54,20 @@ function getSlugFromPath(path: string): string {
 }
 
 export function getAllPosts(): BlogPost[] {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Normalize to the beginning of the day
+
   return Object.entries(blogFiles).map(([path, content]) => {
     const slug = getSlugFromPath(path);
     const { data, content: markdownContent } = parseFrontmatter(content as string);
+    const postDate = new Date(data.published_date);
+
+    // Basic validation for date
+    if (isNaN(postDate.getTime())) {
+      console.warn(`Invalid date format for post: ${slug}`);
+      return null;
+    }
+
     // Remove first image markdown if present
     const contentNoImage = markdownContent.replace(/^!\[[^\]]*\]\([^\)]*\)\s*/m, '');
     const words = contentNoImage.trim().split(/\s+/);
@@ -69,16 +80,36 @@ export function getAllPosts(): BlogPost[] {
       published_date: data.published_date,
       author: data.author,
       content: markdownContent,
-      excerpt
+      excerpt,
+      postDate // For filtering
     };
-  }).sort((a, b) => new Date(b.published_date).getTime() - new Date(a.published_date).getTime());
+  })
+  .filter((post): post is BlogPost & { postDate: Date } => {
+    if (!post) return false;
+    // Compare dates without time component
+    const postDate = new Date(post.published_date);
+    postDate.setHours(0,0,0,0);
+    return postDate <= today;
+  })
+  .sort((a, b) => new Date(b.published_date).getTime() - new Date(a.published_date).getTime());
 }
 
 export function getPostBySlug(slug: string): BlogPost | null {
   const entry = Object.entries(blogFiles).find(([path]) => getSlugFromPath(path) === slug);
   if (!entry) return null;
+
   const [path, content] = entry;
   const { data, content: markdownContent } = parseFrontmatter(content as string);
+  
+  const postDate = new Date(data.published_date);
+  postDate.setHours(0,0,0,0);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (postDate > today) {
+    return null; // Post is not published yet
+  }
+
   // Remove first image markdown if present
   const contentNoImage = markdownContent.replace(/^!\[[^\]]*\]\([^\)]*\)\s*/m, '');
   const words = contentNoImage.trim().split(/\s+/);
