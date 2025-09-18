@@ -139,22 +139,15 @@ const BlogPost = () => {
 
             {/* Main Content */}
             <div className="flex-1 max-w-4xl">
-              {/* Article Header with Featured Image */}
+              {/* Article Header without Placeholder Image */}
               <header className="mb-16 text-center">
-                {/* Featured Image */}
-                <div className="w-full h-64 md:h-80 bg-gradient-primary rounded-xl mb-8 flex items-center justify-center shadow-medium">
-                  <div className="text-white text-6xl font-bold opacity-20">
-                    {post.title.charAt(0)}
-                  </div>
-                </div>
-                
+                {/* If you want to add a real featured image, add an <img> here using post.slug or frontmatter */}
                 <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
                   {post.title}
                 </h1>
                 <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
                   {post.description}
                 </p>
-                
                 {/* Enhanced Metadata */}
                 <div className="flex items-center justify-center gap-8 text-muted-foreground bg-muted/30 rounded-lg p-6 max-w-lg mx-auto">
                   <div className="flex items-center gap-2">
