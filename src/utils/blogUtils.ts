@@ -1,5 +1,3 @@
-import matter from 'gray-matter';
-
 export interface BlogPost {
   slug: string;
   title: string;
@@ -8,6 +6,42 @@ export interface BlogPost {
   author: string;
   content: string;
   excerpt: string;
+}
+
+// Simple frontmatter parser for browser compatibility
+function parseFrontmatter(content: string) {
+  const lines = content.split('\n');
+  let inFrontmatter = false;
+  let frontmatterData: Record<string, string> = {};
+  let markdownContent = '';
+  let frontmatterEnd = 0;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    
+    if (line === '---') {
+      if (!inFrontmatter) {
+        inFrontmatter = true;
+        continue;
+      } else {
+        frontmatterEnd = i + 1;
+        break;
+      }
+    }
+    
+    if (inFrontmatter && line.includes(':')) {
+      const [key, ...valueParts] = line.split(':');
+      const value = valueParts.join(':').trim();
+      frontmatterData[key.trim()] = value;
+    }
+  }
+  
+  markdownContent = lines.slice(frontmatterEnd).join('\n').trim();
+  
+  return {
+    data: frontmatterData,
+    content: markdownContent
+  };
 }
 
 // Static blog posts data
@@ -115,7 +149,7 @@ This dual strategy gives you the best of both worlds: consistent patient flow no
 
 export function getAllPosts(): BlogPost[] {
   return Object.entries(blogPosts).map(([slug, content]) => {
-    const { data, content: markdownContent } = matter(content);
+    const { data, content: markdownContent } = parseFrontmatter(content);
     const words = markdownContent.trim().split(/\s+/);
     const excerpt = words.slice(0, 30).join(' ') + (words.length > 30 ? '...' : '');
 
@@ -135,7 +169,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
   const content = blogPosts[slug];
   if (!content) return null;
 
-  const { data, content: markdownContent } = matter(content);
+  const { data, content: markdownContent } = parseFrontmatter(content);
   const words = markdownContent.trim().split(/\s+/);
   const excerpt = words.slice(0, 30).join(' ') + (words.length > 30 ? '...' : '');
 
