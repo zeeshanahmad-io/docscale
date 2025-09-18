@@ -601,8 +601,12 @@ const Index = () => {
       <footer className="bg-foreground text-background py-12">
         <div className="container-width">
           <div className="text-center space-y-4">
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center space-x-2">
               <img src="/src/assets/logo/logo.png" alt="DocScale Logo" className="h-8" />
+              <span className="text-xl font-bold text-background">
+                <span className="text-primary">Doc</span>
+                <span className="text-background">Scale</span>
+              </span>
             </div>
             <p className="text-background/80 max-w-2xl mx-auto">
               Helping healthcare professionals build powerful digital practices that attract more patients and grow their reputation online.
@@ -620,7 +624,7 @@ const Index = () => {
             </div>
             <div className="border-t border-background/20 pt-6">
               <p className="text-background/60">
-                © 2024 MedGrow Digital. All rights reserved. Built with ❤️ for healthcare professionals.
+                © 2025 DocScale. All rights reserved.
               </p>
             </div>
           </div>

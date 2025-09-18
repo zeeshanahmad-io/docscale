@@ -323,7 +323,13 @@ const BlogPost = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <img src="/src/assets/logo/logo.png" alt="DocScale Logo" className="h-8" />
+              <div className="flex items-center space-x-2 mb-4">
+                <img src="/src/assets/logo/logo.png" alt="DocScale Logo" className="h-8" />
+                <span className="text-xl font-bold">
+                  <span className="text-primary">Doc</span>
+                  <span className="text-foreground">Scale</span>
+                </span>
+              </div>
               <p className="text-muted-foreground">
                 Building powerful digital solutions for healthcare professionals across India.
               </p>
