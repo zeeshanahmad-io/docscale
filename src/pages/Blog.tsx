@@ -18,7 +18,7 @@ const Blog = () => {
       <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
-            <img src="/src/assets/logo/logo.png" alt="DocScale Logo" className="h-8" />
+            <img src="/logo.png" alt="DocScale Logo" className="h-8" />
             <span className="text-xl font-bold">
               <span className="text-primary">Doc</span>
               <span className="text-foreground">Scale</span>
