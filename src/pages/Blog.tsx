@@ -153,8 +153,8 @@ const Blog = () => {
               <h3 className="font-semibold text-foreground mb-4">Contact</h3>
               <ul className="space-y-2 text-muted-foreground">
                 <li>hello@docscale.in</li>
-                <li>+91 98765 43210</li>
-                <li>Mumbai, India</li>
+                <li>6299337816</li>
+                <li>Bengaluru, India</li>
               </ul>
             </div>
           </div>

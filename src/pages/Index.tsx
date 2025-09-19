@@ -743,7 +743,7 @@ const Index = () => {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">Phone</div>
-                        <div className="text-muted-foreground">+91 98765 43210</div>
+                        <div className="text-muted-foreground">+91 6299337816</div>
                       </div>
                     </div>
 
@@ -753,7 +753,7 @@ const Index = () => {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">Email</div>
-                        <div className="text-muted-foreground">contact@docscale.com</div>
+                        <div className="text-muted-foreground">contact@docscale.in</div>
                       </div>
                     </div>
 
@@ -763,7 +763,7 @@ const Index = () => {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">Location</div>
-                        <div className="text-muted-foreground">Mumbai, India</div>
+                        <div className="text-muted-foreground">Bengaluru, India</div>
                       </div>
                     </div>
                   </div>
@@ -857,7 +857,7 @@ const Index = () => {
       {/* Floating WhatsApp Button */}
       <div className="fixed bottom-6 right-6 z-40">
         <a
-          href="https://wa.me/919999999999?text=Hello%2C%20I%27m%20interested%20in%20your%20services."
+          href="https://wa.me/916299337816?text=Hello%2C%20I%27m%20interested%20in%20your%20services."
           target="_blank"
           rel="noopener noreferrer"
           className="rounded-full p-3 shadow-strong animate-float bg-green-500 hover:bg-green-600 flex items-center justify-center text-white [&_svg]:!size-10"
