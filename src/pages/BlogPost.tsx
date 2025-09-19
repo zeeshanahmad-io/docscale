@@ -344,7 +344,7 @@ const BlogPost = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <img src="/src/assets/logo/logo.png" alt="DocScale Logo" className="h-8" />
+                <img src="/logo.png" alt="DocScale Logo" className="h-8" />
                 <span className="text-xl font-bold">
                   <span className="text-primary">Doc</span>
                   <span className="text-foreground">Scale</span>

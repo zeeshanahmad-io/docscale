@@ -67,7 +67,7 @@ const PrivacyPolicy = () => {
               <section>
                 <h2 className="text-2xl font-semibold mb-4">4. Your Rights</h2>
                 <p>
-                  You have the right to access, update, or request the deletion of your personal information. To do so, please contact us at contact@docscale.com.
+                  You have the right to access, update, or request the deletion of your personal information. To do so, please contact us at contact@docscale.in.
                 </p>
               </section>
 
@@ -81,7 +81,7 @@ const PrivacyPolicy = () => {
               <section>
                 <h2 className="text-2xl font-semibold mb-4">6. Contact Us</h2>
                 <p className="mb-4">If you have any questions about this Privacy Policy, please contact us at:</p>
-                <p>Email: contact@docscale.com</p>
+                <p>Email: contact@docscale.in</p>
               </section>
 
               <section className="border-t border-border pt-8">

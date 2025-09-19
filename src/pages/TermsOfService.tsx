@@ -8,7 +8,7 @@ const TermsOfService = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-2">
-              <img src="/src/assets/logo/logo.png" alt="DocScale Logo" className="h-8" />
+              <img src="/logo.png" alt="DocScale Logo" className="h-8" />
               <span className="text-xl font-bold">
                 <span className="text-primary">Doc</span>
                 <span className="text-foreground">Scale</span>
@@ -87,7 +87,7 @@ const TermsOfService = () => {
               <section>
                 <h2 className="text-2xl font-semibold mb-4">8. Contact Us</h2>
                 <p className="mb-4">If you have any questions about these Terms, please contact us at:</p>
-                <p>Email: contact@docscale.com</p>
+                <p>Email: contact@docscale.in</p>
               </section>
 
               <section className="border-t border-border pt-8">
