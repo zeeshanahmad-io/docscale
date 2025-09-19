@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, User, ArrowLeft, ArrowRight, List } from "lucide-react";
+import { CalendarDays, User, ArrowLeft, ArrowRight, List, Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { getPostBySlug } from "@/utils/blogUtils";
 import ReactMarkdown from 'react-markdown';
 import { useState, useEffect } from 'react';
@@ -96,6 +97,25 @@ const BlogPost = () => {
               Blog
             </Link>
           </nav>
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <div className="flex flex-col space-y-4 pt-8">
+                  <SheetClose asChild>
+                    <Link to="/" className="text-lg font-medium text-foreground hover:text-primary transition-smooth">Home</Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link to="/blog" className="text-lg font-medium text-foreground hover:text-primary transition-smooth">Blog</Link>
+                  </SheetClose>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </header>
 

@@ -26,8 +26,10 @@ import {
   Calendar,
   User,
   Send,
-  Mail
+  Mail,
+  Menu
 } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { FaWhatsapp } from "react-icons/fa";
 import heroImage from "@/assets/hero-doctor-patient.jpg";
 import qrCodeDemo from "@/assets/qr-code-demo.png";
@@ -99,6 +101,43 @@ const Index = () => {
               <button onClick={() => scrollToSection('pricing')} className="text-muted-foreground hover:text-foreground transition-smooth">Pricing</button>
               <Link to="/blog" className="text-muted-foreground hover:text-foreground transition-smooth">Blog</Link>
               <Button onClick={() => scrollToSection('contact')} variant="primary" size="sm">Get Started</Button>
+            </div>
+            <div className="md:hidden">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-6 w-6" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right">
+                  <div className="flex flex-col space-y-4 pt-8">
+                    <SheetClose asChild>
+                      <button onClick={() => scrollToSection('hero')} className="text-lg font-medium text-foreground hover:text-primary transition-smooth">Home</button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <button onClick={() => scrollToSection('features')} className="text-lg font-medium text-foreground hover:text-primary transition-smooth">Features</button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <button onClick={() => scrollToSection('services')} className="text-lg font-medium text-foreground hover:text-primary transition-smooth">Services</button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <button onClick={() => scrollToSection('about')} className="text-lg font-medium text-foreground hover:text-primary transition-smooth">About</button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <button onClick={() => scrollToSection('case-study')} className="text-lg font-medium text-foreground hover:text-primary transition-smooth">Our Work</button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <button onClick={() => scrollToSection('pricing')} className="text-lg font-medium text-foreground hover:text-primary transition-smooth">Pricing</button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link to="/blog" className="w-full text-center text-lg font-medium text-foreground hover:text-primary transition-smooth">Blog</Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button onClick={() => scrollToSection('contact')} variant="primary" size="lg">Get Started</Button>
+                    </SheetClose>
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
           </div>
         </div>

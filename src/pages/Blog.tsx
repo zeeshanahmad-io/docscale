@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarDays, User, ArrowRight } from "lucide-react";
+import { CalendarDays, User, ArrowRight, Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { getAllPosts } from "@/utils/blogUtils";
 import { Link } from "react-router-dom";
 
@@ -31,6 +32,25 @@ const Blog = () => {
               Blog
             </Link>
           </nav>
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <div className="flex flex-col space-y-4 pt-8">
+                  <SheetClose asChild>
+                    <Link to="/" className="text-lg font-medium text-foreground hover:text-primary transition-smooth">Home</Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link to="/blog" className="text-lg font-medium text-foreground hover:text-primary transition-smooth">Blog</Link>
+                  </SheetClose>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </header>
 
