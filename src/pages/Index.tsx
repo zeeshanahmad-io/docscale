@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -38,6 +38,21 @@ import demoWebsiteScreenshot from "@/assets/demo-website-screenshot.png";
 
 const Index = () => {
   const { toast } = useToast();
+  
+  useEffect(() => {
+    // Check for hash in URL and scroll to that section
+    const hash = window.location.hash;
+    if (hash) {
+      const id = hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, []);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -50,29 +65,61 @@ const Index = () => {
   });
 
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      // Update URL without page reload
+      window.history.pushState({}, '', `/#${sectionId}`);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const encode = (data: Record<string, string>) => {
+    return Object.keys(data)
+      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+      .join("&");
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    // Simulate form submission
-    toast({
-      title: "Message Sent Successfully!",
-      description: "We'll get back to you within 24 hours with a customized strategy.",
-    });
+    try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
 
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      specialty: "",
-      city: "",
-      goals: "",
-      budget: "",
-      source: "",
-    });
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({ "form-name": "contact", ...data as Record<string, string> })
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Message Sent Successfully!",
+          description: "We'll get back to you within 24 hours with a customized strategy.",
+        });
+
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          specialty: "",
+          city: "",
+          goals: "",
+          budget: "",
+          source: "",
+        });
+      } else {
+        throw new Error("Form submission failed");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was a problem sending your message. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -607,12 +654,20 @@ const Index = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                  data-netlify="true"
+                  name="contact"
+                  method="POST"
+                >
+                  <input type="hidden" name="form-name" value="contact" />
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="name">Full Name *</Label>
                       <Input
                         id="name"
+                        name="name"
                         value={formData.name}
                         onChange={(e) => handleInputChange("name", e.target.value)}
                         required
@@ -623,6 +678,7 @@ const Index = () => {
                       <Label htmlFor="email">Email Address *</Label>
                       <Input
                         id="email"
+                        name="email"
                         type="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange("email", e.target.value)}
@@ -637,6 +693,7 @@ const Index = () => {
                       <Label htmlFor="phone">Phone Number *</Label>
                       <Input
                         id="phone"
+                        name="phone"
                         value={formData.phone}
                         onChange={(e) => handleInputChange("phone", e.target.value)}
                         required
@@ -645,7 +702,7 @@ const Index = () => {
                     </div>
                     <div>
                       <Label htmlFor="specialty">Medical Specialty *</Label>
-                      <Select onValueChange={(value) => handleInputChange("specialty", value)}>
+                      <Select name="specialty" onValueChange={(value) => handleInputChange("specialty", value)}>
                         <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Select your specialty" />
                         </SelectTrigger>
@@ -668,6 +725,7 @@ const Index = () => {
                     <Label htmlFor="city">City & State of Practice *</Label>
                     <Input
                       id="city"
+                      name="city"
                       value={formData.city}
                       onChange={(e) => handleInputChange("city", e.target.value)}
                       placeholder="e.g., Mumbai, Maharashtra"
@@ -680,6 +738,7 @@ const Index = () => {
                     <Label htmlFor="goals">What are your primary goals? *</Label>
                     <Textarea
                       id="goals"
+                      name="goals"
                       value={formData.goals}
                       onChange={(e) => handleInputChange("goals", e.target.value)}
                       placeholder="e.g., Attract more patients, improve online reviews, build brand awareness..."
@@ -839,11 +898,14 @@ const Index = () => {
                   Terms of Service
                 </Button>
               </Link>
-              <Link to="/contact">
-                <Button variant="ghost" size="sm" className="text-background hover:text-primary">
-                  Contact Us
-                </Button>
-              </Link>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-background hover:text-primary"
+                onClick={() => scrollToSection('contact')}
+              >
+                Contact Us
+              </Button>
             </div>
             <div className="border-t border-background/20 pt-6">
               <p className="text-background/60">

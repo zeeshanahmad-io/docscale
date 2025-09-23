@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { scrollToContact } from "@/utils/scrollUtils";
 
 const TermsOfService = () => {
   return (
@@ -17,7 +18,7 @@ const TermsOfService = () => {
             <div className="hidden md:flex items-center space-x-8">
               <Link to="/" className="text-foreground hover:text-primary transition-smooth">Home</Link>
               <Link to="/blog" className="text-foreground hover:text-primary transition-smooth">Blog</Link>
-              <Link to="/contact" className="text-foreground hover:text-primary transition-smooth">Contact</Link>
+              <button onClick={scrollToContact} className="text-foreground hover:text-primary transition-smooth">Contact</button>
             </div>
           </div>
         </div>
