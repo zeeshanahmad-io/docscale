@@ -662,6 +662,8 @@ const Index = () => {
                   method="POST"
                 >
                   <input type="hidden" name="form-name" value="contact" />
+                  <input type="hidden" name="budget" value={formData.budget} />
+                  <input type="hidden" name="source" value={formData.source} />
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="name">Full Name *</Label>
@@ -750,7 +752,7 @@ const Index = () => {
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="budget">Approximate Budget</Label>
-                      <Select onValueChange={(value) => handleInputChange("budget", value)}>
+                      <Select name="budget" onValueChange={(value) => handleInputChange("budget", value)}>
                         <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Select budget range" />
                         </SelectTrigger>
@@ -764,7 +766,7 @@ const Index = () => {
                     </div>
                     <div>
                       <Label htmlFor="source">How did you hear about us?</Label>
-                      <Select onValueChange={(value) => handleInputChange("source", value)}>
+                      <Select name="source" onValueChange={(value) => handleInputChange("source", value)}>
                         <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Select source" />
                         </SelectTrigger>
