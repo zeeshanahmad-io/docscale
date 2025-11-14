@@ -30,6 +30,7 @@ import {
   Menu
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Helmet } from "react-helmet-async";
 import { FaWhatsapp } from "react-icons/fa";
 import heroImage from "@/assets/hero-doctor-patient.jpg";
 import qrCodeDemo from "@/assets/qr-code-demo.png";
@@ -128,6 +129,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <meta property="og:image" content={heroImage} />
+        <meta property="og:image:alt" content="Professional doctor consulting with patient in modern clinic" />
+        <meta name="twitter:image" content={heroImage} />
+        <meta name="twitter:image:alt" content="Professional doctor consulting with patient in modern clinic" />
+      </Helmet>
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm border-b border-border z-50 transition-smooth">
         <div className="container-width">
