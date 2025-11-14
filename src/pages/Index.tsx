@@ -540,7 +540,7 @@ const Index = () => {
               {
                 title: "Digital Launchpad",
                 subtitle: "Solo practitioners and new clinics",
-                price: "₹12,000",
+                price: "₹5,000",
                 period: "month",
                 features: [
                   "Professional Website Design",
@@ -553,7 +553,7 @@ const Index = () => {
               {
                 title: "Growth Accelerator",
                 subtitle: "Established doctors and growing clinics",
-                price: "₹30,000",
+                price: "₹12,000",
                 period: "month",
                 popular: true,
                 features: [
@@ -757,9 +757,9 @@ const Index = () => {
                           <SelectValue placeholder="Select budget range" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="10k-25k">₹10k-25k per month</SelectItem>
-                          <SelectItem value="25k-50k">₹25k-50k per month</SelectItem>
-                          <SelectItem value="50k+">₹50k+ per month</SelectItem>
+                          <SelectItem value="5k-15k">₹5k-15k per month</SelectItem>
+                          <SelectItem value="15k-25k">₹15k-25k per month</SelectItem>
+                          <SelectItem value="25k+">₹25k+ per month</SelectItem>
                           <SelectItem value="discuss">I'd like to discuss</SelectItem>
                         </SelectContent>
                       </Select>
