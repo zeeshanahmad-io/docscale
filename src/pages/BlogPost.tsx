@@ -4,6 +4,7 @@ import { CalendarDays, User, ArrowLeft, ArrowRight, List, Menu } from "lucide-re
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { getPostBySlug } from "@/utils/blogUtils";
 import ReactMarkdown from 'react-markdown';
+import Image from '@/components/Image';
 import { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet-async";
 
@@ -24,7 +25,11 @@ const BlogPost = () => {
   }
 
   const post = getPostBySlug(slug);
+  const SITE_URL = (import.meta.env.VITE_SITE_URL as string) || 'https://docscale.in';
 
+  const featuredImageAbsolute = post.featuredImage
+    ? (post.featuredImage.startsWith('http') ? post.featuredImage : `${SITE_URL}${post.featuredImage}`)
+    : undefined;
   if (!post) {
     return <Navigate to="/blog" replace />;
   }
@@ -78,6 +83,51 @@ const BlogPost = () => {
       <Helmet>
         <title>{post.title}</title>
         <meta name="description" content={post.description} />
+        <meta name="robots" content="index,follow" />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.description} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`${SITE_URL}/blog/${post.slug}`} />
+        <meta property="og:locale" content="en_IN" />
+        {featuredImageAbsolute && <meta property="og:image" content={featuredImageAbsolute} />}
+        <meta name="twitter:card" content={post.featuredImage ? 'summary_large_image' : 'summary'} />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.description} />
+        {featuredImageAbsolute && <meta name="twitter:image" content={featuredImageAbsolute} />}
+        <meta name="twitter:image:alt" content={post.title} />
+        <meta property="article:published_time" content={post.published_date} />
+        <meta property="article:author" content={post.author} />
+        <link rel="canonical" href={`${SITE_URL}/blog/${post.slug}`} />
+        <link rel="alternate" type="application/rss+xml" title="DocScale RSS" href={`${SITE_URL}/rss.xml`} />
+        {/* Preload featured image to improve LCP when available */}
+        {featuredImageAbsolute && (
+          <link rel="preload" as="image" href={featuredImageAbsolute} />
+        )}
+        {/* JSON-LD Article schema */}
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          'headline': post.title,
+          'description': post.description,
+          'image': featuredImageAbsolute,
+          'author': {
+            '@type': 'Person',
+            'name': post.author
+          },
+          'datePublished': post.published_date,
+          'mainEntityOfPage': {
+            '@type': 'WebPage',
+            '@id': `${SITE_URL}/blog/${post.slug}`
+          },
+          'publisher': {
+            '@type': 'Organization',
+            'name': 'DocScale',
+            'logo': {
+              '@type': 'ImageObject',
+              'url': `${SITE_URL}/logo.png`
+            }
+          }
+        })}</script>
       </Helmet>
       {/* Header */}
       <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -271,6 +321,16 @@ const BlogPost = () => {
                       <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-none" {...props}>
                         {children}
                       </p>
+                    ),
+                    img: ({ src, alt, ...props }) => (
+                      <Image
+                        src={src as string}
+                        alt={alt as string || ''}
+                        className="rounded-lg shadow-medium my-8"
+                        // First image in markdown is likely LCP; don't lazy-load
+                        priority={src === post.featuredImage}
+                        {...props}
+                      />
                     ),
                     ul: ({ children, ...props }) => (
                       <ul className="space-y-3 mb-8 pl-6" {...props}>

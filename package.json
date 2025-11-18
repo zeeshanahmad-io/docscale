@@ -8,7 +8,11 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:sitemap": "node scripts/generate-sitemap.js",
+    "generate:rss": "node scripts/generate-rss.js",
+    "postbuild": "node scripts/generate-sitemap.js && node scripts/generate-rss.js && node scripts/optimize-images.js",
+    "images:optimize": "node scripts/optimize-images.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -77,6 +81,7 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^15.15.0",
     "postcss": "^8.5.6",
+    "sharp": "^0.32.6",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
