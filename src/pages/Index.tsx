@@ -61,7 +61,6 @@ const Index = () => {
     specialty: "",
     city: "",
     goals: "",
-    budget: "",
     source: "",
   });
 
@@ -108,7 +107,6 @@ const Index = () => {
           specialty: "",
           city: "",
           goals: "",
-          budget: "",
           source: "",
         });
       } else {
@@ -578,7 +576,6 @@ const Index = () => {
                   method="POST"
                 >
                   <input type="hidden" name="form-name" value="contact" />
-                  <input type="hidden" name="budget" value={formData.budget} />
                   <input type="hidden" name="source" value={formData.source} />
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
@@ -665,36 +662,20 @@ const Index = () => {
                     />
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="budget">Approximate Budget</Label>
-                      <Select name="budget" onValueChange={(value) => handleInputChange("budget", value)}>
-                        <SelectTrigger className="mt-1">
-                          <SelectValue placeholder="Select budget range" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="5k-15k">₹5k-15k per month</SelectItem>
-                          <SelectItem value="15k-25k">₹15k-25k per month</SelectItem>
-                          <SelectItem value="25k+">₹25k+ per month</SelectItem>
-                          <SelectItem value="discuss">I'd like to discuss</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <Label htmlFor="source">How did you hear about us?</Label>
-                      <Select name="source" onValueChange={(value) => handleInputChange("source", value)}>
-                        <SelectTrigger className="mt-1">
-                          <SelectValue placeholder="Select source" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="google">Google Search</SelectItem>
-                          <SelectItem value="referral">Doctor Referral</SelectItem>
-                          <SelectItem value="social">Social Media</SelectItem>
-                          <SelectItem value="linkedin">LinkedIn</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                  <div>
+                    <Label htmlFor="source">How did you hear about us?</Label>
+                    <Select name="source" onValueChange={(value) => handleInputChange("source", value)}>
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder="Select source" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="google">Google Search</SelectItem>
+                        <SelectItem value="referral">Doctor Referral</SelectItem>
+                        <SelectItem value="social">Social Media</SelectItem>
+                        <SelectItem value="linkedin">LinkedIn</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <Button type="submit" variant="primary" size="lg" className="w-full">
