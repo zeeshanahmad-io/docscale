@@ -152,7 +152,6 @@ const Index = () => {
               <button onClick={() => scrollToSection('services')} className="text-muted-foreground hover:text-foreground transition-smooth">Services</button>
               <button onClick={() => scrollToSection('about')} className="text-muted-foreground hover:text-foreground transition-smooth">About</button>
               <button onClick={() => scrollToSection('case-study')} className="text-muted-foreground hover:text-foreground transition-smooth">Our Work</button>
-              <button onClick={() => scrollToSection('pricing')} className="text-muted-foreground hover:text-foreground transition-smooth">Pricing</button>
               <Link to="/blog" className="text-muted-foreground hover:text-foreground transition-smooth">Blog</Link>
               <Button onClick={() => scrollToSection('contact')} variant="primary" size="sm">Get Started</Button>
             </div>
@@ -179,9 +178,6 @@ const Index = () => {
                     </SheetClose>
                     <SheetClose asChild>
                       <button onClick={() => scrollToSection('case-study')} className="text-lg font-medium text-foreground hover:text-primary transition-smooth">Our Work</button>
-                    </SheetClose>
-                    <SheetClose asChild>
-                      <button onClick={() => scrollToSection('pricing')} className="text-lg font-medium text-foreground hover:text-primary transition-smooth">Pricing</button>
                     </SheetClose>
                     <SheetClose asChild>
                       <Link to="/blog" className="w-full text-center text-lg font-medium text-foreground hover:text-primary transition-smooth">Blog</Link>
@@ -530,109 +526,22 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="section-padding">
+      {/* Get Started Section */}
+      <section id="get-started" className="section-padding">
         <div className="container-width">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
-              Simple, Straightforward Pricing
+              Ready to Grow Your Practice?
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Transparent pricing designed to grow your practice. No hidden fees, no surprises.
+              We offer tailored solutions to fit the unique needs of your practice. Contact us today for a free consultation and a custom quote.
             </p>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {[
-              {
-                title: "Digital Launchpad",
-                subtitle: "Solo practitioners and new clinics",
-                price: "₹5,000",
-                period: "month",
-                features: [
-                  "Professional Website Design",
-                  "Local SEO Optimization",
-                  "Google My Business Setup",
-                  "Basic Content Creation",
-                  "Monthly Performance Reports"
-                ]
-              },
-              {
-                title: "Growth Accelerator",
-                subtitle: "Established doctors and growing clinics",
-                price: "₹12,000",
-                period: "month",
-                popular: true,
-                features: [
-                  "Everything in Digital Launchpad",
-                  "Comprehensive SEO Strategy",
-                  "Google Ads Management",
-                  "Content Marketing",
-                  "Online Reputation Management",
-                  "Weekly Strategy Calls"
-                ]
-              },
-              {
-                title: "Custom Solution",
-                subtitle: "Multi-specialty clinics or large practices",
-                price: "Custom",
-                period: "Quote",
-                features: [
-                  "Fully Tailored Strategy",
-                  "Multi-location Management",
-                  "Advanced Analytics",
-                  "Dedicated Account Manager",
-                  "24/7 Priority Support",
-                  "Custom Integrations"
-                ]
-              }
-            ].map((plan, index) => (
-              <Card key={index} className={`relative p-8 ${plan.popular ? 'border-2 border-primary shadow-strong' : 'card-gradient border-0'}`}>
-                {plan.popular && (
-                  <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground">
-                    Most Popular
-                  </Badge>
-                )}
-                <div className="text-center space-y-4 mb-8">
-                  <h3 className="text-2xl font-bold text-foreground">{plan.title}</h3>
-                  <p className="text-muted-foreground">{plan.subtitle}</p>
-                  <div className="space-y-2">
-                    <div className="text-4xl font-bold text-foreground">
-                      {plan.price}
-                      <span className="text-lg font-normal text-muted-foreground">/{plan.period}</span>
-                    </div>
-                    {index < 2 && <p className="text-sm text-muted-foreground">Starting from</p>}
-                  </div>
-                </div>
-                <div className="space-y-3 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
-                    <div key={featureIndex} className="flex items-center space-x-3">
-                      <CheckCircle className="h-5 w-5 text-success" />
-                      <span className="text-foreground">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-                <Button 
-                  onClick={() => scrollToSection('contact')} 
-                  variant={plan.popular ? "primary" : "outline"} 
-                  size="lg" 
-                  className="w-full"
-                >
-                  {index === 2 ? "Get Custom Quote" : "Get Started"}
-                </Button>
-              </Card>
-            ))}
+          <div className="text-center">
+            <Button onClick={() => scrollToSection('contact')} variant="primary" size="lg">
+              Get a Free Consultation
+            </Button>
           </div>
-
-          <Card className="accent-gradient p-6 text-center">
-            <h4 className="text-lg font-semibold text-accent-foreground mb-2">
-              Why Our Prices are a Starting Point
-            </h4>
-            <p className="text-accent-foreground">
-              The final investment depends on market competition, specific service needs, and your budget. 
-              We believe in transparent pricing that delivers real value for your practice.
-            </p>
-          </Card>
         </div>
       </section>
 
