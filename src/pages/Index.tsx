@@ -37,7 +37,9 @@ import qrCodeDemo from "@/assets/qr-code-demo.png";
 import analyticsImage from "@/assets/analytics-dashboard.jpg";
 import demoWebsiteScreenshot from "@/assets/demo-website-screenshot.png";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { PatientRevenueCalculator } from "@/components/tools/PatientRevenueCalculator";
+import { Suspense, lazy } from "react";
+
+const PatientRevenueCalculator = lazy(() => import("@/components/tools/PatientRevenueCalculator").then(module => ({ default: module.PatientRevenueCalculator })));
 
 const Index = () => {
   const { toast } = useToast();
@@ -328,7 +330,9 @@ const Index = () => {
               See the potential revenue impact of optimizing your digital presence.
             </p>
           </div>
-          <PatientRevenueCalculator />
+          <Suspense fallback={<div className="h-96 w-full max-w-2xl mx-auto bg-muted/20 animate-pulse rounded-xl" />}>
+            <PatientRevenueCalculator />
+          </Suspense>
         </div>
       </section>
 

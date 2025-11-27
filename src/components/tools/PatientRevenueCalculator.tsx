@@ -41,7 +41,7 @@ export const PatientRevenueCalculator = () => {
                     {/* Avg Patient Value Slider */}
                     <div className="space-y-4">
                         <div className="flex justify-between items-center">
-                            <label className="text-sm font-medium text-muted-foreground">
+                            <label htmlFor="avg-value-slider" className="text-sm font-medium text-muted-foreground">
                                 Average Patient Visit Value
                             </label>
                             <span className="text-xl font-bold text-primary">
@@ -49,12 +49,14 @@ export const PatientRevenueCalculator = () => {
                             </span>
                         </div>
                         <Slider
+                            id="avg-value-slider"
                             value={avgValue}
                             onValueChange={setAvgValue}
                             min={100}
                             max={5000}
                             step={100}
                             className="py-4"
+                            aria-label="Average Patient Visit Value"
                         />
                         <p className="text-xs text-muted-foreground">
                             How much does an average consultation or treatment cost?
@@ -64,7 +66,7 @@ export const PatientRevenueCalculator = () => {
                     {/* Daily Visitors Slider */}
                     <div className="space-y-4">
                         <div className="flex justify-between items-center">
-                            <label className="text-sm font-medium text-muted-foreground">
+                            <label htmlFor="daily-visitors-slider" className="text-sm font-medium text-muted-foreground">
                                 Daily Website Visitors
                             </label>
                             <span className="text-xl font-bold text-primary">
@@ -72,12 +74,14 @@ export const PatientRevenueCalculator = () => {
                             </span>
                         </div>
                         <Slider
+                            id="daily-visitors-slider"
                             value={dailyVisitors}
                             onValueChange={setDailyVisitors}
                             min={10}
                             max={1000}
                             step={10}
                             className="py-4"
+                            aria-label="Daily Website Visitors"
                         />
                         <p className="text-xs text-muted-foreground">
                             Estimated number of people visiting your site daily.
