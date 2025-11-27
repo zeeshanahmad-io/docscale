@@ -30,6 +30,8 @@ const BlogPost = () => {
   const featuredImageAbsolute = post.featuredImage
     ? (post.featuredImage.startsWith('http') ? post.featuredImage : `${SITE_URL}${post.featuredImage}`)
     : undefined;
+  const defaultOgImage = `${SITE_URL}/images/hero-doctor-patient.jpg`;
+  const ogImage = featuredImageAbsolute || defaultOgImage;
   if (!post) {
     return <Navigate to="/blog" replace />;
   }
@@ -89,20 +91,19 @@ const BlogPost = () => {
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`${SITE_URL}/blog/${post.slug}`} />
         <meta property="og:locale" content="en_IN" />
-        {featuredImageAbsolute && <meta property="og:image" content={featuredImageAbsolute} />}
-        <meta name="twitter:card" content={post.featuredImage ? 'summary_large_image' : 'summary'} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:alt" content={post.title} />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={post.description} />
-        {featuredImageAbsolute && <meta name="twitter:image" content={featuredImageAbsolute} />}
+        <meta name="twitter:image" content={ogImage} />
         <meta name="twitter:image:alt" content={post.title} />
         <meta property="article:published_time" content={post.published_date} />
         <meta property="article:author" content={post.author} />
         <link rel="canonical" href={`${SITE_URL}/blog/${post.slug}`} />
         <link rel="alternate" type="application/rss+xml" title="DocScale RSS" href={`${SITE_URL}/rss.xml`} />
-        {/* Preload featured image to improve LCP when available */}
-        {featuredImageAbsolute && (
-          <link rel="preload" as="image" href={featuredImageAbsolute} />
-        )}
+        {/* Preload og image to improve LCP when available (falls back to default image) */}
+        <link rel="preload" as="image" href={ogImage} />
         {/* JSON-LD Article schema */}
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org',
