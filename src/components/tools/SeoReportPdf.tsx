@@ -13,13 +13,13 @@ const styles = StyleSheet.create({
     page: {
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
-        padding: 40,
+        padding: 30,
         fontFamily: 'Helvetica'
     },
     header: {
-        marginBottom: 30,
+        marginBottom: 15, // Compact header
         borderBottomWidth: 2,
-        borderBottomColor: '#2563EB', // Primary Blue
+        borderBottomColor: '#2563EB',
         paddingBottom: 10
     },
     title: {
@@ -37,59 +37,59 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     urlText: {
-        fontSize: 14,
-        marginBottom: 20,
+        fontSize: 12,
+        marginBottom: 10, // Tighter spacing
         color: '#2563EB'
     },
     scoreGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 10,
-        marginBottom: 30
+        marginBottom: 15 // Tighter spacing
     },
     scoreCard: {
         width: '45%',
-        padding: 15,
+        padding: 10, // Compact card
         backgroundColor: '#F8FAFC',
         borderRadius: 8,
         borderWidth: 1,
         borderColor: '#E2E8F0',
-        marginBottom: 10
-    },
-    scoreTitle: {
-        fontSize: 12,
-        color: '#64748B',
         marginBottom: 5
     },
+    scoreTitle: {
+        fontSize: 10,
+        color: '#64748B',
+        marginBottom: 2
+    },
     scoreValue: {
-        fontSize: 28,
+        fontSize: 22, // Readable but compact
         fontWeight: 'bold',
         color: '#0F172A'
     },
     findingSection: {
-        marginTop: 20,
-        padding: 15,
+        marginTop: 10, // Tighter spacing
+        padding: 12,
         backgroundColor: '#F0F9FF',
         borderRadius: 8
     },
     findingTitle: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: 5,
         color: '#0F172A'
     },
     findingItem: {
-        fontSize: 12,
-        marginBottom: 5,
+        fontSize: 11, // Restored readability (was 10)
+        marginBottom: 3,
         color: '#334155'
     },
     footer: {
         position: 'absolute',
-        bottom: 30,
-        left: 40,
-        right: 40,
+        bottom: 20,
+        left: 30,
+        right: 30,
         textAlign: 'center',
-        fontSize: 10,
+        fontSize: 9,
         color: '#94A3B8',
         borderTopWidth: 1,
         borderTopColor: '#E2E8F0',
@@ -104,6 +104,7 @@ interface AuditResult {
     bestPractices: number;
     finalUrl: string;
     h1Status: 'present' | 'missing' | 'unknown';
+    failedAudits: { title: string; description: string; displayValue?: string }[];
 }
 
 interface SeoReportPdfProps {
@@ -161,11 +162,26 @@ export const SeoReportPdf = ({ data }: SeoReportPdfProps) => (
                 </Text>
             </View>
 
-            <View style={{ marginTop: 30 }}>
-                <Text style={styles.findingTitle}>Recommendations</Text>
-                <Text style={styles.findingItem}>1. {data.h1Status === 'missing' ? 'Add a main H1 heading to your homepage immediately.' : 'Ensure your H1 tag contains your main keyword (e.g., "Dentist in [City]").'}</Text>
-                <Text style={styles.findingItem}>2. {data.performance < 50 ? 'Optimize images and reduce script execution time to improve speed.' : 'Maintain current performance by optimizing new images.'}</Text>
-                <Text style={styles.findingItem}>3. {data.seo < 90 ? 'Review meta titles and descriptions for all pages.' : 'Continue publishing high-quality content.'}</Text>
+            <View style={{ marginTop: 20 }}>
+                <Text style={styles.findingTitle}>Top Recommendations</Text>
+                {data.failedAudits.length > 0 ? (
+                    data.failedAudits.map((audit, index) => (
+                        <View key={index} style={{ marginBottom: 10 }}>
+                            <Text style={{ ...styles.findingItem, fontWeight: 'bold', color: '#DC2626' }}>
+                                {index + 1}. {audit.title} {audit.displayValue ? `: ${audit.displayValue}` : ''}
+                            </Text>
+                            <Text style={{ ...styles.findingItem, color: '#64748B', fontSize: 10, marginLeft: 15 }}>
+                                {audit.description}
+                            </Text>
+                        </View>
+                    ))
+                ) : (
+                    <>
+                        <Text style={styles.findingItem}>1. {data.h1Status === 'missing' ? 'Add a main H1 heading to your homepage immediately.' : 'Ensure your H1 tag contains your main keyword (e.g., "Dentist in [City]").'}</Text>
+                        <Text style={styles.findingItem}>2. {data.performance < 50 ? 'Optimize images and reduce script execution time to improve speed.' : 'Maintain current performance by optimizing new images.'}</Text>
+                        <Text style={styles.findingItem}>3. {data.seo < 90 ? 'Review meta titles and descriptions for all pages.' : 'Continue publishing high-quality content.'}</Text>
+                    </>
+                )}
             </View>
 
             <View style={styles.footer}>
