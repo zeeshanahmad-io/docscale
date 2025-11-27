@@ -217,6 +217,7 @@ const SeoAuditor = () => {
                                 <Globe className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
                                 <Input
                                     placeholder="Enter your clinic's website URL (e.g., myclinic.com)"
+                                    aria-label="Website URL to audit"
                                     className="pl-10 h-12 text-lg"
                                     value={url}
                                     onChange={(e) => setUrl(e.target.value)}
@@ -343,6 +344,7 @@ const SeoAuditor = () => {
                                                 type="email"
                                                 name="email"
                                                 placeholder="Enter your email address"
+                                                aria-label="Email address for report"
                                                 className="pl-9 bg-background"
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}

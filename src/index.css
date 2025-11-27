@@ -29,7 +29,7 @@ All colors MUST be HSL.
     --secondary-foreground: 210 24% 16%;
 
     --muted: 210 20% 96%;
-    --muted-foreground: 210 12% 47%;
+    --muted-foreground: 210 12% 40%;
 
     /* Professional Accent - Medical Gold */
     --accent: 45 95% 68%;
@@ -146,6 +146,7 @@ All colors MUST be HSL.
 }
 
 @layer components {
+
   /* Hero Section Styles */
   .hero-gradient {
     background: var(--gradient-hero);
@@ -187,8 +188,15 @@ All colors MUST be HSL.
 
   /* Floating Animation for WhatsApp */
   @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
   }
 
   .animate-float {
@@ -217,7 +225,7 @@ All colors MUST be HSL.
     /* Optimize reading experience */
     max-width: 75ch;
     line-height: 1.7;
-    
+
     /* Enhanced typography */
     letter-spacing: 0.01em;
     text-rendering: optimizeLegibility;
