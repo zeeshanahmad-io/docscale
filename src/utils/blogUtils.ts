@@ -1,3 +1,5 @@
+import yaml from 'js-yaml';
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -9,39 +11,26 @@ export interface BlogPost {
   excerpt: string;
 }
 
-// Simple frontmatter parser for browser compatibility
+
+
+// Robust frontmatter parser using js-yaml
 function parseFrontmatter(content: string) {
-  const lines = content.split('\n');
-  let inFrontmatter = false;
-  let frontmatterData: Record<string, string> = {};
-  let markdownContent = '';
-  let frontmatterEnd = 0;
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-
-    if (line === '---') {
-      if (!inFrontmatter) {
-        inFrontmatter = true;
-        continue;
-      } else {
-        frontmatterEnd = i + 1;
-        break;
-      }
-    }
-
-    if (inFrontmatter && line.includes(':')) {
-      const [key, ...valueParts] = line.split(':');
-      const value = valueParts.join(':').trim();
-      frontmatterData[key.trim()] = value;
+  const match = content.match(/^---[\r\n]+([\s\S]*?)[\r\n]+---[\r\n]+([\s\S]*)$/);
+  if (match) {
+    try {
+      const frontmatter = yaml.load(match[1]) as Record<string, any>;
+      return {
+        data: frontmatter,
+        content: match[2].trim()
+      };
+    } catch (e) {
+      console.error('Error parsing frontmatter:', e);
     }
   }
 
-  markdownContent = lines.slice(frontmatterEnd).join('\n').trim();
-
   return {
-    data: frontmatterData,
-    content: markdownContent
+    data: {},
+    content: content
   };
 }
 

@@ -9,7 +9,7 @@ featuredImage: /images/5-seo-basics-every-clinic-in-india-needs-to-know/featured
 ---
 A strong online presence is no longer a luxury for clinics; it's a necessity. With millions of Indians turning to Google to find a doctor, [optimizing your website for search engines (SEO)](/#services) is the most powerful way to grow your practice. Here are 5 SEO basics that every clinic in India needs to know.
 
-![5 SEO Basics Every Clinic in India Needs to Know](/images/5-seo-basics-every-clinic-in-india-needs-to-know.png)
+
 
 ## 1. Optimize Your Google Business Profile
 
