@@ -11,6 +11,7 @@ import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 import Keystatic from "./pages/Keystatic";
 import IndustryPage from "./pages/IndustryPage";
+import SeoAuditor from "./pages/tools/SeoAuditor";
 import programmaticData from "@/data/programmaticData.json";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/tools/seo-auditor" element={<SeoAuditor />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/keystatic/*" element={<Keystatic />} />
