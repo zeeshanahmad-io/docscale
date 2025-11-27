@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarDays, User, ArrowRight, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
@@ -83,7 +84,12 @@ const Blog = () => {
             {posts.map((post) => (
               <Card key={post.slug} className="card-gradient border-0 hover:shadow-medium transition-spring group">
                 <CardHeader className="p-0">
-                  <img src={post.featuredImage} alt={post.title} className="rounded-t-lg" />
+                  <motion.img
+                    src={post.featuredImage}
+                    alt={post.title}
+                    className="rounded-t-lg w-full h-48 object-cover"
+                    layoutId={`image-${post.slug}`}
+                  />
                 </CardHeader>
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">

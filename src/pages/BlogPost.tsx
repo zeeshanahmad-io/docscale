@@ -1,5 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import { CalendarDays, User, ArrowLeft, ArrowRight, List, Menu, Clock } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { getPostBySlug } from "@/utils/blogUtils";
@@ -221,7 +222,14 @@ const BlogPost = () => {
             <div className="flex-1 max-w-4xl">
               {/* Article Header without Placeholder Image */}
               <header className="mb-16 text-center">
-                {/* If you want to add a real featured image, add an <img> here using post.slug or frontmatter */}
+                {featuredImageAbsolute && (
+                  <motion.img
+                    src={featuredImageAbsolute}
+                    alt={post.title}
+                    className="w-full h-auto max-h-[500px] object-cover rounded-xl shadow-2xl mb-8"
+                    layoutId={`image-${post.slug}`}
+                  />
+                )}
                 <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
                   {post.title}
                 </h1>
@@ -325,16 +333,21 @@ const BlogPost = () => {
                         {children}
                       </p>
                     ),
-                    img: ({ src, alt, ...props }) => (
-                      <Image
-                        src={src as string}
-                        alt={alt as string || ''}
-                        className="rounded-lg shadow-medium my-8"
-                        // First image in markdown is likely LCP; don't lazy-load
-                        priority={src === post.featuredImage}
-                        {...props}
-                      />
-                    ),
+                    img: ({ src, alt, ...props }) => {
+                      // Skip rendering the image if it matches the featured image (to avoid duplicates)
+                      if (src === post.featuredImage) return null;
+
+                      return (
+                        <Image
+                          src={src as string}
+                          alt={alt as string || ''}
+                          className="rounded-lg shadow-medium my-8"
+                          // First image in markdown is likely LCP; don't lazy-load
+                          priority={src === post.featuredImage}
+                          {...props}
+                        />
+                      );
+                    },
                     ul: ({ children, ...props }) => (
                       <ul className="space-y-3 mb-8 pl-6" {...props}>
                         {children}
