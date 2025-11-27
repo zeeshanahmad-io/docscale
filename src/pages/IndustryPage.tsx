@@ -2,7 +2,7 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle2, TrendingUp, Users, Calendar } from "lucide-react";
+import { ArrowRight, CheckCircle2, TrendingUp, Users, Calendar, Sparkles } from "lucide-react";
 import programmaticData from "@/data/programmaticData.json";
 
 interface IndustryPageProps {
@@ -35,10 +35,10 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={description} />
                 <meta property="og:url" content={`https://docscale.in/marketing-for-${specialtyId}-in-${cityId}`} />
-            </Helmet >
+            </Helmet>
 
             {/* Hero Section */}
-            < section className="pt-32 pb-20 px-4 bg-gradient-to-b from-primary/5 to-background" >
+            <section className="pt-32 pb-20 px-4 bg-gradient-to-b from-primary/5 to-background">
                 <div className="container mx-auto max-w-6xl text-center">
                     <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary/10 text-primary font-medium text-sm">
                         For {specialty.plural} in {city.label}
@@ -50,10 +50,12 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
                         Stop relying on referrals. We help {specialty.plural} in {city.label} rank #1 on Google and fill their appointment calendars.
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <Button size="lg" className="w-full sm:w-auto text-lg px-8 h-12">
-                            Get Free Strategy for {city.label}
-                            <ArrowRight className="ml-2 w-5 h-5" />
-                        </Button>
+                        <Link to="/#contact">
+                            <Button size="lg" className="w-full sm:w-auto text-lg px-8 h-12">
+                                Get Free Strategy for {city.label}
+                                <ArrowRight className="ml-2 w-5 h-5" />
+                            </Button>
+                        </Link>
                         <Link to="/#services">
                             <Button variant="outline" size="lg" className="w-full sm:w-auto text-lg px-8 h-12">
                                 View Services
@@ -61,10 +63,10 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
                         </Link>
                     </div>
                 </div>
-            </section >
+            </section>
 
             {/* Problem/Solution Section */}
-            < section className="py-20 px-4" >
+            <section className="py-20 px-4">
                 <div className="container mx-auto max-w-6xl">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div>
@@ -79,10 +81,15 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
                                     `Rank for "${specialty.label} in ${city.label}" keywords`,
                                     "Build a 5-star reputation on Google & Practo",
                                     "Automate patient appointment booking",
+                                    "AI Search Optimization (ChatGPT & Perplexity)",
                                     "High-converting website design"
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-center gap-3">
-                                        <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
+                                        {item.includes("AI") ? (
+                                            <Sparkles className="w-5 h-5 text-primary shrink-0" />
+                                        ) : (
+                                            <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
+                                        )}
                                         <span className="text-foreground">{item}</span>
                                     </li>
                                 ))}
@@ -122,10 +129,10 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
                         </div>
                     </div>
                 </div>
-            </section >
+            </section>
 
             {/* CTA Section */}
-            < section className="py-20 px-4 bg-primary text-primary-foreground" >
+            <section className="py-20 px-4 bg-primary text-primary-foreground">
                 <div className="container mx-auto max-w-4xl text-center">
                     <h2 className="text-3xl md:text-4xl font-bold mb-6">
                         Ready to Dominate the {specialty.label} Market in {city.label}?
@@ -133,11 +140,13 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
                     <p className="text-xl opacity-90 mb-8">
                         We only work with one {specialty.label} per area in {city.label} to ensure exclusive results.
                     </p>
-                    <Button size="lg" variant="secondary" className="text-lg px-8 h-12">
-                        Claim Your Spot in {city.label}
-                    </Button>
+                    <Link to="/#contact">
+                        <Button size="lg" variant="secondary" className="text-lg px-8 h-12">
+                            Claim Your Spot in {city.label}
+                        </Button>
+                    </Link>
                 </div>
-            </section >
+            </section>
         </div >
     );
 };
