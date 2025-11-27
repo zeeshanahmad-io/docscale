@@ -89,6 +89,7 @@ const Blog = () => {
                     alt={post.title}
                     className="rounded-t-lg w-full h-48 object-cover"
                     layoutId={`image-${post.slug}`}
+                    loading="lazy"
                   />
                 </CardHeader>
                 <CardContent className="p-6">

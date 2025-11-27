@@ -194,7 +194,7 @@ const Index = () => {
         <div className="container-width">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-2">
-              <img src="/logo.png" alt="DocScale Logo" className="h-8" />
+              <img src="/logo.png" alt="DocScale Logo" className="h-8" width="32" height="32" />
               <span className="text-xl font-bold">
                 <span className="text-primary">Doc</span>
                 <span className="text-foreground">Scale</span>
