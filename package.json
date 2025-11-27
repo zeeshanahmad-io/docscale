@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "generate:sitemap": "node scripts/generate-sitemap.js",
     "generate:rss": "node scripts/generate-rss.js",
-    "postbuild": "node scripts/generate-sitemap.js && node scripts/generate-rss.js && node scripts/optimize-images.js",
+    "postbuild": "node scripts/generate-sitemap.js && node scripts/generate-rss.js && node scripts/optimize-images.js && node scripts/prerender.js",
     "images:optimize": "node scripts/optimize-images.js"
   },
   "dependencies": {
