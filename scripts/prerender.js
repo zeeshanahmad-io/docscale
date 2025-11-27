@@ -85,6 +85,47 @@ async function prerender() {
         fs.writeFileSync(path.join(outDir, 'index.html'), html);
         console.log(`Prerendered: blog/${slug}`);
     }
+
+    // Programmatic SEO Pages
+    const PROGRAMMATIC_DATA_PATH = path.resolve(process.cwd(), 'src/data/programmaticData.json');
+    if (fs.existsSync(PROGRAMMATIC_DATA_PATH)) {
+        const data = JSON.parse(fs.readFileSync(PROGRAMMATIC_DATA_PATH, 'utf8'));
+        console.log(`Found ${data.specialties.length} specialties and ${data.cities.length} cities. Generating ${data.specialties.length * data.cities.length} landing pages...`);
+
+        for (const specialty of data.specialties) {
+            for (const city of data.cities) {
+                const urlPath = `marketing-for-${specialty.id}-in-${city.id}`;
+                const title = `Digital Marketing for ${specialty.plural} in ${city.label} | DocScale`;
+                const description = `Attract more patients to your ${specialty.label} practice in ${city.label}. Expert SEO, Google Ads, and Website Design tailored for ${specialty.plural}.`;
+                const url = `${SITE_URL}/${urlPath}`;
+
+                // Create output directory
+                const outDir = path.join(DIST_DIR, urlPath);
+                if (!fs.existsSync(outDir)) {
+                    fs.mkdirSync(outDir, { recursive: true });
+                }
+
+                let html = template;
+
+                // Title
+                html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${title}</title>`);
+                html = html.replace(/<meta property="og:title"[\s\S]*?content="[\s\S]*?"\s*\/?>/i, `<meta property="og:title" content="${title}" />`);
+                html = html.replace(/<meta name="twitter:title"[\s\S]*?content="[\s\S]*?"\s*\/?>/i, `<meta name="twitter:title" content="${title}" />`);
+
+                // Description
+                html = html.replace(/<meta name="description"[\s\S]*?content="[\s\S]*?"\s*\/?>/i, `<meta name="description" content="${description}" />`);
+                html = html.replace(/<meta property="og:description"[\s\S]*?content="[\s\S]*?"\s*\/?>/i, `<meta property="og:description" content="${description}" />`);
+                html = html.replace(/<meta name="twitter:description"[\s\S]*?content="[\s\S]*?"\s*\/?>/i, `<meta name="twitter:description" content="${description}" />`);
+
+                // URL / Canonical
+                html = html.replace(/<link rel="canonical"[\s\S]*?href="[\s\S]*?"\s*\/?>/i, `<link rel="canonical" href="${url}" />`);
+                html = html.replace(/<meta property="og:url"[\s\S]*?content="[\s\S]*?"\s*\/?>/i, `<meta property="og:url" content="${url}" />`);
+
+                fs.writeFileSync(path.join(outDir, 'index.html'), html);
+            }
+        }
+        console.log('Programmatic SEO pages generated.');
+    }
 }
 
 prerender();

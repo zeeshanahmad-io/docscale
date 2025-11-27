@@ -1,0 +1,156 @@
+{
+    "specialties": [
+        {
+            "id": "cardiologist",
+            "label": "Cardiologist",
+            "plural": "Cardiologists"
+        },
+        {
+            "id": "dentist",
+            "label": "Dentist",
+            "plural": "Dentists"
+        },
+        {
+            "id": "dermatologist",
+            "label": "Dermatologist",
+            "plural": "Dermatologists"
+        },
+        {
+            "id": "pediatrician",
+            "label": "Pediatrician",
+            "plural": "Pediatricians"
+        },
+        {
+            "id": "gynecologist",
+            "label": "Gynecologist",
+            "plural": "Gynecologists"
+        },
+        {
+            "id": "orthopedic-surgeon",
+            "label": "Orthopedic Surgeon",
+            "plural": "Orthopedic Surgeons"
+        },
+        {
+            "id": "ophthalmologist",
+            "label": "Ophthalmologist",
+            "plural": "Ophthalmologists"
+        },
+        {
+            "id": "physiotherapist",
+            "label": "Physiotherapist",
+            "plural": "Physiotherapists"
+        },
+        {
+            "id": "psychiatrist",
+            "label": "Psychiatrist",
+            "plural": "Psychiatrists"
+        },
+        {
+            "id": "urologist",
+            "label": "Urologist",
+            "plural": "Urologists"
+        },
+        {
+            "id": "neurologist",
+            "label": "Neurologist",
+            "plural": "Neurologists"
+        },
+        {
+            "id": "ent-specialist",
+            "label": "ENT Specialist",
+            "plural": "ENT Specialists"
+        },
+        {
+            "id": "general-physician",
+            "label": "General Physician",
+            "plural": "General Physicians"
+        },
+        {
+            "id": "plastic-surgeon",
+            "label": "Plastic Surgeon",
+            "plural": "Plastic Surgeons"
+        },
+        {
+            "id": "ivf-specialist",
+            "label": "IVF Specialist",
+            "plural": "IVF Specialists"
+        }
+    ],
+    "cities": [
+        {
+            "id": "mumbai",
+            "label": "Mumbai",
+            "state": "Maharashtra"
+        },
+        {
+            "id": "delhi",
+            "label": "Delhi",
+            "state": "Delhi"
+        },
+        {
+            "id": "bangalore",
+            "label": "Bangalore",
+            "state": "Karnataka"
+        },
+        {
+            "id": "hyderabad",
+            "label": "Hyderabad",
+            "state": "Telangana"
+        },
+        {
+            "id": "chennai",
+            "label": "Chennai",
+            "state": "Tamil Nadu"
+        },
+        {
+            "id": "kolkata",
+            "label": "Kolkata",
+            "state": "West Bengal"
+        },
+        {
+            "id": "pune",
+            "label": "Pune",
+            "state": "Maharashtra"
+        },
+        {
+            "id": "ahmedabad",
+            "label": "Ahmedabad",
+            "state": "Gujarat"
+        },
+        {
+            "id": "jaipur",
+            "label": "Jaipur",
+            "state": "Rajasthan"
+        },
+        {
+            "id": "lucknow",
+            "label": "Lucknow",
+            "state": "Uttar Pradesh"
+        },
+        {
+            "id": "chandigarh",
+            "label": "Chandigarh",
+            "state": "Punjab"
+        },
+        {
+            "id": "indore",
+            "label": "Indore",
+            "state": "Madhya Pradesh"
+        },
+        {
+            "id": "kochi",
+            "label": "Kochi",
+            "state": "Kerala"
+        },
+        {
+            "id": "patna",
+            "label": "Patna",
+            "state": "Bihar"
+        },
+        {
+            "id": "bhopal",
+            "label": "Bhopal",
+            "state": "Madhya Pradesh"
+        }
+    ]
+}
