@@ -37,6 +37,7 @@ import qrCodeDemo from "@/assets/qr-code-demo.png";
 import analyticsImage from "@/assets/analytics-dashboard.jpg";
 import demoWebsiteScreenshot from "@/assets/demo-website-screenshot.png";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { PatientRevenueCalculator } from "@/components/tools/PatientRevenueCalculator";
 
 const Index = () => {
   const { toast } = useToast();
@@ -317,6 +318,19 @@ const Index = () => {
           </div>
         </div>
       </section >
+
+      {/* Revenue Calculator Section */}
+      <section className="py-16 bg-muted/30">
+        <div className="container-width">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">What Is Your Practice Losing?</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              See the potential revenue impact of optimizing your digital presence.
+            </p>
+          </div>
+          <PatientRevenueCalculator />
+        </div>
+      </section>
 
       {/* Services Section */}
       < section id="services" className="section-padding bg-secondary/50" >
