@@ -302,6 +302,17 @@ const Index = () => {
                   <span className="font-semibold">1000+ Happy Patients</span>
                 </div>
               </div>
+              <div className="absolute -top-6 -left-6 bg-white text-accent-foreground p-4 rounded-xl shadow-medium">
+                <div className="flex items-center space-x-2">
+                  <div className="bg-white p-2 rounded-lg">
+                    <Star className="w-6 h-6 text-yellow-400 fill-current" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-lg leading-none">4.9/5 Rating</div>
+                    <div className="text-xs opacity-90">from 50+ Doctors</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
