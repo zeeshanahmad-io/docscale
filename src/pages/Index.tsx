@@ -32,7 +32,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Helmet } from "react-helmet-async";
 import { FaWhatsapp } from "react-icons/fa";
-import heroImage from "@/assets/hero-doctor-patient.jpg";
+// import heroImage from "@/assets/hero-doctor-patient.jpg"; // Removed to prevent double loading (using static public/images instead)
 import qrCodeDemo from "@/assets/qr-code-demo.png";
 import analyticsImage from "@/assets/analytics-dashboard.jpg";
 import demoWebsiteScreenshot from "@/assets/demo-website-screenshot.png";
@@ -134,10 +134,10 @@ const Index = () => {
         <link rel="canonical" href="https://docscale.in/" />
         <meta property="og:title" content="Medical Website Design & SEO for Doctors in India | DocScale" />
         <meta property="og:description" content="Attract more patients with expert digital marketing. We build high-converting websites and rank your clinic on Google." />
-        <meta property="og:image" content={heroImage} />
+        <meta property="og:image" content="https://docscale.in/images/hero-doctor-patient.jpg" />
         <meta property="og:image:alt" content="Professional doctor consulting with patient in modern clinic" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={heroImage} />
+        <meta name="twitter:image" content="https://docscale.in/images/hero-doctor-patient.jpg" />
         <meta name="twitter:image:alt" content="Professional doctor consulting with patient in modern clinic" />
 
         {/* JSON-LD Structured Data for LLMs and Search Engines */}
@@ -217,7 +217,7 @@ const Index = () => {
             <div className="md:hidden">
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" aria-label="Open main menu">
                     <Menu className="h-6 w-6" />
                   </Button>
                 </SheetTrigger>
@@ -287,7 +287,7 @@ const Index = () => {
 
             <div className="relative">
               <img
-                src={heroImage}
+                src="/images/hero-doctor-patient.jpg"
                 alt="Professional doctor consulting with patient in modern clinic"
                 className="rounded-2xl shadow-strong w-full"
                 width="600"
