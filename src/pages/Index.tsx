@@ -275,6 +275,10 @@ const Index = () => {
                 src={heroImage}
                 alt="Professional doctor consulting with patient in modern clinic"
                 className="rounded-2xl shadow-strong w-full"
+                width="600"
+                height="400"
+                loading="eager"
+                fetchPriority="high"
               />
               <div className="absolute -bottom-6 -right-6 bg-accent text-accent-foreground p-4 rounded-xl shadow-medium">
                 <div className="flex items-center space-x-2">
