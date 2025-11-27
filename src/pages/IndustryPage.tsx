@@ -131,6 +131,47 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
                 </div>
             </section>
 
+            {/* Tailored Services Section */}
+            <section className="py-20 px-4 bg-muted/50">
+                <div className="container mx-auto max-w-6xl">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl font-bold mb-4">Tailored Marketing Solutions for {specialty.plural}</h2>
+                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                            We don't use generic strategies. Our entire marketing stack is built specifically for {specialty.label} clinics in {city.label}.
+                        </p>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="bg-background p-8 rounded-xl border border-border hover:shadow-lg transition-shadow">
+                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                                <TrendingUp className="w-6 h-6 text-primary" />
+                            </div>
+                            <h3 className="text-xl font-semibold mb-3">{specialty.label} SEO Services</h3>
+                            <p className="text-muted-foreground">
+                                Rank for high-intent keywords like "best {specialty.label} in {city.label}" and "top {specialty.label} clinic near me".
+                            </p>
+                        </div>
+                        <div className="bg-background p-8 rounded-xl border border-border hover:shadow-lg transition-shadow">
+                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                                <Users className="w-6 h-6 text-primary" />
+                            </div>
+                            <h3 className="text-xl font-semibold mb-3">Google Ads for {specialty.plural}</h3>
+                            <p className="text-muted-foreground">
+                                Get instant patient inquiries with targeted PPC campaigns designed to capture people actively looking for {specialty.label} services.
+                            </p>
+                        </div>
+                        <div className="bg-background p-8 rounded-xl border border-border hover:shadow-lg transition-shadow">
+                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                                <Sparkles className="w-6 h-6 text-primary" />
+                            </div>
+                            <h3 className="text-xl font-semibold mb-3">Website Design for {specialty.label} Clinics</h3>
+                            <p className="text-muted-foreground">
+                                Convert visitors into patients with a fast, mobile-friendly website that highlights your expertise and patient testimonials.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* CTA Section */}
             <section className="py-20 px-4 bg-primary text-primary-foreground">
                 <div className="container mx-auto max-w-4xl text-center">
