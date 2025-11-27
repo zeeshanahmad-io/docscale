@@ -7,7 +7,7 @@ import config from './keystatic.config';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "::",
+    host: "0.0.0.0",
     port: 8080,
   },
   plugins: [
@@ -17,7 +17,8 @@ export default defineConfig(({ mode }) => ({
       configureServer(server: any) {
         server.middlewares.use('/api/keystatic', async (req: any, res: any) => {
           try {
-            const url = `http://${req.headers.host}${req.originalUrl}`;
+            const host = req.headers.host || 'localhost:8080';
+            const url = `http://${host}${req.originalUrl}`;
 
             // Read body if method is not GET/HEAD
             let body = null;
