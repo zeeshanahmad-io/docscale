@@ -293,6 +293,7 @@ const Index = () => {
                 width="600"
                 height="400"
                 loading="eager"
+                // @ts-expect-error - fetchpriority is a valid attribute but not yet in React types for this version
                 fetchpriority="high"
               />
               <div className="absolute -bottom-6 -right-6 bg-accent text-accent-foreground p-4 rounded-xl shadow-medium">
