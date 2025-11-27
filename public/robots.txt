@@ -1,14 +1,35 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
+# robots.txt for DocScale
+# Allow all search engines to crawl the site
 
 User-agent: *
+Allow: /
+
+# Disallow admin or private paths (if any)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Sitemap location
+Sitemap: https://docscale.in/sitemap.xml
+
+# LLM context file
+# Note: There is no standard directive for llms.txt yet, but we ensure it's allowed.
+Allow: /llms.txt
+
+# Explicitly allow AI/LLM bots
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
 Allow: /

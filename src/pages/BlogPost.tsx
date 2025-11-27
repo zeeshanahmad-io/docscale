@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, User, ArrowLeft, ArrowRight, List, Menu } from "lucide-react";
+import { motion } from "framer-motion";
+import { CalendarDays, User, ArrowLeft, ArrowRight, List, Menu, Clock } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { getPostBySlug } from "@/utils/blogUtils";
 import ReactMarkdown from 'react-markdown';
@@ -19,7 +20,7 @@ const BlogPost = () => {
   const [tableOfContents, setTableOfContents] = useState<TableOfContentsItem[]>([]);
   const [activeSection, setActiveSection] = useState<string>('');
   const [showToc, setShowToc] = useState(false);
-  
+
   if (!slug) {
     return <Navigate to="/blog" replace />;
   }
@@ -30,13 +31,22 @@ const BlogPost = () => {
   const featuredImageAbsolute = post.featuredImage
     ? (post.featuredImage.startsWith('http') ? post.featuredImage : `${SITE_URL}${post.featuredImage}`)
     : undefined;
+
+  // If a featured image exists, remove the first image from the markdown content
+  // This prevents duplicate images if the user has manually added the cover image to the markdown body
+  const content = post.featuredImage
+    ? post.content.replace(/^\s*!\[.*?\]\(.*?\)/, '')
+    : post.content;
+
+  const readingTime = post ? Math.ceil(content.split(/\s+/).length / 200) : 0;
+
   if (!post) {
     return <Navigate to="/blog" replace />;
   }
 
   useEffect(() => {
     // Generate table of contents from headings
-    const headings = post.content.match(/^#{2,3}\s+(.+)$/gm);
+    const headings = content.match(/^#{2,3}\s+(.+)$/gm);
     if (headings) {
       const toc = headings.map((heading, index) => {
         const level = heading.match(/^#+/)?.[0].length || 2;
@@ -46,7 +56,7 @@ const BlogPost = () => {
       });
       setTableOfContents(toc);
     }
-  }, [post.content]);
+  }, [content]);
 
   useEffect(() => {
     // Handle scroll spy for active section
@@ -199,13 +209,11 @@ const BlogPost = () => {
                         <button
                           key={item.id}
                           onClick={() => scrollToSection(item.id)}
-                          className={`block w-full text-left text-sm transition-colors hover:text-primary ${
-                            item.level === 3 ? 'pl-4' : ''
-                          } ${
-                            activeSection === item.id 
-                              ? 'text-primary font-medium' 
+                          className={`block w-full text-left text-sm transition-colors hover:text-primary ${item.level === 3 ? 'pl-4' : ''
+                            } ${activeSection === item.id
+                              ? 'text-primary font-medium'
                               : 'text-muted-foreground'
-                          }`}
+                            }`}
                         >
                           {item.title}
                         </button>
@@ -220,7 +228,14 @@ const BlogPost = () => {
             <div className="flex-1 max-w-4xl">
               {/* Article Header without Placeholder Image */}
               <header className="mb-16 text-center">
-                {/* If you want to add a real featured image, add an <img> here using post.slug or frontmatter */}
+                {post.featuredImage && (
+                  <motion.img
+                    src={post.featuredImage}
+                    alt={post.title}
+                    className="w-full h-auto max-h-[500px] object-cover rounded-xl shadow-2xl mb-8"
+                    layoutId={`image-${post.slug}`}
+                  />
+                )}
                 <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
                   {post.title}
                 </h1>
@@ -242,6 +257,10 @@ const BlogPost = () => {
                   <div className="flex items-center gap-2">
                     <User className="w-5 h-5 text-primary" />
                     <span className="font-medium">{post.author}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-primary" />
+                    <span className="font-medium">{readingTime} min read</span>
                   </div>
                 </div>
               </header>
@@ -270,13 +289,11 @@ const BlogPost = () => {
                               scrollToSection(item.id);
                               setShowToc(false);
                             }}
-                            className={`block w-full text-left text-sm transition-colors hover:text-primary ${
-                              item.level === 3 ? 'pl-4' : ''
-                            } ${
-                              activeSection === item.id 
-                                ? 'text-primary font-medium' 
+                            className={`block w-full text-left text-sm transition-colors hover:text-primary ${item.level === 3 ? 'pl-4' : ''
+                              } ${activeSection === item.id
+                                ? 'text-primary font-medium'
                                 : 'text-muted-foreground'
-                            }`}
+                              }`}
                           >
                             {item.title}
                           </button>
@@ -291,96 +308,81 @@ const BlogPost = () => {
               <div className="blog-content">
                 <ReactMarkdown
                   components={{
+                    h1: ({ children, ...props }) => (
+                      <h1 className="text-3xl font-bold mt-12 mb-6 text-foreground leading-tight" {...props}>
+                        {children}
+                      </h1>
+                    ),
                     h2: ({ children, ...props }) => {
-                      const index = tableOfContents.findIndex(item => item.title === children?.toString());
-                      const id = index >= 0 ? `heading-${index}` : undefined;
+                      const id = `heading-${tableOfContents.findIndex(item => item.title === children)}`;
                       return (
-                        <h2 
-                          id={id} 
-                          className="text-3xl font-bold text-foreground mt-16 mb-8 scroll-mt-24 pb-3 border-b border-border"
-                          {...props}
-                        >
+                        <h2 id={id} className="text-2xl font-bold mt-10 mb-5 text-foreground scroll-mt-24" {...props}>
                           {children}
                         </h2>
                       );
                     },
                     h3: ({ children, ...props }) => {
-                      const index = tableOfContents.findIndex(item => item.title === children?.toString());
-                      const id = index >= 0 ? `heading-${index}` : undefined;
+                      const id = `heading-${tableOfContents.findIndex(item => item.title === children)}`;
                       return (
-                        <h3 
-                          id={id} 
-                          className="text-2xl font-semibold text-foreground mt-12 mb-6 scroll-mt-24"
-                          {...props}
-                        >
+                        <h3 id={id} className="text-xl font-semibold mt-8 mb-4 text-foreground scroll-mt-24" {...props}>
                           {children}
                         </h3>
                       );
                     },
                     p: ({ children, ...props }) => (
-                      <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-none" {...props}>
+                      <p className="mb-6 leading-relaxed text-muted-foreground" {...props}>
                         {children}
                       </p>
                     ),
-                    img: ({ src, alt, ...props }) => (
-                      <Image
-                        src={src as string}
-                        alt={alt as string || ''}
-                        className="rounded-lg shadow-medium my-8"
-                        // First image in markdown is likely LCP; don't lazy-load
-                        priority={src === post.featuredImage}
-                        {...props}
-                      />
-                    ),
+                    img: ({ src, alt, ...props }) => {
+                      return (
+                        <Image
+                          src={src as string}
+                          alt={alt as string || ''}
+                          className="rounded-lg shadow-medium my-8"
+                          {...props}
+                        />
+                      );
+                    },
                     ul: ({ children, ...props }) => (
                       <ul className="space-y-3 mb-8 pl-6" {...props}>
                         {children}
                       </ul>
                     ),
                     ol: ({ children, ...props }) => (
-                      <ol className="space-y-3 mb-8 pl-6" {...props}>
+                      <ol className="space-y-3 mb-8 pl-6 list-decimal" {...props}>
                         {children}
                       </ol>
                     ),
                     li: ({ children, ...props }) => (
-                      <li className="text-lg text-muted-foreground leading-relaxed relative">
-                        <span className="absolute -left-6 top-0 text-primary font-bold">•</span>
+                      <li className="text-muted-foreground pl-2" {...props}>
                         {children}
                       </li>
                     ),
-                    strong: ({ children, ...props }) => (
-                      <strong className="font-semibold text-foreground" {...props}>
-                        {children}
-                      </strong>
-                    ),
-                    a: ({ children, href, ...props }) => (
-                      <a 
-                        href={href} 
-                        className="text-primary font-medium underline-offset-4 hover:underline transition-colors"
+                    a: ({ href, children, ...props }) => (
+                      <a
+                        href={href}
+                        className="text-primary hover:text-primary/80 underline underline-offset-4 transition-colors font-medium"
+                        target={href?.startsWith('http') ? '_blank' : undefined}
+                        rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
                         {...props}
                       >
                         {children}
                       </a>
                     ),
                     blockquote: ({ children, ...props }) => (
-                      <blockquote 
-                        className="border-l-4 border-primary bg-muted/30 pl-6 py-4 my-8 italic text-lg text-muted-foreground rounded-r-lg"
-                        {...props}
-                      >
+                      <blockquote className="border-l-4 border-primary pl-6 py-2 my-8 italic text-lg text-muted-foreground bg-muted/30 rounded-r-lg" {...props}>
                         {children}
                       </blockquote>
                     ),
                     code: ({ children, ...props }) => (
-                      <code 
-                        className="bg-muted text-primary px-2 py-1 rounded text-sm font-mono"
-                        {...props}
-                      >
+                      <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground" {...props}>
                         {children}
                       </code>
                     ),
                   }}
                 >
-                  {post.content}
+                  {content}
                 </ReactMarkdown>
               </div>
             </div>

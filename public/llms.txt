@@ -1,0 +1,14 @@
+# DocScale
+
+> Digital marketing agency specializing in healthcare marketing for doctors and medical clinics in India. We help healthcare professionals attract more patients through SEO, website design, and online reputation management.
+
+## Main Pages
+- [Home](https://docscale.in/)
+- [Blog](https://docscale.in/blog)
+- [Privacy Policy](https://docscale.in/privacy-policy)
+- [Terms of Service](https://docscale.in/terms-of-service)
+
+## Blog Posts
+- [5 SEO Basics Every Clinic in India Needs to Know](https://docscale.in/blog/5-seo-basics-every-clinic-in-india-needs-to-know)
+- [Google Ads vs SEO: Which is Right for Your Practice?](https://docscale.in/blog/google-ads-vs-seo-which-is-right-for-your-practice)
+- [How to Get More 5-Star Reviews on Practo](https://docscale.in/blog/how-to-get-more-5-star-reviews-on-practo)

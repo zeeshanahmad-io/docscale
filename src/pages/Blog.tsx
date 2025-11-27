@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarDays, User, ArrowRight, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { getAllPosts } from "@/utils/blogUtils";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Blog = () => {
   const posts = getAllPosts();
@@ -14,6 +16,15 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Healthcare Marketing Blog | SEO Tips for Doctors India</title>
+        <meta name="description" content="Expert insights on digital marketing for doctors, healthcare SEO, and medical practice growth in India. Read our latest articles." />
+        <link rel="canonical" href="https://docscale.in/blog" />
+        <meta property="og:title" content="Healthcare Marketing Blog | DocScale" />
+        <meta property="og:description" content="Expert insights on digital marketing for doctors, healthcare SEO, and medical practice growth in India." />
+        <meta property="og:url" content="https://docscale.in/blog" />
+        <meta property="og:type" content="website" />
+      </Helmet>
       {/* Header */}
       <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -73,7 +84,12 @@ const Blog = () => {
             {posts.map((post) => (
               <Card key={post.slug} className="card-gradient border-0 hover:shadow-medium transition-spring group">
                 <CardHeader className="p-0">
-                  <img src={post.featuredImage} alt={post.title} className="rounded-t-lg" />
+                  <motion.img
+                    src={post.featuredImage}
+                    alt={post.title}
+                    className="rounded-t-lg w-full h-48 object-cover"
+                    layoutId={`image-${post.slug}`}
+                  />
                 </CardHeader>
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
@@ -100,8 +116,8 @@ const Blog = () => {
                     {post.excerpt.replace(/!\[[^\]]*\]\([^)]*\)/g, "").trim()}
                   </p>
                   <Link to={`/blog/${post.slug}`}>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       className="w-full group-hover:border-primary group-hover:text-primary transition-colors"
                     >
                       Read More

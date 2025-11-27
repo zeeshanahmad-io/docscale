@@ -38,16 +38,23 @@ files.forEach(file => {
   const slug = (data.slug && data.slug !== '') ? data.slug : file.replace(/\.md$/, '');
   const loc = `${SITE_URL}/blog/${slug}`;
   const lastmod = data.published_date || new Date().toISOString();
-  urls.push({ loc, lastmod });
+  urls.push({ loc, lastmod, changefreq: 'monthly', priority: '0.7' });
 });
 
 // add root and blog index
-urls.push({ loc: `${SITE_URL}/`, lastmod: new Date().toISOString() });
-urls.push({ loc: `${SITE_URL}/blog`, lastmod: new Date().toISOString() });
+urls.push({ loc: `${SITE_URL}/`, lastmod: new Date().toISOString(), changefreq: 'weekly', priority: '1.0' });
+urls.push({ loc: `${SITE_URL}/blog`, lastmod: new Date().toISOString(), changefreq: 'weekly', priority: '0.8' });
+urls.push({ loc: `${SITE_URL}/privacy-policy`, lastmod: new Date().toISOString(), changefreq: 'monthly', priority: '0.5' });
+urls.push({ loc: `${SITE_URL}/terms-of-service`, lastmod: new Date().toISOString(), changefreq: 'monthly', priority: '0.5' });
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n` +
   `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-  urls.map(u => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${new Date(u.lastmod).toISOString()}</lastmod>\n  </url>`).join('\n') +
+  urls.map(u => `  <url>
+    <loc>${u.loc}</loc>
+    <lastmod>${new Date(u.lastmod).toISOString()}</lastmod>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority}</priority>
+  </url>`).join('\n') +
   `\n</urlset>`;
 
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
