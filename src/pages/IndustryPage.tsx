@@ -5,8 +5,16 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2, TrendingUp, Users, Calendar } from "lucide-react";
 import programmaticData from "@/data/programmaticData.json";
 
-const IndustryPage = () => {
-    const { specialtyId, cityId } = useParams<{ specialtyId: string; cityId: string }>();
+interface IndustryPageProps {
+    specialtyId?: string;
+    cityId?: string;
+}
+
+const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: IndustryPageProps) => {
+    const { specialtyId: paramSpecialtyId, cityId: paramCityId } = useParams<{ specialtyId: string; cityId: string }>();
+
+    const specialtyId = propSpecialtyId || paramSpecialtyId;
+    const cityId = propCityId || paramCityId;
 
     const specialty = programmaticData.specialties.find(s => s.id === specialtyId);
     const city = programmaticData.cities.find(c => c.id === cityId);

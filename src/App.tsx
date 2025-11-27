@@ -11,6 +11,7 @@ import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 import Keystatic from "./pages/Keystatic";
 import IndustryPage from "./pages/IndustryPage";
+import programmaticData from "@/data/programmaticData.json";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,17 @@ const App = () => (
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/keystatic/*" element={<Keystatic />} />
-          <Route path="/marketing-for-:specialtyId-in-:cityId" element={<IndustryPage />} />
+
+          {/* Programmatic SEO Routes */}
+          {programmaticData.specialties.flatMap(specialty =>
+            programmaticData.cities.map(city => (
+              <Route
+                key={`${specialty.id}-${city.id}`}
+                path={`/marketing-for-${specialty.id}-in-${city.id}`}
+                element={<IndustryPage specialtyId={specialty.id} cityId={city.id} />}
+              />
+            ))
+          )}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
