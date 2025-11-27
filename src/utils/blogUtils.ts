@@ -19,7 +19,7 @@ function parseFrontmatter(content: string) {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
-    
+
     if (line === '---') {
       if (!inFrontmatter) {
         inFrontmatter = true;
@@ -29,16 +29,16 @@ function parseFrontmatter(content: string) {
         break;
       }
     }
-    
+
     if (inFrontmatter && line.includes(':')) {
       const [key, ...valueParts] = line.split(':');
       const value = valueParts.join(':').trim();
       frontmatterData[key.trim()] = value;
     }
   }
-  
+
   markdownContent = lines.slice(frontmatterEnd).join('\n').trim();
-  
+
   return {
     data: frontmatterData,
     content: markdownContent
@@ -47,7 +47,7 @@ function parseFrontmatter(content: string) {
 
 
 // Vite's import.meta.glob for dynamic blog loading
-const blogFiles = import.meta.glob('/blogs/*.md', { as: 'raw', eager: true });
+const blogFiles = import.meta.glob('/blogs/*.md', { query: '?raw', import: 'default', eager: true });
 
 function getSlugFromPath(path: string): string {
   // '/blogs/5-seo-basics-every-clinic-in-india-needs-to-know.md' => '5-seo-basics-every-clinic-in-india-needs-to-know'
@@ -86,14 +86,14 @@ export function getAllPosts(): BlogPost[] {
       postDate // For filtering
     };
   })
-  .filter((post): post is BlogPost & { postDate: Date } => {
-    if (!post) return false;
-    // Compare dates without time component
-    const postDate = new Date(post.published_date);
-    postDate.setHours(0,0,0,0);
-    return postDate <= today;
-  })
-  .sort((a, b) => new Date(b.published_date).getTime() - new Date(a.published_date).getTime());
+    .filter((post): post is BlogPost & { postDate: Date } => {
+      if (!post) return false;
+      // Compare dates without time component
+      const postDate = new Date(post.published_date);
+      postDate.setHours(0, 0, 0, 0);
+      return postDate <= today;
+    })
+    .sort((a, b) => new Date(b.published_date).getTime() - new Date(a.published_date).getTime());
 }
 
 export function getPostBySlug(slug: string): BlogPost | null {
@@ -102,9 +102,9 @@ export function getPostBySlug(slug: string): BlogPost | null {
 
   const [path, content] = entry;
   const { data, content: markdownContent } = parseFrontmatter(content as string);
-  
+
   const postDate = new Date(data.published_date);
-  postDate.setHours(0,0,0,0);
+  postDate.setHours(0, 0, 0, 0);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 

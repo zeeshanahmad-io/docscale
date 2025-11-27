@@ -133,6 +133,15 @@ All colors MUST be HSL.
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    position: relative;
   }
 }
 
