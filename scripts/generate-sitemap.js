@@ -47,6 +47,22 @@ urls.push({ loc: `${SITE_URL}/blog`, lastmod: new Date().toISOString(), changefr
 urls.push({ loc: `${SITE_URL}/privacy-policy`, lastmod: new Date().toISOString(), changefreq: 'monthly', priority: '0.5' });
 urls.push({ loc: `${SITE_URL}/terms-of-service`, lastmod: new Date().toISOString(), changefreq: 'monthly', priority: '0.5' });
 
+// Programmatic SEO Pages
+const PROGRAMMATIC_DATA_PATH = path.resolve(process.cwd(), 'src/data/programmaticData.json');
+if (fs.existsSync(PROGRAMMATIC_DATA_PATH)) {
+  const data = JSON.parse(fs.readFileSync(PROGRAMMATIC_DATA_PATH, 'utf8'));
+  data.specialties.forEach(specialty => {
+    data.cities.forEach(city => {
+      urls.push({
+        loc: `${SITE_URL}/marketing-for-${specialty.id}-in-${city.id}`,
+        lastmod: new Date().toISOString(),
+        changefreq: 'weekly',
+        priority: '0.8'
+      });
+    });
+  });
+}
+
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n` +
   `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
   urls.map(u => `  <url>
@@ -59,4 +75,11 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>\n` +
 
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
 fs.writeFileSync(path.join(OUT_DIR, 'sitemap.xml'), xml, 'utf8');
+
+// Also write to dist if it exists (since this runs postbuild)
+const DIST_DIR = path.resolve(process.cwd(), 'dist');
+if (fs.existsSync(DIST_DIR)) {
+  fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), xml, 'utf8');
+  console.log('Generated dist/sitemap.xml');
+}
 console.log('Generated public/sitemap.xml');

@@ -129,7 +129,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Medical Website Design & SEO for Doctors in India | DocScale</title>
+        <title>Digital Marketing for Doctors India 2025 | DocScale</title>
         <meta name="description" content="DocScale specializes in medical website design, healthcare SEO, and patient lead generation for doctors and clinics in India. Grow your practice with our data-driven digital marketing services." />
         <link rel="canonical" href="https://docscale.in/" />
         <meta property="og:title" content="Medical Website Design & SEO for Doctors in India | DocScale" />
