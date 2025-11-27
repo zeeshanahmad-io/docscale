@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import {
     Search,
     Activity,
@@ -142,6 +143,22 @@ const SeoAuditor = () => {
                 <meta name="description" content="Get a free technical SEO audit for your medical clinic website. Check Google rankings, mobile speed, and patient experience in 10 seconds." />
                 <link rel="canonical" href="https://docscale.in/tools/seo-auditor" />
             </Helmet>
+
+            {/* Navigation */}
+            <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm border-b border-border z-50">
+                <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+                    <Link to="/" className="flex items-center space-x-2">
+                        <img src="/logo.png" alt="DocScale Logo" className="h-8" />
+                        <span className="text-xl font-bold">
+                            <span className="text-primary">Doc</span>
+                            <span className="text-foreground">Scale</span>
+                        </span>
+                    </Link>
+                    <Link to="/">
+                        <Button variant="ghost">Back to Home</Button>
+                    </Link>
+                </div>
+            </nav>
 
             <div className="container mx-auto px-4 max-w-4xl">
                 {/* Header */}
