@@ -182,6 +182,14 @@
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 
+  <!-- Netlify Form Helper for Dynamic React Form -->
+  <form name="seo-audit-lead" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="email" />
+    <input type="text" name="url" />
+    <input type="text" name="performance_score" />
+    <input type="text" name="seo_score" />
+  </form>
+
   <!-- Deferred GTM & GA4: load after page interactive -->
   <script>
     // Aggressive GTM Delay for Performance Score 100
