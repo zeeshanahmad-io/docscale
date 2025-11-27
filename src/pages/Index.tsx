@@ -207,6 +207,11 @@ const Index = () => {
               <button onClick={() => scrollToSection('about')} className="text-muted-foreground hover:text-foreground transition-smooth">About</button>
               <button onClick={() => scrollToSection('case-study')} className="text-muted-foreground hover:text-foreground transition-smooth">Our Work</button>
               <Link to="/blog" className="text-muted-foreground hover:text-foreground transition-smooth">Blog</Link>
+              <Link to="/tools/seo-auditor">
+                <Button variant="outline" size="sm" className="hidden lg:flex border-primary text-primary hover:bg-primary hover:text-white">
+                  Free SEO Audit
+                </Button>
+              </Link>
               <Button onClick={() => scrollToSection('contact')} variant="primary" size="sm">Get Started</Button>
             </div>
             <div className="md:hidden">
@@ -235,6 +240,13 @@ const Index = () => {
                     </SheetClose>
                     <SheetClose asChild>
                       <Link to="/blog" className="w-full text-center text-lg font-medium text-foreground hover:text-primary transition-smooth">Blog</Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link to="/tools/seo-auditor" className="w-full">
+                        <Button variant="outline" size="lg" className="w-full border-primary text-primary hover:bg-primary hover:text-white">
+                          Free SEO Audit
+                        </Button>
+                      </Link>
                     </SheetClose>
                     <SheetClose asChild>
                       <Button onClick={() => scrollToSection('contact')} variant="primary" size="lg">Get Started</Button>
