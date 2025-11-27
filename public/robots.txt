@@ -11,5 +11,25 @@ Allow: /
 # Sitemap location
 Sitemap: https://docscale.in/sitemap.xml
 
-# Crawl-delay (optional, helps prevent server overload)
-# Crawl-delay: 1
+# LLM context file
+# Note: There is no standard directive for llms.txt yet, but we ensure it's allowed.
+Allow: /llms.txt
+
+# Explicitly allow AI/LLM bots
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
