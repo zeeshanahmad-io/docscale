@@ -1,6 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, User, ArrowLeft, ArrowRight, List, Menu } from "lucide-react";
+import { CalendarDays, User, ArrowLeft, ArrowRight, List, Menu, Clock } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { getPostBySlug } from "@/utils/blogUtils";
 import ReactMarkdown from 'react-markdown';
@@ -19,7 +19,7 @@ const BlogPost = () => {
   const [tableOfContents, setTableOfContents] = useState<TableOfContentsItem[]>([]);
   const [activeSection, setActiveSection] = useState<string>('');
   const [showToc, setShowToc] = useState(false);
-  
+
   if (!slug) {
     return <Navigate to="/blog" replace />;
   }
@@ -30,6 +30,9 @@ const BlogPost = () => {
   const featuredImageAbsolute = post.featuredImage
     ? (post.featuredImage.startsWith('http') ? post.featuredImage : `${SITE_URL}${post.featuredImage}`)
     : undefined;
+
+  const readingTime = post ? Math.ceil(post.content.split(/\s+/).length / 200) : 0;
+
   if (!post) {
     return <Navigate to="/blog" replace />;
   }
@@ -199,13 +202,11 @@ const BlogPost = () => {
                         <button
                           key={item.id}
                           onClick={() => scrollToSection(item.id)}
-                          className={`block w-full text-left text-sm transition-colors hover:text-primary ${
-                            item.level === 3 ? 'pl-4' : ''
-                          } ${
-                            activeSection === item.id 
-                              ? 'text-primary font-medium' 
+                          className={`block w-full text-left text-sm transition-colors hover:text-primary ${item.level === 3 ? 'pl-4' : ''
+                            } ${activeSection === item.id
+                              ? 'text-primary font-medium'
                               : 'text-muted-foreground'
-                          }`}
+                            }`}
                         >
                           {item.title}
                         </button>
@@ -243,6 +244,10 @@ const BlogPost = () => {
                     <User className="w-5 h-5 text-primary" />
                     <span className="font-medium">{post.author}</span>
                   </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-primary" />
+                    <span className="font-medium">{readingTime} min read</span>
+                  </div>
                 </div>
               </header>
 
@@ -270,13 +275,11 @@ const BlogPost = () => {
                               scrollToSection(item.id);
                               setShowToc(false);
                             }}
-                            className={`block w-full text-left text-sm transition-colors hover:text-primary ${
-                              item.level === 3 ? 'pl-4' : ''
-                            } ${
-                              activeSection === item.id 
-                                ? 'text-primary font-medium' 
+                            className={`block w-full text-left text-sm transition-colors hover:text-primary ${item.level === 3 ? 'pl-4' : ''
+                              } ${activeSection === item.id
+                                ? 'text-primary font-medium'
                                 : 'text-muted-foreground'
-                            }`}
+                              }`}
                           >
                             {item.title}
                           </button>
@@ -295,8 +298,8 @@ const BlogPost = () => {
                       const index = tableOfContents.findIndex(item => item.title === children?.toString());
                       const id = index >= 0 ? `heading-${index}` : undefined;
                       return (
-                        <h2 
-                          id={id} 
+                        <h2
+                          id={id}
                           className="text-3xl font-bold text-foreground mt-16 mb-8 scroll-mt-24 pb-3 border-b border-border"
                           {...props}
                         >
@@ -308,8 +311,8 @@ const BlogPost = () => {
                       const index = tableOfContents.findIndex(item => item.title === children?.toString());
                       const id = index >= 0 ? `heading-${index}` : undefined;
                       return (
-                        <h3 
-                          id={id} 
+                        <h3
+                          id={id}
                           className="text-2xl font-semibold text-foreground mt-12 mb-6 scroll-mt-24"
                           {...props}
                         >
@@ -354,8 +357,8 @@ const BlogPost = () => {
                       </strong>
                     ),
                     a: ({ children, href, ...props }) => (
-                      <a 
-                        href={href} 
+                      <a
+                        href={href}
                         className="text-primary font-medium underline-offset-4 hover:underline transition-colors"
                         {...props}
                       >
@@ -363,7 +366,7 @@ const BlogPost = () => {
                       </a>
                     ),
                     blockquote: ({ children, ...props }) => (
-                      <blockquote 
+                      <blockquote
                         className="border-l-4 border-primary bg-muted/30 pl-6 py-4 my-8 italic text-lg text-muted-foreground rounded-r-lg"
                         {...props}
                       >
@@ -371,7 +374,7 @@ const BlogPost = () => {
                       </blockquote>
                     ),
                     code: ({ children, ...props }) => (
-                      <code 
+                      <code
                         className="bg-muted text-primary px-2 py-1 rounded text-sm font-mono"
                         {...props}
                       >

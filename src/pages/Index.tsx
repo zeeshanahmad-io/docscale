@@ -8,13 +8,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
-import { 
-  Stethoscope, 
-  Search, 
-  Star, 
-  TrendingUp, 
-  FileText, 
-  Phone, 
+import {
+  Stethoscope,
+  Search,
+  Star,
+  TrendingUp,
+  FileText,
+  Phone,
   MapPin,
   CheckCircle,
   Users,
@@ -36,10 +36,11 @@ import heroImage from "@/assets/hero-doctor-patient.jpg";
 import qrCodeDemo from "@/assets/qr-code-demo.png";
 import analyticsImage from "@/assets/analytics-dashboard.jpg";
 import demoWebsiteScreenshot from "@/assets/demo-website-screenshot.png";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const Index = () => {
   const { toast } = useToast();
-  
+
   useEffect(() => {
     // Check for hash in URL and scroll to that section
     const hash = window.location.hash;
@@ -81,7 +82,7 @@ const Index = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     try {
       const form = e.currentTarget;
       const formData = new FormData(form);
@@ -128,6 +129,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
+        <title>Digital Marketing for Doctors India 2024 | DocScale</title>
+        <meta name="description" content="Attract more patients with expert digital marketing for doctors in India. Healthcare SEO, medical website design & online reputation management." />
+        <link rel="canonical" href="https://docscale.in/" />
         <meta property="og:image" content={heroImage} />
         <meta property="og:image:alt" content="Professional doctor consulting with patient in modern clinic" />
         <meta name="twitter:image" content={heroImage} />
@@ -198,11 +202,11 @@ const Index = () => {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                  Attract New Patients. 
-                  <span className="block text-accent">Build Your Digital Practice.</span>
+                  Digital Marketing for Doctors in India.
+                  <span className="block text-accent">Grow Your Medical Practice.</span>
                 </h1>
                 <p className="text-xl text-blue-100 leading-relaxed">
-                  We provide specialized digital marketing solutions to help doctors and clinics in India thrive in the online world.
+                  We provide specialized healthcare SEO and medical website design solutions to help doctors and clinics in India attract more patients online.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -215,9 +219,9 @@ const Index = () => {
               </div>
             </div>
             <div className="relative">
-              <img 
-                src={heroImage} 
-                alt="Professional doctor consulting with patient in modern clinic" 
+              <img
+                src={heroImage}
+                alt="Professional doctor consulting with patient in modern clinic"
                 className="rounded-2xl shadow-strong w-full"
               />
               <div className="absolute -bottom-6 -right-6 bg-accent text-accent-foreground p-4 rounded-xl shadow-medium">
@@ -236,13 +240,13 @@ const Index = () => {
         <div className="container-width">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
-              Your Complete Digital Growth Solution
+              Healthcare Digital Marketing Services
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Everything you need to establish a strong online presence and attract more patients
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
@@ -292,17 +296,17 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
               <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
-                Our Mission. Our Expertise.
+                India's Leading Healthcare Marketing Agency
               </h2>
               <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
                 <p>
-                  DocScale was founded to bring a modern, tech-driven approach to an industry that relies on trust and expertise. 
-                  We understand that healthcare is built on relationships, but we also know that technology can enhance these connections 
+                  DocScale was founded to bring a modern, tech-driven approach to an industry that relies on trust and expertise.
+                  We understand that healthcare is built on relationships, but we also know that technology can enhance these connections
                   and make them more accessible to patients who need care.
                 </p>
                 <p>
-                  Our mission is simple: to help healthcare professionals thrive in the digital age through efficient, 
-                  data-driven marketing solutions. We combine cutting-edge technology with a deep understanding of the healthcare 
+                  Our mission is simple: to help healthcare professionals thrive in the digital age through efficient,
+                  data-driven marketing solutions. We combine cutting-edge technology with a deep understanding of the healthcare
                   sector to deliver results that matter—more patients, stronger reputations, and sustainable growth.
                 </p>
                 <div className="flex items-center space-x-4 pt-4">
@@ -318,9 +322,9 @@ const Index = () => {
               </div>
             </div>
             <div className="relative">
-              <img 
-                src={analyticsImage} 
-                alt="Digital analytics dashboard showing healthcare practice growth metrics" 
+              <img
+                src={analyticsImage}
+                alt="Digital analytics dashboard showing healthcare practice growth metrics"
                 className="rounded-2xl shadow-strong w-full"
               />
               <div className="absolute -bottom-6 -right-6 bg-accent text-white p-4 rounded-xl shadow-medium">
@@ -345,7 +349,7 @@ const Index = () => {
               We don't just build websites; we build powerful tools that connect you with your patients.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
@@ -394,10 +398,10 @@ const Index = () => {
         <div className="container-width">
           <div className="text-center space-y-4 mb-16 animate-slide-up">
             <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
-              See Our Work in Action
+              Real Results: Medical Digital Marketing Case Studies
             </h2>
             <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
-              We build websites that are more than just a digital presence—they are 
+              We build websites that are more than just a digital presence—they are
               patient acquisition machines. Explore a live example of our work.
             </p>
           </div>
@@ -409,8 +413,8 @@ const Index = () => {
                   Case Study: Solo Practitioner Digital Growth
                 </CardTitle>
                 <CardDescription className="text-white/90 text-lg">
-                  A complete digital branding and marketing strategy for a leading 
-                  specialist in a Tier 1 city. We developed a professional website 
+                  A complete digital branding and marketing strategy for a leading
+                  specialist in a Tier 1 city. We developed a professional website
                   with an integrated booking system and a patient-focused content strategy.
                 </CardDescription>
               </CardHeader>
@@ -422,7 +426,7 @@ const Index = () => {
                     <h3 className="text-xl font-semibold text-foreground mb-6">
                       Live Demo Available
                     </h3>
-                    
+
                     <div className="space-y-4 mb-8">
                       <Button
                         variant="primary"
@@ -433,7 +437,7 @@ const Index = () => {
                         <span>View Live Demo</span>
                         <ExternalLink className="w-5 h-5" />
                       </Button>
-                      
+
                       <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
                         <img
                           src={qrCodeDemo}
@@ -524,6 +528,49 @@ const Index = () => {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section id="faq" className="section-padding">
+        <div className="container-width">
+          <div className="text-center space-y-4 mb-12">
+            <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Common questions about digital marketing for doctors in India
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-lg font-semibold">How much does digital marketing cost for doctors in India?</AccordionTrigger>
+                <AccordionContent className="text-muted-foreground text-base">
+                  Digital marketing costs for doctors in India vary based on services. Basic packages for SEO and website maintenance typically start from ₹15,000/month. Comprehensive packages including Google Ads, content marketing, and reputation management can range from ₹30,000 to ₹75,000/month depending on your practice size and goals.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger className="text-lg font-semibold">How long does SEO take to work for medical practices?</AccordionTrigger>
+                <AccordionContent className="text-muted-foreground text-base">
+                  Healthcare SEO is a long-term strategy. You can typically expect to see initial improvements in 3-4 months, with significant rankings and patient inquiry growth by 6 months. The timeline depends on the competitiveness of your specialty and location.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3">
+                <AccordionTrigger className="text-lg font-semibold">Do I really need a website for my clinic?</AccordionTrigger>
+                <AccordionContent className="text-muted-foreground text-base">
+                  Yes. In 2024, over 70% of patients search online before booking an appointment. A professional website acts as your digital clinic, building trust, showcasing your expertise, and allowing patients to book appointments 24/7. It is the foundation of your digital presence.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-4">
+                <AccordionTrigger className="text-lg font-semibold">What is the best digital marketing strategy for doctors?</AccordionTrigger>
+                <AccordionContent className="text-muted-foreground text-base">
+                  The most effective strategy combines Local SEO (to rank for "near me" searches), Google Ads (for immediate patient leads), and Content Marketing (to build trust). Online Reputation Management is also critical to ensure your patient reviews reflect the quality of your care.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        </div>
+      </section>
+
       {/* Get Started Section */}
       <section id="get-started" className="section-padding">
         <div className="container-width">
@@ -551,7 +598,7 @@ const Index = () => {
               Ready to Grow Your Practice?
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Tell us about your practice, and we'll prepare a custom strategy 
+              Tell us about your practice, and we'll prepare a custom strategy
               to help you attract more patients and build your digital presence.
             </p>
           </div>
@@ -693,7 +740,7 @@ const Index = () => {
                   <h3 className="text-xl font-semibold text-foreground mb-6">
                     Get in Touch Directly
                   </h3>
-                  
+
                   <div className="space-y-6">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-light rounded-full flex items-center justify-center">
@@ -733,7 +780,7 @@ const Index = () => {
                   <h3 className="text-xl font-semibold text-foreground mb-4">
                     What Happens Next?
                   </h3>
-                  
+
                   <div className="space-y-4 text-muted-foreground">
                     <div className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
@@ -797,9 +844,9 @@ const Index = () => {
                   Terms of Service
                 </Button>
               </Link>
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="text-background hover:text-primary"
                 onClick={() => scrollToSection('contact')}
               >
