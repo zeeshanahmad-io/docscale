@@ -1,8 +1,11 @@
 import { config, fields, collection } from '@keystatic/core';
 
 export default config({
-    storage: {
-        kind: 'local',
+    storage: process.env.NODE_ENV === 'production'
+        ? { kind: 'cloud' }
+        : { kind: 'local' },
+    cloud: {
+        project: 'zeeshanahmad-io/docscale',
     },
     collections: {
         posts: collection({
