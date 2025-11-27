@@ -277,11 +277,14 @@ const Index = () => {
                 <Button onClick={() => scrollToSection('contact')} variant="accent" size="lg" className="text-lg px-8">
                   Get a Free Consultation
                 </Button>
-                <Button onClick={() => scrollToSection('services')} variant="secondary" size="lg" className="text-lg px-8">
-                  Learn More About Our Services
-                </Button>
+                <Link to="/tools/seo-auditor">
+                  <Button variant="outline" size="lg" className="text-lg px-8 bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary transition-colors">
+                    Free SEO Audit
+                  </Button>
+                </Link>
               </div>
             </div>
+
             <div className="relative">
               <img
                 src={heroImage}
@@ -290,7 +293,7 @@ const Index = () => {
                 width="600"
                 height="400"
                 loading="eager"
-                fetchPriority="high"
+                fetchpriority="high"
               />
               <div className="absolute -bottom-6 -right-6 bg-accent text-accent-foreground p-4 rounded-xl shadow-medium">
                 <div className="flex items-center space-x-2">
@@ -301,10 +304,10 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Services Section */}
-      <section id="services" className="section-padding bg-secondary/50">
+      < section id="services" className="section-padding bg-secondary/50" >
         <div className="container-width">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
@@ -356,10 +359,10 @@ const Index = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section >
 
       {/* About Section */}
-      <section id="about" className="section-padding">
+      < section id="about" className="section-padding" >
         <div className="container-width">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
@@ -404,10 +407,10 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Core Features Section */}
-      <section id="features" className="section-padding bg-secondary/50">
+      < section id="features" className="section-padding bg-secondary/50" >
         <div className="container-width">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
@@ -459,10 +462,10 @@ const Index = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Case Study Section */}
-      <section id="case-study" className="section-padding bg-secondary/30">
+      < section id="case-study" className="section-padding bg-secondary/30" >
         <div className="container-width">
           <div className="text-center space-y-4 mb-16 animate-slide-up">
             <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
@@ -594,10 +597,10 @@ const Index = () => {
             </Card>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* FAQ Section */}
-      <section id="faq" className="section-padding">
+      < section id="faq" className="section-padding" >
         <div className="container-width">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
@@ -637,10 +640,10 @@ const Index = () => {
             </Accordion>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Get Started Section */}
-      <section id="get-started" className="section-padding">
+      < section id="get-started" className="section-padding" >
         <div className="container-width">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
@@ -656,10 +659,10 @@ const Index = () => {
             </Button>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-secondary/30">
+      < section id="contact" className="py-20 bg-secondary/30" >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">
@@ -885,10 +888,10 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Footer */}
-      <footer className="bg-foreground text-background py-12">
+      < footer className="bg-foreground text-background py-12" >
         <div className="container-width">
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center space-x-2">
@@ -928,10 +931,10 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </footer>
+      </footer >
 
       {/* Floating WhatsApp Button */}
-      <div className="fixed bottom-6 right-6 z-40">
+      < div className="fixed bottom-6 right-6 z-40" >
         <a
           href="https://wa.me/916299337816?text=Hello%2C%20I%27m%20interested%20in%20your%20services."
           target="_blank"
@@ -940,8 +943,8 @@ const Index = () => {
         >
           <FaWhatsapp />
         </a>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 
