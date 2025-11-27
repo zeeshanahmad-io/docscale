@@ -35,6 +35,7 @@ const SeoAuditor = () => {
     const [loadingText, setLoadingText] = useState('');
     const [result, setResult] = useState<AuditResult | null>(null);
     const [email, setEmail] = useState('');
+    const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
     const { toast } = useToast();
 
     const analyzeWebsite = async (e: React.FormEvent) => {
@@ -93,19 +94,10 @@ const SeoAuditor = () => {
             };
 
             // Check for H1
-            // Lighthouse usually has an audit called 'heading-order' or similar. 
-            // We'll check if the 'seo' category audits contains info about headings.
-            // Note: 'h1-missing' is a specific audit ID in some versions.
-            // We can also check 'heading-order' details.
             const audits = data.lighthouseResult.audits;
             if (audits['h1-missing']) { // Some versions
                 scores.h1Status = audits['h1-missing'].score === 1 ? 'present' : 'missing';
             } else if (audits['heading-order']) {
-                // If heading-order passes, likely H1 exists, but not guaranteed.
-                // Let's look for a simpler check if possible, or assume 'present' if SEO score is high.
-                // Actually, let's check the raw title/meta description audits as proxies for "good structure" if H1 is missing.
-                // For now, let's default to 'present' if we can't find the specific failure, to be safe.
-                // But wait, we can check 'document-title'.
                 scores.h1Status = 'present'; // Placeholder if specific audit not found
             }
 
@@ -131,7 +123,10 @@ const SeoAuditor = () => {
         e.preventDefault();
         if (!email) return;
 
+        setIsGeneratingPdf(true);
+
         try {
+            // 1. Submit to Netlify (Keep existing logic)
             const formData = new FormData();
             formData.append('form-name', 'seo-audit-lead');
             formData.append('email', email);
@@ -145,17 +140,37 @@ const SeoAuditor = () => {
                 body: new URLSearchParams(formData as any).toString(),
             });
 
+            // 2. Lazy Load PDF Library & Component
+            const { pdf } = await import('@react-pdf/renderer');
+            const { SeoReportPdf } = await import('@/components/tools/SeoReportPdf');
+
+            if (!result) throw new Error("No result to generate PDF");
+
+            // 3. Generate PDF Blob
+            const blob = await pdf(<SeoReportPdf data={result} />).toBlob();
+
+            // 4. Trigger Download
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `DocScale_SEO_Audit_${new Date().toISOString().split('T')[0]}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
             toast({
-                title: "Report Sent!",
-                description: `The detailed technical report has been sent to ${email}.`,
+                title: "Report Generated!",
+                description: `Your PDF report has been downloaded. We also sent a copy to ${email}.`,
             });
             setEmail('');
         } catch (error) {
+            console.error(error);
             toast({
                 title: "Error",
-                description: "There was a problem sending your request. Please try again.",
+                description: "There was a problem generating your report. Please try again.",
                 variant: "destructive"
             });
+        } finally {
+            setIsGeneratingPdf(false);
         }
     };
 
@@ -351,8 +366,15 @@ const SeoAuditor = () => {
                                                 required
                                             />
                                         </div>
-                                        <Button type="submit" className="w-full">
-                                            Email Me The Fixes
+                                        <Button type="submit" className="w-full" disabled={isGeneratingPdf}>
+                                            {isGeneratingPdf ? (
+                                                <>
+                                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                    Generating PDF...
+                                                </>
+                                            ) : (
+                                                "Email Me The Fixes"
+                                            )}
                                         </Button>
                                         <p className="text-xs text-center text-muted-foreground">
                                             We'll also send you our "Doctor's Guide to SEO 2025".
