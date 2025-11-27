@@ -397,6 +397,9 @@ const Index = () => {
                 src={analyticsImage}
                 alt="Digital analytics dashboard showing healthcare practice growth metrics"
                 className="rounded-2xl shadow-strong w-full"
+                width="600"
+                height="400"
+                loading="lazy"
               />
               <div className="absolute -bottom-6 -right-6 bg-accent text-white p-4 rounded-xl shadow-medium">
                 <div className="flex items-center space-x-2">
@@ -514,6 +517,9 @@ const Index = () => {
                           src={qrCodeDemo}
                           alt="QR code for mobile demo"
                           className="w-16 h-16"
+                          width="64"
+                          height="64"
+                          loading="lazy"
                         />
                         <div>
                           <div className="font-medium text-foreground flex items-center gap-2">
@@ -585,6 +591,9 @@ const Index = () => {
                           src={demoWebsiteScreenshot}
                           alt="Live Demo Website Screenshot"
                           className="rounded-xl w-full h-auto object-cover"
+                          width="400"
+                          height="800"
+                          loading="lazy"
                         />
                       </div>
                       <div className="absolute -bottom-4 -right-4 bg-accent text-white p-3 rounded-xl shadow-medium">
