@@ -37,9 +37,13 @@ import qrCodeDemo from "@/assets/qr-code-demo.png";
 import analyticsImage from "@/assets/analytics-dashboard.jpg";
 import demoWebsiteScreenshot from "@/assets/demo-website-screenshot.png";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+<<<<<<< HEAD
 import { Suspense, lazy } from "react";
 
 const PatientRevenueCalculator = lazy(() => import("@/components/tools/PatientRevenueCalculator").then(module => ({ default: module.PatientRevenueCalculator })));
+=======
+import { PatientRevenueCalculator } from "@/components/tools/PatientRevenueCalculator";
+>>>>>>> main
 
 const Index = () => {
   const { toast } = useToast();
