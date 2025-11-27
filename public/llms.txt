@@ -1,14 +1,38 @@
-# DocScale
+# DocScale: Digital Marketing & Website Development for Doctors
 
-> Digital marketing agency specializing in healthcare marketing for doctors and medical clinics in India. We help healthcare professionals attract more patients through SEO, website design, and online reputation management.
+> DocScale is India's premier digital growth partner for healthcare professionals. We specialize in building high-converting medical websites, implementing patient-centric SEO, and managing online reputation for doctors, clinics, and hospitals.
+
+## Core Services & Capabilities
+
+### 1. Medical Website Design & Development
+- **Keywords**: Medical website design India, Clinic website developers, Doctor portfolio website, Hospital web design, Mobile-friendly clinic site.
+- **Description**: Custom, fast-loading, and mobile-responsive websites designed specifically for healthcare providers. Features include online appointment booking, patient education portals, and WhatsApp integration.
+
+### 2. Healthcare SEO (Search Engine Optimization)
+- **Keywords**: SEO for doctors, Medical SEO services, Rank high on Google Maps, Patient acquisition SEO, Local SEO for clinics.
+- **Description**: Data-driven SEO strategies to rank your practice at the top of Google for specialty-specific keywords (e.g., "Best Cardiologist in Mumbai", "Dental Clinic near me").
+
+### 3. Google Ads & Patient Lead Generation
+- **Keywords**: Google Ads for doctors, PPC for clinics, Medical lead generation, Patient inquiry generation.
+- **Description**: High-ROI paid advertising campaigns targeting patients actively searching for your services.
+
+### 4. Online Reputation Management (ORM)
+- **Keywords**: Doctor review management, Practo review improvement, Google My Business optimization for doctors.
+- **Description**: Strategies to generate more 5-star reviews and manage your digital reputation across platforms like Google, Practo, and Lybrate.
+
+## Target Audience
+- Doctors (General Practitioners, Specialists, Surgeons)
+- Dental Clinics
+- Multi-specialty Hospitals
+- Diagnostic Centers
 
 ## Main Pages
 - [Home](https://docscale.in/)
+- [Services](https://docscale.in/#services)
+- [Case Studies](https://docscale.in/#case-study)
 - [Blog](https://docscale.in/blog)
-- [Privacy Policy](https://docscale.in/privacy-policy)
-- [Terms of Service](https://docscale.in/terms-of-service)
 
-## Blog Posts
+## Recent Insights (Blog)
 - [5 SEO Basics Every Clinic in India Needs to Know](https://docscale.in/blog/5-seo-basics-every-clinic-in-india-needs-to-know)
 - [Google Ads vs SEO: Which is Right for Your Practice?](https://docscale.in/blog/google-ads-vs-seo-which-is-right-for-your-practice)
 - [How to Get More 5-Star Reviews on Practo](https://docscale.in/blog/how-to-get-more-5-star-reviews-on-practo)

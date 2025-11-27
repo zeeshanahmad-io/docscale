@@ -129,13 +129,65 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Digital Marketing for Doctors India 2024 | DocScale</title>
-        <meta name="description" content="Attract more patients with expert digital marketing for doctors in India. Healthcare SEO, medical website design & online reputation management." />
+        <title>Medical Website Design & SEO for Doctors in India | DocScale</title>
+        <meta name="description" content="DocScale specializes in medical website design, healthcare SEO, and patient lead generation for doctors and clinics in India. Grow your practice with our data-driven digital marketing services." />
         <link rel="canonical" href="https://docscale.in/" />
+        <meta property="og:title" content="Medical Website Design & SEO for Doctors in India | DocScale" />
+        <meta property="og:description" content="Attract more patients with expert digital marketing. We build high-converting websites and rank your clinic on Google." />
         <meta property="og:image" content={heroImage} />
         <meta property="og:image:alt" content="Professional doctor consulting with patient in modern clinic" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content={heroImage} />
         <meta name="twitter:image:alt" content="Professional doctor consulting with patient in modern clinic" />
+
+        {/* JSON-LD Structured Data for LLMs and Search Engines */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "ProfessionalService",
+              "name": "DocScale",
+              "image": "https://docscale.in/logo.png",
+              "url": "https://docscale.in",
+              "telephone": "+916299337816",
+              "email": "contact@docscale.in",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Bengaluru",
+                "addressCountry": "IN"
+              },
+              "priceRange": "₹₹",
+              "description": "Digital marketing agency specializing in healthcare marketing for doctors and medical clinics in India. Services include Medical Website Design, Healthcare SEO, and Google Ads.",
+              "serviceArea": {
+                "@type": "Country",
+                "name": "India"
+              },
+              "offers": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Medical Website Design"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Healthcare SEO"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Patient Lead Generation"
+                  }
+                }
+              ]
+            }
+          `}
+        </script>
       </Helmet>
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm border-b border-border z-50 transition-smooth">
