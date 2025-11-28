@@ -16,6 +16,7 @@ const Keystatic = lazy(() => import("./pages/Keystatic"));
 const IndustryPage = lazy(() => import("./pages/IndustryPage"));
 const SeoAuditor = lazy(() => import("./pages/tools/SeoAuditor"));
 const DemoPage = lazy(() => import("./pages/DemoPage"));
+const DemoGenerator = lazy(() => import("./pages/tools/DemoGenerator"));
 
 import programmaticData from "@/data/programmaticData.json";
 
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/keystatic/*" element={<Keystatic />} />
+            <Route path="/tools/demo-generator" element={<DemoGenerator />} />
             <Route path="/demo/preview" element={<DemoPage />} />
 
             {/* Programmatic SEO Routes */}

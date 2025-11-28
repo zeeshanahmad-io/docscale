@@ -1,6 +1,7 @@
 
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { MapPin, Phone, Clock, CheckCircle2, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import demoData from "@/data/demoData.json";
@@ -9,6 +10,7 @@ import { Helmet } from "react-helmet-async";
 const DemoPage = () => {
     const [searchParams] = useSearchParams();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { toast } = useToast();
 
     // URL Params with Defaults
     const name = searchParams.get("name") || "Dr. Faiyaz Ahmad";
@@ -44,6 +46,14 @@ const DemoPage = () => {
         }
     };
 
+    const handleBookClick = () => {
+        toast({
+            title: "This button works! ⚡️",
+            description: "In your real website, this will open your booking form. Click 'Claim This Site' to get started.",
+            duration: 5000,
+        });
+    };
+
     return (
         <div className="min-h-screen bg-white font-sans text-slate-900" style={{ fontFamily: "'Inter', sans-serif" }}>
             <Helmet>
@@ -76,6 +86,7 @@ const DemoPage = () => {
                         <a href="#about" className="hover:text-slate-900 transition-colors">About</a>
                         <a href="#services" className="hover:text-slate-900 transition-colors">Services</a>
                         <Button
+                            onClick={handleBookClick}
                             style={{ backgroundColor: theme.primary, color: '#ffffff' }}
                             className="hover:opacity-90 rounded-full px-8 shadow-md transition-transform hover:scale-105"
                         >
@@ -91,7 +102,7 @@ const DemoPage = () => {
                         <a href="#home" onClick={() => setIsMenuOpen(false)}>Home</a>
                         <a href="#about" onClick={() => setIsMenuOpen(false)}>About</a>
                         <a href="#services" onClick={() => setIsMenuOpen(false)}>Services</a>
-                        <Button style={{ backgroundColor: theme.primary, color: '#ffffff' }} className="w-full">Book Appointment</Button>
+                        <Button onClick={handleBookClick} style={{ backgroundColor: theme.primary, color: '#ffffff' }} className="w-full">Book Appointment</Button>
                     </div>
                 )}
             </nav>
@@ -121,6 +132,7 @@ const DemoPage = () => {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Button
+                                onClick={handleBookClick}
                                 size="lg"
                                 style={{ backgroundColor: theme.primary, color: '#ffffff' }}
                                 className="hover:opacity-90 rounded-full px-10 h-14 text-lg font-semibold shadow-lg"
@@ -223,7 +235,7 @@ const DemoPage = () => {
                     <p className="text-xl text-slate-300 mb-10">
                         Book an appointment with {name} today. Early diagnosis and treatment are key.
                     </p>
-                    <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 rounded-full px-12 h-16 text-lg font-bold shadow-xl hover:scale-105 transition-transform">
+                    <Button onClick={handleBookClick} size="lg" className="bg-white text-slate-900 hover:bg-slate-100 rounded-full px-12 h-16 text-lg font-bold shadow-xl hover:scale-105 transition-transform">
                         Book Appointment Now
                     </Button>
                 </div>
