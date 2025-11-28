@@ -173,19 +173,32 @@ const LeadManager = () => {
         if (!lead) return;
 
         const newValue = !lead[field];
+        let newStatus = lead.status;
+
+        // Auto-update status to "In Progress" if currently "New" and marking as sent
+        if (newValue && lead.status === "New") {
+            newStatus = "In Progress";
+        }
 
         // Optimistic update
         const oldLeads = [...leads];
-        setLeads(leads.map(l => l.id === id ? { ...l, [field]: newValue } : l));
+        setLeads(leads.map(l => l.id === id ? { ...l, [field]: newValue, status: newStatus } : l));
+
+        const updates: any = { [field]: newValue };
+        if (newStatus !== lead.status) {
+            updates.status = newStatus;
+        }
 
         const { error } = await supabase
             .from('leads')
-            .update({ [field]: newValue })
+            .update(updates)
             .eq('id', id);
 
         if (error) {
             setLeads(oldLeads); // Revert
             toast.error("Failed to update interaction");
+        } else if (newStatus !== lead.status) {
+            toast.success("Status updated to In Progress");
         }
     };
 
@@ -236,11 +249,8 @@ const LeadManager = () => {
 
         window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
 
-        // Auto-update status
+        // Auto-update status handled by toggleInteraction
         toggleInteraction(lead.id, 'whatsapp_sent');
-        if (lead.status === "New") {
-            updateLeadStatus(lead.id, "In Progress");
-        }
         toast.success("Marked as WhatsApp Sent");
     };
 
@@ -526,9 +536,6 @@ const LeadManager = () => {
                                                         copyToClipboard(emailDraft);
                                                         if (activeLead) {
                                                             toggleInteraction(activeLead.id, 'email_sent');
-                                                            if (activeLead.status === "New") {
-                                                                updateLeadStatus(activeLead.id, "In Progress");
-                                                            }
                                                         }
                                                     }}>
                                                         <Copy className="w-4 h-4 mr-2" />
@@ -538,9 +545,6 @@ const LeadManager = () => {
                                                         window.open(`mailto:?subject=${encodeURIComponent(EMAIL_TEMPLATES[selectedTemplate].subject)}&body=${encodeURIComponent(emailDraft)}`);
                                                         if (activeLead) {
                                                             toggleInteraction(activeLead.id, 'email_sent');
-                                                            if (activeLead.status === "New") {
-                                                                updateLeadStatus(activeLead.id, "In Progress");
-                                                            }
                                                         }
                                                     }}>
                                                         <ExternalLink className="w-4 h-4 mr-2" />
