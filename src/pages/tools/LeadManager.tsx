@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { ExternalLink, Mail, MapPin, Phone, Star, RefreshCw, Search, Copy, Check, MessageCircle, Filter, Loader2 } from "lucide-react";
+import { ExternalLink, Mail, MapPin, Phone, Star, RefreshCw, Search, Copy, Check, MessageCircle, Filter, Loader2, AlertTriangle, Terminal } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
@@ -53,7 +53,7 @@ ${demoLink}
 Want me to fix this for you?
 
 Best,
-Zeeshan`
+Zeeshan (docscale.in)`
     },
     "low_rating": {
         subject: "Quick tip for your Google Reviews",
@@ -69,7 +69,7 @@ ${demoLink}
 Let me know if you're interested in fixing your online reputation.
 
 Best,
-Zeeshan`
+Zeeshan (docscale.in)`
     }
 };
 
@@ -79,6 +79,7 @@ const LeadManager = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("All");
     const [cityFilter, setCityFilter] = useState("All");
+    const [issueFilter, setIssueFilter] = useState("All");
 
     // Email Draft State
     const [selectedTemplate, setSelectedTemplate] = useState<keyof typeof EMAIL_TEMPLATES>("broken_link");
@@ -210,7 +211,13 @@ const LeadManager = () => {
             lead.address?.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesStatus = statusFilter === "All" || lead.status === statusFilter;
         const matchesCity = cityFilter === "All" || (lead.city || "Unknown") === cityFilter;
-        return matchesSearch && matchesStatus && matchesCity;
+
+        let matchesIssue = true;
+        if (issueFilter === "No Website") matchesIssue = !lead.website;
+        if (issueFilter === "Low Rating") matchesIssue = lead.rating < 3.5;
+        if (issueFilter === "Broken Link") matchesIssue = lead.note?.toLowerCase().includes("broken") || false;
+
+        return matchesSearch && matchesStatus && matchesCity && matchesIssue;
     });
 
     // Gamification Stats
@@ -245,7 +252,15 @@ const LeadManager = () => {
         const phone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
 
         const link = generateDemoLink(lead);
-        const text = `Hi Dr. ${lead.name.split(' ')[0]}, I made a website mockup for you: ${link}`;
+        let text = "";
+
+        if (!lead.website) {
+            text = `Hi Dr. ${lead.name.split(' ')[0]}, I noticed you don't have a website listed on Google Maps. I built a quick mockup for you here: ${link} - Zeeshan (docscale.in)`;
+        } else if (lead.rating < 3.5) {
+            text = `Hi Dr. ${lead.name.split(' ')[0]}, I noticed you have some negative reviews hurting your Google rating. I help clinics fix this. Here is a new site design I made for you: ${link} - Zeeshan (docscale.in)`;
+        } else {
+            text = `Hi Dr. ${lead.name.split(' ')[0]}, I made a website mockup for you: ${link} - Zeeshan (docscale.in)`;
+        }
 
         window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
 
@@ -292,6 +307,23 @@ const LeadManager = () => {
             </nav>
 
             <div className="container mx-auto px-4">
+                {/* Scraper Helper */}
+                <div className="mb-6 bg-muted/30 border border-dashed border-primary/20 rounded-lg p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="flex-1">
+                        <h3 className="text-sm font-medium text-primary mb-1 flex items-center">
+                            <Terminal className="w-4 h-4 mr-2" />
+                            Run Scraper
+                        </h3>
+                        <code className="text-xs bg-background px-2 py-1 rounded border font-mono text-muted-foreground block sm:inline-block">
+                            node scripts/scrape-leads.js "Dentist in Bandra"
+                        </code>
+                    </div>
+                    <Button variant="outline" size="sm" onClick={() => copyToClipboard('node scripts/scrape-leads.js "Dentist in Bandra"')}>
+                        <Copy className="w-3 h-3 mr-2" />
+                        Copy Command
+                    </Button>
+                </div>
+
                 {/* Gamification Header */}
                 <div className="mb-8 bg-card border rounded-lg p-6 shadow-sm">
                     <div className="flex justify-between items-center mb-2">
@@ -336,6 +368,20 @@ const LeadManager = () => {
                             </SelectContent>
                         </Select>
 
+                        {/* Issue Filter Dropdown */}
+                        <Select value={issueFilter} onValueChange={(val: any) => setIssueFilter(val)}>
+                            <SelectTrigger className="w-full sm:w-[150px]">
+                                <AlertTriangle className="w-4 h-4 mr-2" />
+                                <SelectValue placeholder="Filter Issue" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="All">All Issues</SelectItem>
+                                <SelectItem value="No Website">No Website</SelectItem>
+                                <SelectItem value="Low Rating">Low Rating</SelectItem>
+                                <SelectItem value="Broken Link">Broken Link</SelectItem>
+                            </SelectContent>
+                        </Select>
+
                         <Select value={statusFilter} onValueChange={(val: any) => setStatusFilter(val)}>
                             <SelectTrigger className="w-full sm:w-[180px]">
                                 <Filter className="w-4 h-4 mr-2" />
@@ -367,7 +413,7 @@ const LeadManager = () => {
                             <Card className="bg-muted/50 border-dashed">
                                 <CardContent className="flex flex-col items-center justify-center py-12 text-center">
                                     <p className="text-muted-foreground mb-4">No leads found matching your filters.</p>
-                                    <Button variant="link" onClick={() => { setSearchTerm(""); setStatusFilter("All"); }}>
+                                    <Button variant="link" onClick={() => { setSearchTerm(""); setStatusFilter("All"); setIssueFilter("All"); }}>
                                         Clear Filters
                                     </Button>
                                 </CardContent>
@@ -426,7 +472,7 @@ const LeadManager = () => {
                                                         No Website
                                                     </Badge>
                                                 )}
-                                                {lead.note && (
+                                                {lead.note && !lead.note.toLowerCase().includes('no website') && (
                                                     <Badge variant="outline" className="border-red-500 text-red-600 bg-red-50 whitespace-nowrap">
                                                         {lead.note}
                                                     </Badge>
