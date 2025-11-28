@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Ganatras Dental Care",
+    "rating": 5,
+    "address": "Dentist · Ocean View CHS,, Hill Road, Bandra West, 19, Hill Rd, near Mehboob Studio",
+    "website": null,
+    "phone": "Open · Closes 7 pm · 098674 40803",
+    "status": "New"
+  },
+  {
+    "name": "Infinite Dental Care",
+    "rating": 5,
+    "address": "Dental clinic · 24, 37, Yemalur Main Rd",
+    "website": null,
+    "phone": "Open · Closes 7:30 pm · 099455 55729",
+    "status": "New"
+  },
+  {
+    "name": "All About Teeth Multispeciality Dental Clinic",
+    "rating": 4.9,
+    "address": "Dentist ·  · 1st Floor, NS Complex, 20/5, Outer Ring Rd, above Chef Bakers",
+    "website": null,
+    "phone": "Open · Closes 8 pm · 082963 43683",
+    "status": "New"
+  },
+  {
+    "name": "Dr. Ranganath's Maya Dental Clinic & Implant Centre - Best Dental Clinic In Bangalore",
+    "rating": 4.8,
+    "address": "Dental clinic ·  · Ground Floor, Vegesna's Ekam, 375, Brindavanam Apartment Rd",
+    "website": null,
+    "phone": "Open · Closes 9 pm · 096066 53589",
+    "status": "New"
+  }
+]

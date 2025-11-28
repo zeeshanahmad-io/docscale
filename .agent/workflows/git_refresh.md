@@ -13,6 +13,9 @@ git pull origin main
 3. Delete the local feature branch (Replace 'feature-branch-name' with your actual branch)
 git branch -d dev
 
-4. Prune remote tracking branches (optional, keeps your list clean)
+4. Delete the remote feature branch on GitHub
+git push origin --delete dev
+
+5. Prune remote tracking branches (optional, keeps your list clean)
 // turbo
 git fetch -p
