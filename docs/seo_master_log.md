@@ -40,6 +40,17 @@ We built a scalable engine to dominate long-tail search results for "Specialty +
 - **Blog Strategy**: Created a 6-month content plan (`blog_content_plan.md`) with a "Master Prompt" for generating high-quality AI articles.
 - **Outreach Strategy**: Defined the "Dynamic Demo" approach (`marketing_strategy.md`) to send personalized mockups (`/demo/dentist?name=Dr_X`) without manual work.
 
+### D. The "Chameleon" Dynamic Demo (The Sales Weapon)
+- **Goal**: Create a single template that "shapeshifts" into a personalized website for any doctor.
+- **Implementation**:
+    - **Route**: `/demo/preview`
+    - **Parameters**: `?name=...`, `?specialty=...`, `?city=...`, `?phone=...`
+    - **Data Source**: `demoData.json` maps specialties to specific images, services, and color themes.
+- **Features**:
+    - **Dual Mode**: `?template=classic` (Clean/White) vs `?template=modern` (Glassmorphism/Gradients).
+    - **Dynamic Theming**: Colors change based on specialty (e.g., Teal for Dentists, Rose for Cardiologists).
+    - **Conversion**: Floating "Live Demo for [Dr. Name]" banner with a "Claim This Site" button.
+
 ---
 
 ## 2. Future Roadmap (The Scale Up)
