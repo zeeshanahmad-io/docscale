@@ -985,7 +985,9 @@ const Index = () => {
             </div>
             <div className="border-t border-background/20 pt-6">
               <p className="text-background/60">
-                © 2025 DocScale. All rights reserved.
+                <Link to="/tools" className="hover:text-background/80 transition-colors cursor-default">
+                  © 2025 DocScale. All rights reserved.
+                </Link>
               </p>
             </div>
           </div>

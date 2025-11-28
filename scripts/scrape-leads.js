@@ -1,6 +1,10 @@
 import puppeteer from 'puppeteer';
 import { createClient } from '@supabase/supabase-js';
 import path from 'path';
+import dotenv from 'dotenv';
+
+// Load env vars
+dotenv.config();
 
 // Initialize Supabase
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
