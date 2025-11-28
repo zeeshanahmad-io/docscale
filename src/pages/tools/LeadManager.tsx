@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label"; // Added Label import
-import { ExternalLink, Mail, MapPin, Phone, Star, RefreshCw, Search, Copy, Check } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { ExternalLink, Mail, MapPin, Phone, Star, RefreshCw, Search, Copy, Check, MessageCircle, Filter } from "lucide-react";
 import leadsData from "@/data/leads.json";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -19,9 +20,22 @@ interface Lead {
     address: string;
     website: string | null;
     phone: string;
+    city?: string;
     status: string;
+    emailSent?: boolean;
+    whatsappSent?: boolean;
     note?: string;
 }
+
+type LeadStatus = "New" | "In Progress" | "Call Scheduled" | "Closed" | "Not Interested";
+
+const STATUS_COLORS: Record<LeadStatus, string> = {
+    "New": "bg-blue-100 text-blue-800 border-blue-200",
+    "In Progress": "bg-yellow-100 text-yellow-800 border-yellow-200",
+    "Call Scheduled": "bg-purple-100 text-purple-800 border-purple-200",
+    "Closed": "bg-emerald-100 text-emerald-800 border-emerald-200",
+    "Not Interested": "bg-gray-100 text-gray-800 border-gray-200"
+};
 
 const EMAIL_TEMPLATES = {
     "broken_link": {
@@ -59,17 +73,124 @@ Zeeshan`
 };
 
 const LeadManager = () => {
-    // Cast the imported JSON to the Lead array type
-    const [leads, setLeads] = useState<Lead[]>(leadsData as Lead[]);
+    // Helper to detect city from address
+    const detectCity = (address: string) => {
+        const cityMappings: Record<string, string> = {
+            // Mumbai Areas
+            "Bandra": "Mumbai", "Andheri": "Mumbai", "Juhu": "Mumbai", "Powai": "Mumbai",
+            "Worli": "Mumbai", "Colaba": "Mumbai", "Dadar": "Mumbai", "Thane": "Mumbai",
+            "Navi Mumbai": "Mumbai", "Mumbai": "Mumbai",
+
+            // Bangalore Areas
+            "Indiranagar": "Bangalore", "Koramangala": "Bangalore", "Whitefield": "Bangalore",
+            "HSR Layout": "Bangalore", "Bellandur": "Bangalore", "Jayanagar": "Bangalore",
+            "Malleswaram": "Bangalore", "Yelahanka": "Bangalore", "Hebbal": "Bangalore",
+            "Bengaluru": "Bangalore", "Bangalore": "Bangalore",
+
+            // Other Major Cities
+            "Delhi": "Delhi", "New Delhi": "Delhi",
+            "Pune": "Pune",
+            "Hyderabad": "Hyderabad",
+            "Chennai": "Chennai",
+            "Kolkata": "Kolkata",
+            "Ahmedabad": "Ahmedabad"
+        };
+
+        for (const [key, city] of Object.entries(cityMappings)) {
+            if (address.toLowerCase().includes(key.toLowerCase())) {
+                return city;
+            }
+        }
+        return "Unknown";
+    };
+
+    // Initialize leads from JSON, but check localStorage for updated statuses
+    const [leads, setLeads] = useState<Lead[]>(() => {
+        const storedData = localStorage.getItem("lead_data");
+        const dataMap = storedData ? JSON.parse(storedData) : {};
+
+        const cityMappings: Record<string, string> = {
+            // Mumbai Areas
+            "Bandra": "Mumbai", "Andheri": "Mumbai", "Juhu": "Mumbai", "Powai": "Mumbai",
+            "Worli": "Mumbai", "Colaba": "Mumbai", "Dadar": "Mumbai", "Thane": "Mumbai",
+            "Navi Mumbai": "Mumbai", "Mumbai": "Mumbai",
+
+            // Bangalore Areas
+            "Indiranagar": "Bangalore", "Koramangala": "Bangalore", "Whitefield": "Bangalore",
+            "HSR Layout": "Bangalore", "Bellandur": "Bangalore", "Jayanagar": "Bangalore",
+            "Malleswaram": "Bangalore", "Yelahanka": "Bangalore", "Hebbal": "Bangalore",
+            "Bengaluru": "Bangalore", "Bangalore": "Bangalore",
+
+            // Other Major Cities
+            "Delhi": "Delhi", "New Delhi": "Delhi",
+            "Pune": "Pune",
+            "Hyderabad": "Hyderabad",
+            "Chennai": "Chennai",
+            "Kolkata": "Kolkata",
+            "Ahmedabad": "Ahmedabad"
+        };
+
+        return (leadsData as Lead[]).map(lead => {
+            let city = dataMap[lead.name]?.city;
+
+            // Validate cached city. If it's not a known major city, re-detect it.
+            const knownCityValues = Object.values(cityMappings);
+            if (!city || !knownCityValues.includes(city)) {
+                city = detectCity(lead.address);
+            }
+
+            return {
+                ...lead,
+                status: dataMap[lead.name]?.status || lead.status || "New",
+                emailSent: dataMap[lead.name]?.emailSent || false,
+                whatsappSent: dataMap[lead.name]?.whatsappSent || false,
+                city: city
+            };
+        });
+    });
+
     const [searchTerm, setSearchTerm] = useState("");
+    const [statusFilter, setStatusFilter] = useState<"All" | LeadStatus>("All");
+    const [cityFilter, setCityFilter] = useState<string>("All"); // New state for city filter
     const [selectedTemplate, setSelectedTemplate] = useState<keyof typeof EMAIL_TEMPLATES>("broken_link");
     const [emailDraft, setEmailDraft] = useState("");
     const [activeLead, setActiveLead] = useState<Lead | null>(null);
 
-    const filteredLeads = leads.filter(lead =>
-        lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lead.address.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    // Extract unique cities
+    const cities = Array.from(new Set(leads.map(l => l.city || "Unknown"))).sort();
+
+    // Persist changes
+    const updateLead = (leadName: string, updates: Partial<Lead>) => {
+        const updatedLeads = leads.map(l =>
+            l.name === leadName ? { ...l, ...updates } : l
+        );
+        setLeads(updatedLeads);
+
+        // Save to localStorage
+        const dataMap = updatedLeads.reduce((acc, curr) => ({
+            ...acc,
+            [curr.name]: {
+                status: curr.status,
+                emailSent: curr.emailSent,
+                whatsappSent: curr.whatsappSent,
+                city: curr.city // Include city in stored data
+            }
+        }), {});
+        localStorage.setItem("lead_data", JSON.stringify(dataMap));
+    };
+
+    const filteredLeads = leads.filter(lead => {
+        const matchesSearch = lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            lead.address.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesStatus = statusFilter === "All" || lead.status === statusFilter;
+        const matchesCity = cityFilter === "All" || (lead.city || "Unknown") === cityFilter; // New city filter logic
+        return matchesSearch && matchesStatus && matchesCity;
+    });
+
+    // Gamification Stats
+    const totalLeads = leads.length;
+    const contactedLeads = leads.filter(l => l.emailSent || l.whatsappSent).length;
+    const progress = totalLeads > 0 ? (contactedLeads / totalLeads) * 100 : 0;
 
     const generateDemoLink = (lead: Lead) => {
         const params = new URLSearchParams();
@@ -77,7 +198,7 @@ const LeadManager = () => {
         const specialty = lead.name.toLowerCase().includes('skin') ? 'dermatologist' :
             lead.name.toLowerCase().includes('heart') ? 'cardiologist' : 'dentist';
         params.append("specialty", specialty);
-        const city = lead.address.split(',').pop()?.trim() || "Mumbai";
+        const city = lead.city || lead.address.split(',').pop()?.trim() || "Mumbai"; // Use lead.city if available
         params.append("city", city);
         // Clean phone number (remove "Open", "Closes", etc.)
         const cleanPhone = lead.phone.replace(/Open.*?·|Closes.*?·/g, '').trim();
@@ -92,6 +213,24 @@ const LeadManager = () => {
         setActiveLead(lead);
         const link = generateDemoLink(lead);
         setEmailDraft(EMAIL_TEMPLATES[selectedTemplate].body(lead, link));
+    };
+
+    const handleWhatsApp = (lead: Lead) => {
+        const cleanPhone = lead.phone.replace(/[^0-9]/g, ''); // Strip non-numeric
+        // Add country code if missing (assuming India +91)
+        const phone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+
+        const link = generateDemoLink(lead);
+        const text = `Hi Dr. ${lead.name.split(' ')[0]}, I made a website mockup for you: ${link}`;
+
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+
+        // Auto-update status
+        updateLead(lead.name, {
+            whatsappSent: true,
+            status: lead.status === "New" ? "In Progress" : lead.status
+        });
+        toast.success("Marked as WhatsApp Sent");
     };
 
     const copyToClipboard = (text: string) => {
@@ -114,6 +253,16 @@ const LeadManager = () => {
                         <Link to="/tools/demo-generator">
                             <Button variant="ghost">Demo Generator</Button>
                         </Link>
+                        <Button
+                            variant="ghost"
+                            className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                            onClick={() => {
+                                localStorage.removeItem("isAuthenticated");
+                                window.location.reload();
+                            }}
+                        >
+                            Log Out
+                        </Button>
                         <Link to="/">
                             <Button variant="ghost">Back to Home</Button>
                         </Link>
@@ -122,26 +271,67 @@ const LeadManager = () => {
             </nav>
 
             <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                {/* Gamification Header */}
+                <div className="mb-8 bg-card border rounded-lg p-6 shadow-sm">
+                    <div className="flex justify-between items-center mb-2">
+                        <h2 className="text-lg font-semibold">Outreach Progress</h2>
+                        <span className="text-sm text-muted-foreground">{contactedLeads} / {totalLeads} Contacted</span>
+                    </div>
+                    <Progress value={progress} className="h-2 mb-2" />
+                    <p className="text-xs text-muted-foreground">
+                        {progress === 100 ? "🎉 Amazing! You've contacted everyone!" : "Keep going! Consistency is key."}
+                    </p>
+                </div>
+
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                     <div>
                         <h1 className="text-3xl font-bold text-foreground mb-2">Lead Manager (Sniper)</h1>
                         <p className="text-muted-foreground">
-                            {leads.length} qualified leads found.
+                            Manage and track your outreach pipeline.
                         </p>
                     </div>
-                    <div className="flex items-center gap-2 w-full md:w-auto">
-                        <div className="relative w-full md:w-64">
+                    <div className="flex flex-col sm:flex-row items-center gap-2 w-full md:w-auto">
+                        <div className="relative w-full sm:w-64">
                             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
-                                placeholder="Filter leads..."
+                                placeholder="Search leads..."
                                 className="pl-8"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
+
+                        {/* City Filter Dropdown */}
+                        <Select value={cityFilter} onValueChange={(val: any) => setCityFilter(val)}>
+                            <SelectTrigger className="w-full sm:w-[150px]">
+                                <MapPin className="w-4 h-4 mr-2" />
+                                <SelectValue placeholder="Filter City" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="All">All Cities</SelectItem>
+                                {cities.map(city => (
+                                    <SelectItem key={city} value={city}>{city}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+
+                        <Select value={statusFilter} onValueChange={(val: any) => setStatusFilter(val)}>
+                            <SelectTrigger className="w-full sm:w-[180px]">
+                                <Filter className="w-4 h-4 mr-2" />
+                                <SelectValue placeholder="Filter Status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="All">All Statuses</SelectItem>
+                                <SelectItem value="New">New</SelectItem>
+                                <SelectItem value="In Progress">In Progress</SelectItem>
+                                <SelectItem value="Call Scheduled">Call Scheduled</SelectItem>
+                                <SelectItem value="Closed">Closed</SelectItem>
+                                <SelectItem value="Not Interested">Not Interested</SelectItem>
+                            </SelectContent>
+                        </Select>
+
                         <Button variant="outline" onClick={() => window.location.reload()}>
-                            <RefreshCw className="w-4 h-4 mr-2" />
-                            Refresh
+                            <RefreshCw className="w-4 h-4" />
                         </Button>
                     </div>
                 </div>
@@ -150,18 +340,56 @@ const LeadManager = () => {
                     {filteredLeads.length === 0 ? (
                         <Card className="bg-muted/50 border-dashed">
                             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-                                <p className="text-muted-foreground mb-4">No leads found.</p>
-                                <p className="text-sm text-muted-foreground">
-                                    Run the scraper: <code className="bg-background px-2 py-1 rounded">node scripts/scrape-leads.js "Dentist in Bandra"</code>
-                                </p>
+                                <p className="text-muted-foreground mb-4">No leads found matching your filters.</p>
+                                <Button variant="link" onClick={() => { setSearchTerm(""); setStatusFilter("All"); }}>
+                                    Clear Filters
+                                </Button>
                             </CardContent>
                         </Card>
                     ) : (
                         filteredLeads.map((lead, index) => (
-                            <Card key={index} className="flex flex-col md:flex-row items-start md:items-center p-4 gap-4 hover:shadow-md transition-shadow">
+                            <Card key={index} className={`flex flex-col md:flex-row items-start md:items-center p-4 gap-4 hover:shadow-md transition-shadow ${lead.status === 'Closed' ? 'border-emerald-500 bg-emerald-50/30' : ''}`}>
                                 <div className="flex-1 min-w-0 w-full">
                                     <div className="flex flex-wrap items-center gap-2 mb-2">
                                         <h3 className="font-semibold text-lg break-words w-full md:w-auto">{lead.name}</h3>
+
+                                        {/* Status Dropdown */}
+                                        <Select
+                                            value={lead.status}
+                                            onValueChange={(val: any) => updateLead(lead.name, { status: val })}
+                                        >
+                                            <SelectTrigger className={`h-6 text-xs w-auto border-0 px-2 ${STATUS_COLORS[lead.status as LeadStatus] || "bg-gray-100"}`}>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="New">New</SelectItem>
+                                                <SelectItem value="In Progress">In Progress</SelectItem>
+                                                <SelectItem value="Call Scheduled">Call Scheduled</SelectItem>
+                                                <SelectItem value="Closed">Closed 🎉</SelectItem>
+                                                <SelectItem value="Not Interested">Not Interested</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+
+                                        {/* Interaction Toggles */}
+                                        <div className="flex items-center gap-1">
+                                            <Badge
+                                                variant={lead.emailSent ? "default" : "outline"}
+                                                className={`cursor-pointer select-none ${lead.emailSent ? "bg-blue-500 hover:bg-blue-600 border-blue-500" : "text-muted-foreground hover:bg-muted"}`}
+                                                onClick={() => updateLead(lead.name, { emailSent: !lead.emailSent })}
+                                            >
+                                                <Mail className="w-3 h-3 mr-1" />
+                                                Email
+                                            </Badge>
+                                            <Badge
+                                                variant={lead.whatsappSent ? "default" : "outline"}
+                                                className={`cursor-pointer select-none ${lead.whatsappSent ? "bg-green-500 hover:bg-green-600 border-green-500" : "text-muted-foreground hover:bg-muted"}`}
+                                                onClick={() => updateLead(lead.name, { whatsappSent: !lead.whatsappSent })}
+                                            >
+                                                <MessageCircle className="w-3 h-3 mr-1" />
+                                                WA
+                                            </Badge>
+                                        </div>
+
                                         <div className="flex items-center gap-2">
                                             <Badge variant={lead.rating < 3.5 ? "destructive" : "secondary"}>
                                                 <Star className="w-3 h-3 mr-1 fill-current" />
@@ -209,6 +437,17 @@ const LeadManager = () => {
                                 </div>
 
                                 <div className="flex flex-col sm:flex-row items-center gap-2 w-full md:w-auto mt-4 md:mt-0">
+                                    {/* WhatsApp Action */}
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="w-full sm:w-auto text-green-600 border-green-200 hover:bg-green-50"
+                                        onClick={() => handleWhatsApp(lead)}
+                                    >
+                                        <MessageCircle className="w-4 h-4 mr-2" />
+                                        WhatsApp
+                                    </Button>
+
                                     <Link to={`/tools/demo-generator?name=${encodeURIComponent(lead.name)}&specialty=${lead.name.toLowerCase().includes('skin') ? 'dermatologist' : 'dentist'}&city=${encodeURIComponent(lead.address.split(',').pop()?.trim() || "Mumbai")}&phone=${encodeURIComponent(lead.phone)}&location=${encodeURIComponent(lead.address)}`} className="w-full sm:w-auto">
                                         <Button size="sm" className="w-full bg-primary text-primary-foreground">
                                             Generate Demo
@@ -267,11 +506,23 @@ const LeadManager = () => {
                                                 </div>
                                             </div>
                                             <div className="flex justify-end gap-2">
-                                                <Button onClick={() => copyToClipboard(emailDraft)}>
+                                                <Button onClick={() => {
+                                                    copyToClipboard(emailDraft);
+                                                    updateLead(activeLead!.name, {
+                                                        emailSent: true,
+                                                        status: activeLead!.status === "New" ? "In Progress" : activeLead!.status
+                                                    });
+                                                }}>
                                                     <Copy className="w-4 h-4 mr-2" />
-                                                    Copy Body
+                                                    Copy & Mark Contacted
                                                 </Button>
-                                                <Button variant="secondary" onClick={() => window.open(`mailto:?subject=${encodeURIComponent(EMAIL_TEMPLATES[selectedTemplate].subject)}&body=${encodeURIComponent(emailDraft)}`)}>
+                                                <Button variant="secondary" onClick={() => {
+                                                    window.open(`mailto:?subject=${encodeURIComponent(EMAIL_TEMPLATES[selectedTemplate].subject)}&body=${encodeURIComponent(emailDraft)}`);
+                                                    updateLead(activeLead!.name, {
+                                                        emailSent: true,
+                                                        status: activeLead!.status === "New" ? "In Progress" : activeLead!.status
+                                                    });
+                                                }}>
                                                     <ExternalLink className="w-4 h-4 mr-2" />
                                                     Open Mail Client
                                                 </Button>

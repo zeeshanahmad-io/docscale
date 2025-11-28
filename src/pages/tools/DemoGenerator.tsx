@@ -71,6 +71,16 @@ const DemoGenerator = () => {
                         <Link to="/tools/lead-manager">
                             <Button variant="ghost">Back to Leads</Button>
                         </Link>
+                        <Button
+                            variant="ghost"
+                            className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                            onClick={() => {
+                                localStorage.removeItem("isAuthenticated");
+                                window.location.reload();
+                            }}
+                        >
+                            Log Out
+                        </Button>
                         <Link to="/">
                             <Button variant="ghost">Back to Home</Button>
                         </Link>

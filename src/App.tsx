@@ -19,6 +19,8 @@ const DemoPage = lazy(() => import("./pages/DemoPage"));
 const DemoGenerator = lazy(() => import("./pages/tools/DemoGenerator"));
 const LeadManager = lazy(() => import("./pages/tools/LeadManager"));
 
+import ProtectedRoute from "./components/ProtectedRoute";
+
 import programmaticData from "@/data/programmaticData.json";
 
 const queryClient = new QueryClient();
@@ -38,8 +40,16 @@ const App = () => (
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/keystatic/*" element={<Keystatic />} />
-            <Route path="/tools/demo-generator" element={<DemoGenerator />} />
-            <Route path="/tools/lead-manager" element={<LeadManager />} />
+            <Route path="/tools/demo-generator" element={
+              <ProtectedRoute>
+                <DemoGenerator />
+              </ProtectedRoute>
+            } />
+            <Route path="/tools/lead-manager" element={
+              <ProtectedRoute>
+                <LeadManager />
+              </ProtectedRoute>
+            } />
             <Route path="/demo/preview" element={<DemoPage />} />
 
             {/* Programmatic SEO Routes */}

@@ -58,6 +58,7 @@ async function scrapeLeads() {
                     address: lines[2] || '',
                     website: website,
                     phone: lines.find(l => l.match(/\+91|0\d+/)) || '',
+                    city: SEARCH_QUERY.split(' in ')[1] || 'Unknown',
                     status: 'New'
                 };
             });
