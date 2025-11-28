@@ -20,6 +20,7 @@ This website is a full-service platform that communicates our value to potential
 * **Live Case Study:** A dedicated section with a link to a live demo website, serving as tangible proof of our work.
 * **Thought Leadership Blog:** A integrated blog for publishing high-quality, SEO-optimized content to establish industry authority.
 * **Clinic SEO Auditor Tool:** A free, built-in tool (`/tools/seo-auditor`) that allows doctors to instantly check their website's health, SEO score, and mobile responsiveness.
+* **Dynamic Demo Template:** A "Chameleon" preview tool (`/demo/preview`) that allows us to instantly generate personalized website mockups for prospective clients.
 
 ---
 

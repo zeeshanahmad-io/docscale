@@ -15,6 +15,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Keystatic = lazy(() => import("./pages/Keystatic"));
 const IndustryPage = lazy(() => import("./pages/IndustryPage"));
 const SeoAuditor = lazy(() => import("./pages/tools/SeoAuditor"));
+const DemoPage = lazy(() => import("./pages/DemoPage"));
 
 import programmaticData from "@/data/programmaticData.json";
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/keystatic/*" element={<Keystatic />} />
+            <Route path="/demo/preview" element={<DemoPage />} />
 
             {/* Programmatic SEO Routes */}
             {programmaticData.specialties.flatMap(specialty =>
