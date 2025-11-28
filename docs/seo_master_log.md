@@ -51,6 +51,13 @@ We built a scalable engine to dominate long-tail search results for "Specialty +
     - **Dynamic Theming**: Colors change based on specialty (e.g., Teal for Dentists, Rose for Cardiologists).
     - **Conversion**: Floating "Live Demo for [Dr. Name]" banner with a "Claim This Site" button.
 
+### E. Internal Tools (Sales Enablement)
+- **Demo Generator UI**: Built a dedicated interface (`/tools/demo-generator`) to streamline the creation of demo links.
+    - **Features**: Form inputs for Doctor Name, Specialty, City, etc.
+    - **UX**: One-click "Copy Link" and "Open Preview" buttons.
+    - **Design**: Matches the main website's "Medical Blue" theme for consistency.
+    - **Navigation**: Includes a fixed header with "Back to Home" for easy navigation.
+
 ---
 
 ## 2. Future Roadmap (The Scale Up)

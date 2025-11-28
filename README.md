@@ -21,6 +21,7 @@ This website is a full-service platform that communicates our value to potential
 * **Thought Leadership Blog:** A integrated blog for publishing high-quality, SEO-optimized content to establish industry authority.
 * **Clinic SEO Auditor Tool:** A free, built-in tool (`/tools/seo-auditor`) that allows doctors to instantly check their website's health, SEO score, and mobile responsiveness.
 * **Dynamic Demo Template:** A "Chameleon" preview tool (`/demo/preview`) that allows us to instantly generate personalized website mockups for prospective clients.
+* **Internal Demo Generator:** A dedicated internal tool (`/tools/demo-generator`) for the sales team to quickly configure and generate these personalized demo URLs without manual URL manipulation.
 
 ---
 
