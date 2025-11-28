@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { ExternalLink, Mail, MapPin, Phone, Star, RefreshCw, Search, Copy, Check, MessageCircle, Filter, Loader2, AlertTriangle, Terminal } from "lucide-react";
+import { ExternalLink, Mail, MapPin, Phone, Star, RefreshCw, Search, Copy, Check, MessageCircle, Filter, Loader2, AlertTriangle, Terminal, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
@@ -200,6 +201,23 @@ const LeadManager = () => {
             toast.error("Failed to update interaction");
         } else if (newStatus !== lead.status) {
             toast.success("Status updated to In Progress");
+        }
+    };
+
+    const deleteLead = async (id: number) => {
+        const oldLeads = [...leads];
+        setLeads(leads.filter(l => l.id !== id));
+
+        const { error } = await supabase
+            .from('leads')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            setLeads(oldLeads); // Revert
+            toast.error("Failed to delete lead");
+        } else {
+            toast.success("Lead deleted successfully");
         }
     };
 
@@ -617,6 +635,30 @@ See how much revenue you might be losing here: https://docscale.in
                                                 </div>
                                             </DialogContent>
                                         </Dialog>
+
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button size="icon" variant="ghost" className="text-muted-foreground hover:text-destructive">
+                                                    <Trash2 className="w-4 h-4" />
+                                                </Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        This action cannot be undone. This will permanently delete the lead
+                                                        <strong> {lead.name} </strong>
+                                                        from your database.
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                    <AlertDialogAction onClick={() => deleteLead(lead.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                                                        Delete
+                                                    </AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
                                     </div>
                                 </Card>
                             ))
