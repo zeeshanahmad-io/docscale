@@ -90,4 +90,20 @@ To prevent Google from flagging this as "Doorway Pages" or spam:
 
 ---
 
+## 4. Internal Tools Access (Secret Admin Area)
+
+**Goal:** Provide easy access to internal tools (Lead Manager, Demo Generator) without exposing them to the public or cluttering the UI.
+
+### Access Methods
+1.  **Dashboard URL**: `/tools` (Protected by password).
+2.  **Keyboard Shortcut**: Press `Ctrl + Shift + L` (or `Cmd + Shift + L` on Mac) anywhere on the site.
+3.  **Secret Footer Link**: Click the copyright text **"© 2025 DocScale"** in the footer.
+
+### Available Tools
+*   **Lead Manager**: `/tools/lead-manager` - Manage leads and outreach.
+*   **Demo Generator**: `/tools/demo-generator` - Create instant demos.
+*   **SEO Auditor**: `/tools/seo-auditor` - Run audits.
+
+---
+
 **Keep this playbook updated as we add new growth hacks.**
