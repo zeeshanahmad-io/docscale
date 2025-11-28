@@ -34,11 +34,19 @@ Each specialty triggers a unique color palette (Hex codes) and image set:
 *   **Pediatrician**: Burnt Orange (`#7c2d12`) + Child Care Images
 
 ### The "Sniper" Outreach Strategy
-1.  **Find a Target**: Search Google Maps for "Dentist in [City]" with a bad website.
-2.  **Generate the Link**: Construct the URL: `docscale.in/demo/preview?name=Dr.[Name]&specialty=dentist&city=[City]`
-3.  **Send the Email**:
-    > "Hi Dr. [Name], I noticed your website is down. I mocked up a new design for you here: [Link]. It's already built. Want to claim it?"
-4.  **The Hook**: The demo has a floating "Live Demo for [Name]" banner with a "Claim This Site" button that links to your contact form.
+1.  **Find Targets (Automated)**:
+    *   Run the scraper: `node scripts/scrape-leads.js "Dentist in Bandra"`
+    *   It finds clinics with **No Website** or **Low Ratings** (< 3.5) and saves them to `src/data/leads.json`.
+    *   It also checks for **Broken Links** (404s).
+2.  **Manage Leads**:
+    *   Go to `/tools/lead-manager`.
+    *   Filter by name/address.
+    *   Click **"Generate Demo"** to create a personalized link instantly.
+3.  **Send the Pitch**:
+    *   Click **"Draft Email"** in the Lead Manager.
+    *   Choose a template ("Broken Link" or "Low Rating").
+    *   Copy & Send.
+4.  **The Hook**: The demo has a floating "Live Demo for [Name]" banner with a "Claim This Site" button.
 
 ---
 
