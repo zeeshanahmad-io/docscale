@@ -74,6 +74,56 @@
             "id": "ivf-specialist",
             "label": "IVF Specialist",
             "plural": "IVF Specialists"
+        },
+        {
+            "id": "oncologist",
+            "label": "Oncologist",
+            "plural": "Oncologists"
+        },
+        {
+            "id": "gastroenterologist",
+            "label": "Gastroenterologist",
+            "plural": "Gastroenterologists"
+        },
+        {
+            "id": "endocrinologist",
+            "label": "Endocrinologist",
+            "plural": "Endocrinologists"
+        },
+        {
+            "id": "nephrologist",
+            "label": "Nephrologist",
+            "plural": "Nephrologists"
+        },
+        {
+            "id": "pulmonologist",
+            "label": "Pulmonologist",
+            "plural": "Pulmonologists"
+        },
+        {
+            "id": "rheumatologist",
+            "label": "Rheumatologist",
+            "plural": "Rheumatologists"
+        },
+        {
+            "id": "radiologist",
+            "label": "Radiologist",
+            "plural": "Radiologists"
+        },
+        {
+            "id": "pathologist",
+            "label": "Pathologist",
+            "plural": "Pathologists"
+        },
+        {
+            "id": "neonatologist",
+            "label": "Neonatologist",
+            "plural": "Neonatologists"
+        },
+        {
+            "id": "wellness-clinic",
+            "label": "Wellness Clinic",
+            "plural": "Wellness Clinics"
         }
     ],
     "cities": [
@@ -151,6 +201,171 @@
             "id": "bhopal",
             "label": "Bhopal",
             "state": "Madhya Pradesh"
+        },
+        {
+            "id": "gurgaon",
+            "label": "Gurgaon",
+            "state": "Haryana"
+        },
+        {
+            "id": "noida",
+            "label": "Noida",
+            "state": "Uttar Pradesh"
+        },
+        {
+            "id": "faridabad",
+            "label": "Faridabad",
+            "state": "Haryana"
+        },
+        {
+            "id": "ghaziabad",
+            "label": "Ghaziabad",
+            "state": "Uttar Pradesh"
+        },
+        {
+            "id": "ludhiana",
+            "label": "Ludhiana",
+            "state": "Punjab"
+        },
+        {
+            "id": "amritsar",
+            "label": "Amritsar",
+            "state": "Punjab"
+        },
+        {
+            "id": "agra",
+            "label": "Agra",
+            "state": "Uttar Pradesh"
+        },
+        {
+            "id": "varanasi",
+            "label": "Varanasi",
+            "state": "Uttar Pradesh"
+        },
+        {
+            "id": "dehradun",
+            "label": "Dehradun",
+            "state": "Uttarakhand"
+        },
+        {
+            "id": "surat",
+            "label": "Surat",
+            "state": "Gujarat"
+        },
+        {
+            "id": "vadodara",
+            "label": "Vadodara",
+            "state": "Gujarat"
+        },
+        {
+            "id": "nagpur",
+            "label": "Nagpur",
+            "state": "Maharashtra"
+        },
+        {
+            "id": "nashik",
+            "label": "Nashik",
+            "state": "Maharashtra"
+        },
+        {
+            "id": "rajkot",
+            "label": "Rajkot",
+            "state": "Gujarat"
+        },
+        {
+            "id": "aurangabad",
+            "label": "Aurangabad",
+            "state": "Maharashtra"
+        },
+        {
+            "id": "navi-mumbai",
+            "label": "Navi Mumbai",
+            "state": "Maharashtra"
+        },
+        {
+            "id": "coimbatore",
+            "label": "Coimbatore",
+            "state": "Tamil Nadu"
+        },
+        {
+            "id": "visakhapatnam",
+            "label": "Visakhapatnam",
+            "state": "Andhra Pradesh"
+        },
+        {
+            "id": "mysore",
+            "label": "Mysore",
+            "state": "Karnataka"
+        },
+        {
+            "id": "madurai",
+            "label": "Madurai",
+            "state": "Tamil Nadu"
+        },
+        {
+            "id": "vijayawada",
+            "label": "Vijayawada",
+            "state": "Andhra Pradesh"
+        },
+        {
+            "id": "trivandrum",
+            "label": "Trivandrum",
+            "state": "Kerala"
+        },
+        {
+            "id": "mangalore",
+            "label": "Mangalore",
+            "state": "Karnataka"
+        },
+        {
+            "id": "bhubaneswar",
+            "label": "Bhubaneswar",
+            "state": "Odisha"
+        },
+        {
+            "id": "guwahati",
+            "label": "Guwahati",
+            "state": "Assam"
+        },
+        {
+            "id": "ranchi",
+            "label": "Ranchi",
+            "state": "Jharkhand"
+        },
+        {
+            "id": "jamshedpur",
+            "label": "Jamshedpur",
+            "state": "Jharkhand"
+        },
+        {
+            "id": "raipur",
+            "label": "Raipur",
+            "state": "Chhattisgarh"
+        },
+        {
+            "id": "gwalior",
+            "label": "Gwalior",
+            "state": "Madhya Pradesh"
+        },
+        {
+            "id": "jabalpur",
+            "label": "Jabalpur",
+            "state": "Madhya Pradesh"
+        },
+        {
+            "id": "coorg",
+            "label": "Coorg",
+            "state": "Karnataka"
+        },
+        {
+            "id": "kodagu",
+            "label": "Kodagu",
+            "state": "Karnataka"
+        },
+        {
+            "id": "mysuru",
+            "label": "Mysuru",
+            "state": "Karnataka"
         }
     ]
 }

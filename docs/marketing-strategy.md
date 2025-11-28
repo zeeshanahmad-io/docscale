@@ -74,6 +74,18 @@
 
 ---
 
+## 6. The "Local Trust" Anchor (Google Business Profile)
+*Prove you exist in the real world.*
+
+- **Concept**: Set up a Google Business Profile (GBP) for "DocScale".
+- **Why**: Doctors are skeptical. A Knowledge Panel with a map pin and reviews signals "Real Company," not "Internet Ghost."
+- **Strategy**:
+    - **Service Area Business**: Hide your home address. Set service area to "India" (or key cities).
+    - **Reviews**: This is the *only* place reviews are trusted 100%. Get 5-10 genuine reviews here.
+    - **Impact**: Increases conversion on brand searches ("Is DocScale legit?") even if you don't rank locally.
+
+---
+
 ## Execution Plan (Next 7 Days)
 
 1.  **Day 1-2**: Build the **"Clinic SEO Auditor"** (MVP). It can just check 3 things (SSL, Mobile Responsiveness, H1).

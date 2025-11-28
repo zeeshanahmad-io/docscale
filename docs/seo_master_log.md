@@ -12,14 +12,14 @@ This document serves as the "Flight Recorder" for all SEO and growth engineering
 ### A. Programmatic SEO (The Growth Engine)
 We built a scalable engine to dominate long-tail search results for "Specialty + City" queries.
 - **Implementation**: Created `IndustryPage.tsx` template + `programmaticData.json`.
-- **Scale**: Generated **225 unique landing pages** (15 Specialties x 15 Cities).
+- **Scale**: Generated **1,200 unique landing pages** (25 Specialties x 48 Cities).
+    - *Expansion (Nov 2025)*: Added Tier-2/3 cities (Coorg, Mysuru, etc.) and "Wellness Clinic" specialty.
 - **URL Structure**: `docscale.in/marketing-for-[specialty]-in-[city]` (e.g., `/marketing-for-cardiologist-in-mumbai`).
-- **Content Strategy**:
-    - Dynamic H1s and Meta Tags.
-    - **"Tailored Services" Section**: Targets high-value B2B keywords like "Cardiologist SEO", "Google Ads for Dentists".
-    - **AI Optimization**: Explicitly mentions "ChatGPT & Perplexity Optimization" to appeal to modern doctors.
+- **Content Quality (Anti-Spam)**:
+    - **Variations**: Implemented deterministic content rotation (headlines, intros, CTAs) so pages are unique.
+    - **Dynamic FAQs**: Added context-aware FAQs (e.g., "Cost in {City}") to boost relevance and value.
 - **Technical**:
-    - **Static Generation**: Updated `prerender.js` to pre-build all 225 pages as static HTML for lightning-fast load times.
+    - **Static Generation**: Updated `prerender.js` to pre-build all 1,200 pages as static HTML for lightning-fast load times.
     - **Routing**: Configured explicit routes in `App.tsx` to ensure 100% reliability (no 404s).
 
 ### B. Technical SEO (The Infrastructure)

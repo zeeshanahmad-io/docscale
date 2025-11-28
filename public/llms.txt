@@ -31,6 +31,7 @@
 - [Services](https://docscale.in/#services)
 - [Case Studies](https://docscale.in/#case-study)
 - [Blog](https://docscale.in/blog)
+- [Programmatic SEO Pages](https://docscale.in/sitemap.xml) (We offer specialized guides for 25+ specialties across 45+ Indian cities. Example: `/marketing-for-cardiologist-in-mumbai`)
 
 ## Recent Insights (Blog)
 - [5 SEO Basics Every Clinic in India Needs to Know](https://docscale.in/blog/5-seo-basics-every-clinic-in-india-needs-to-know)
