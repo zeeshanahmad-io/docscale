@@ -11,10 +11,12 @@ import {
     ArrowRight,
     Loader2,
     Lock,
-    Mail
+    Mail,
+    Zap
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
@@ -340,6 +342,45 @@ const SeoAuditor = () => {
                                 </Card>
                             ))}
                         </div>
+
+                        {/* Speed Showdown */}
+                        <Card className="mb-8 border-primary/20 bg-primary/5 overflow-hidden">
+                            <CardHeader className="pb-2">
+                                <CardTitle className="flex items-center gap-2 text-lg">
+                                    <Zap className="w-5 h-5 text-yellow-500 fill-current" />
+                                    Speed Showdown: You vs. DocScale
+                                </CardTitle>
+                                <CardDescription>
+                                    Google ranks faster websites higher. We engineer every site to target the "Green Zone" (90+).
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-6">
+                                    {/* User Site */}
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-sm font-medium">
+                                            <span>Your Current Site Speed</span>
+                                            <span className={getScoreColor(result.performance)}>{result.performance}/100</span>
+                                        </div>
+                                        <Progress value={result.performance} className="h-4 bg-muted" indicatorClassName={result.performance < 50 ? "bg-red-500" : result.performance < 90 ? "bg-yellow-500" : "bg-green-500"} />
+                                    </div>
+
+                                    {/* DocScale Site */}
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-sm font-medium">
+                                            <span className="flex items-center gap-2">
+                                                DocScale Optimization Standard
+                                                <Badge variant="secondary" className="text-xs bg-green-100 text-green-700 hover:bg-green-100 border-green-200">
+                                                    Target Goal
+                                                </Badge>
+                                            </span>
+                                            <span className="text-green-600 font-bold">90+ (Green Zone)</span>
+                                        </div>
+                                        <Progress value={92} className="h-4 bg-muted" indicatorClassName="bg-green-500" />
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
 
                         {/* Analysis & CTA */}
                         <div className="grid md:grid-cols-2 gap-8">

@@ -39,6 +39,7 @@ import analyticsImage from "@/assets/analytics-dashboard.jpg";
 import demoWebsiteScreenshot from "@/assets/demo-website-screenshot.png";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Suspense, lazy } from "react";
+import { TrustBadges } from "@/components/TrustBadges";
 
 const PatientRevenueCalculator = lazy(() => import("@/components/tools/PatientRevenueCalculator").then(module => ({ default: module.PatientRevenueCalculator })));
 
@@ -277,6 +278,8 @@ const Index = () => {
                   We provide specialized healthcare SEO and medical website design solutions to help doctors and clinics in India attract more patients online.
                 </p>
               </div>
+
+
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button onClick={() => scrollToSection('contact')} variant="accent" size="lg" className="text-lg px-8">
                   Get a Free Consultation
@@ -287,6 +290,7 @@ const Index = () => {
                   </Button>
                 </Link>
               </div>
+              <TrustBadges />
             </div>
 
             <div className="relative">

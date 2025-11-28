@@ -255,11 +255,29 @@ const LeadManager = () => {
         let text = "";
 
         if (!lead.website) {
-            text = `Hi Dr. ${lead.name.split(' ')[0]}, I noticed you don't have a website listed on Google Maps. I built a quick mockup for you here: ${link} - Zeeshan (docscale.in)`;
+            text = `Hi Dr. ${lead.name.split(' ')[0]}, I noticed you don't have a website for ${lead.name}. Patients in ${lead.city || 'your area'} are searching for you but finding competitors.
+
+I've built a preview of what your site could look like: ${link}
+
+See how much revenue you might be losing here: https://docscale.in
+
+- Zeeshan (docscale.in)`;
         } else if (lead.rating < 3.5) {
-            text = `Hi Dr. ${lead.name.split(' ')[0]}, I noticed you have some negative reviews hurting your Google rating. I help clinics fix this. Here is a new site design I made for you: ${link} - Zeeshan (docscale.in)`;
+            text = `Hi Dr. ${lead.name.split(' ')[0]}, I noticed ${lead.name} has a rating of ${lead.rating}. Patients in ${lead.city || 'your area'} often skip clinics with low ratings.
+
+I've built a preview of a new site that helps automate 5-star reviews: ${link}
+
+See how we help doctors rank #1 on Google: https://docscale.in
+
+- Zeeshan (docscale.in)`;
         } else {
-            text = `Hi Dr. ${lead.name.split(' ')[0]}, I made a website mockup for you: ${link} - Zeeshan (docscale.in)`;
+            text = `Hi Dr. ${lead.name.split(' ')[0]}, I noticed your current site might be missing out on patients in ${lead.city || 'your area'}.
+
+I've built a preview of a high-converting website for ${lead.name}: ${link}
+
+See how much revenue you might be losing here: https://docscale.in
+
+- Zeeshan (docscale.in)`;
         }
 
         window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
