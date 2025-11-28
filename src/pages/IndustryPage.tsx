@@ -26,6 +26,39 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
     const title = `Digital Marketing for ${specialty.plural} in ${city.label} | DocScale`;
     const description = `Attract more patients to your ${specialty.label} practice in ${city.label}. Expert SEO, Google Ads, and Website Design tailored for ${specialty.plural}.`;
 
+    const variations = {
+        headlines: [
+            `Get More <span class="text-primary">${specialty.label} Patients</span> in ${city.label}`,
+            `Grow Your <span class="text-primary">${specialty.label} Practice</span> in ${city.label}`,
+            `The #1 Digital Marketing Agency for <span class="text-primary">${city.label} ${specialty.plural}</span>`,
+            `Dominate the <span class="text-primary">${specialty.label} Market</span> in ${city.label}`
+        ],
+        subheadlines: [
+            `Stop relying on referrals. We help ${specialty.plural} in ${city.label} rank #1 on Google and fill their appointment calendars.`,
+            `Attract high-value patients and build a 5-star reputation. Specialized SEO and Ads for ${city.label} medical practices.`,
+            `Is your practice invisible online? We put ${city.label} ${specialty.plural} in front of patients exactly when they are searching.`
+        ],
+        ctas: [
+            `Get Free Strategy for ${city.label}`,
+            `Book Your Growth Call`,
+            `See How We Can Help`
+        ]
+    };
+
+    const getVariation = (id: string, options: string[]) => {
+        let hash = 0;
+        for (let i = 0; i < id.length; i++) {
+            hash = id.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const index = Math.abs(hash) % options.length;
+        return options[index];
+    };
+
+    const uniqueId = `${specialtyId}-${cityId}`;
+    const headline = getVariation(uniqueId, variations.headlines);
+    const subheadline = getVariation(uniqueId, variations.subheadlines);
+    const ctaText = getVariation(uniqueId, variations.ctas);
+
     return (
         <div className="min-h-screen bg-background">
             <Helmet>
@@ -43,16 +76,17 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
                     <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary/10 text-primary font-medium text-sm">
                         For {specialty.plural} in {city.label}
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-                        Get More <span className="text-primary">{specialty.label} Patients</span> in {city.label}
-                    </h1>
+                    <h1
+                        className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight"
+                        dangerouslySetInnerHTML={{ __html: headline }}
+                    />
                     <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                        Stop relying on referrals. We help {specialty.plural} in {city.label} rank #1 on Google and fill their appointment calendars.
+                        {subheadline}
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Link to="/#contact">
                             <Button size="lg" className="w-full sm:w-auto text-lg px-8 h-12">
-                                Get Free Strategy for {city.label}
+                                {ctaText}
                                 <ArrowRight className="ml-2 w-5 h-5" />
                             </Button>
                         </Link>
@@ -167,6 +201,27 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
                             <p className="text-muted-foreground">
                                 Convert visitors into patients with a fast, mobile-friendly website that highlights your expertise and patient testimonials.
                             </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* FAQ Section */}
+            <section className="py-20 px-4">
+                <div className="container mx-auto max-w-4xl">
+                    <h2 className="text-3xl font-bold mb-10 text-center">Frequently Asked Questions</h2>
+                    <div className="space-y-6">
+                        <div className="bg-muted/30 p-6 rounded-lg border border-border">
+                            <h3 className="font-semibold text-lg mb-2">How much does digital marketing cost for a {specialty.label} in {city.label}?</h3>
+                            <p className="text-muted-foreground">The investment depends on your growth goals and the competition in {city.label}. We create custom strategies to ensure maximum ROI. Book a free consultation to get a precise quote tailored to your practice.</p>
+                        </div>
+                        <div className="bg-muted/30 p-6 rounded-lg border border-border">
+                            <h3 className="font-semibold text-lg mb-2">How long does it take to rank for "{specialty.label} in {city.label}"?</h3>
+                            <p className="text-muted-foreground">SEO is a long-term strategy. You can expect to see significant movement in 3-6 months. For immediate results, we recommend starting with Google Ads.</p>
+                        </div>
+                        <div className="bg-muted/30 p-6 rounded-lg border border-border">
+                            <h3 className="font-semibold text-lg mb-2">Do you work with other {specialty.plural} in {city.label}?</h3>
+                            <p className="text-muted-foreground">No. We offer area exclusivity. We only partner with one {specialty.label} per specific location in {city.label} to avoid conflict of interest.</p>
                         </div>
                     </div>
                 </div>
