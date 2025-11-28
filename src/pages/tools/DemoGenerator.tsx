@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,12 +12,14 @@ import { Link } from "react-router-dom";
 
 const DemoGenerator = () => {
     const { toast } = useToast();
+    const [searchParams] = useSearchParams();
+
     const [formData, setFormData] = useState({
-        name: "Dr. Anjali Desai",
-        specialty: "dentist",
-        city: "Mumbai",
-        phone: "+91 98765 43210",
-        location: "Bandra West, Mumbai"
+        name: searchParams.get("name") || "Dr. Anjali Desai",
+        specialty: searchParams.get("specialty") || "dentist",
+        city: searchParams.get("city") || "Mumbai",
+        phone: searchParams.get("phone") || "+91 98765 43210",
+        location: searchParams.get("location") || "Bandra West, Mumbai"
     });
     const [copied, setCopied] = useState(false);
 
@@ -64,9 +67,24 @@ const DemoGenerator = () => {
                             <span className="text-foreground">Scale</span>
                         </span>
                     </Link>
-                    <Link to="/">
-                        <Button variant="ghost">Back to Home</Button>
-                    </Link>
+                    <div className="flex items-center space-x-4">
+                        <Link to="/tools/lead-manager">
+                            <Button variant="ghost">Back to Leads</Button>
+                        </Link>
+                        <Button
+                            variant="ghost"
+                            className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                            onClick={() => {
+                                localStorage.removeItem("isAuthenticated");
+                                window.location.reload();
+                            }}
+                        >
+                            Log Out
+                        </Button>
+                        <Link to="/">
+                            <Button variant="ghost">Back to Home</Button>
+                        </Link>
+                    </div>
                 </div>
             </nav>
 
