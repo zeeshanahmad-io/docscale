@@ -1,9 +1,47 @@
 import puppeteer from 'puppeteer';
-import fs from 'fs';
+import { createClient } from '@supabase/supabase-js';
 import path from 'path';
 
+// Initialize Supabase
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+    console.error("❌ Missing Supabase URL or Key. Run with --env-file=.env");
+    process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 const SEARCH_QUERY = process.argv[2] || 'Dentist in Bandra';
-const OUTPUT_FILE = path.resolve(process.cwd(), 'src/data/leads.json');
+
+// Helper to detect city from address
+const detectCity = (address) => {
+    const cityMappings = {
+        // Mumbai Areas
+        "Bandra": "Mumbai", "Andheri": "Mumbai", "Juhu": "Mumbai", "Powai": "Mumbai",
+        "Worli": "Mumbai", "Colaba": "Mumbai", "Dadar": "Mumbai", "Thane": "Mumbai",
+        "Navi Mumbai": "Mumbai", "Mumbai": "Mumbai",
+
+        // Bangalore Areas
+        "Indiranagar": "Bangalore", "Koramangala": "Bangalore", "Whitefield": "Bangalore",
+        "HSR Layout": "Bangalore", "Bellandur": "Bangalore", "Jayanagar": "Bangalore",
+        "Malleswaram": "Bangalore", "Yelahanka": "Bangalore", "Hebbal": "Bangalore",
+        "Bengaluru": "Bangalore", "Bangalore": "Bangalore",
+
+        // Other Major Cities
+        "Delhi": "Delhi", "New Delhi": "Delhi",
+        "Pune": "Pune", "Hyderabad": "Hyderabad", "Chennai": "Chennai",
+        "Kolkata": "Kolkata", "Ahmedabad": "Ahmedabad"
+    };
+
+    for (const [key, city] of Object.entries(cityMappings)) {
+        if (address.toLowerCase().includes(key.toLowerCase())) {
+            return city;
+        }
+    }
+    return "Unknown";
+};
 
 async function scrapeLeads() {
     console.log(`🔍 Searching for: "${SEARCH_QUERY}"...`);
@@ -35,7 +73,7 @@ async function scrapeLeads() {
 
         // Extract raw data
         console.log("⛏️ Extracting data...");
-        const rawLeads = await page.evaluate(() => {
+        const leads = await page.evaluate(() => {
             const items = Array.from(document.querySelectorAll('div[role="article"]'));
 
             return items.map(item => {
@@ -43,81 +81,60 @@ async function scrapeLeads() {
                 const text = item.innerText;
                 const lines = text.split('\n');
 
-                const ratingElement = item.querySelector('span[role="img"]');
-                const ratingLabel = ratingElement ? ratingElement.getAttribute('aria-label') : '';
-                const ratingMatch = ratingLabel ? ratingLabel.match(/([0-9.]+) stars/) : null;
+                // Heuristic extraction
+                const name = ariaLabel || lines[0];
+                const ratingText = item.querySelector('span[role="img"]')?.getAttribute('aria-label');
+                const ratingMatch = ratingText ? ratingText.match(/([0-9.]+) stars/) : null;
                 const rating = ratingMatch ? parseFloat(ratingMatch[1]) : 0;
 
+                // Find website link
                 const links = Array.from(item.querySelectorAll('a'));
-                const websiteLink = links.find(l => l.href && !l.href.includes('google.com/maps') && !l.href.includes('google.com/search'));
+                const websiteLink = links.find(a => a.href && !a.href.includes('google.com/maps') && !a.href.includes('google.com/search'));
                 const website = websiteLink ? websiteLink.href : null;
 
-                return {
-                    name: ariaLabel,
-                    rating: rating,
-                    address: lines[2] || '',
-                    website: website,
-                    phone: lines.find(l => l.match(/\+91|0\d+/)) || '',
-                    city: SEARCH_QUERY.split(' in ')[1] || 'Unknown',
-                    status: 'New'
-                };
+                // Find address and phone (simple heuristics)
+                const address = lines[2] || lines.find(l => l.includes(',') && !l.match(/\d{5}/)) || "";
+                const phone = lines.find(l => l.match(/\+?\d[\d\s-]{7,}\d/)) || "";
+
+                return { name, rating, address, website, phone };
             });
         });
 
-        console.log(`✅ Found ${rawLeads.length} total listings.`);
+        console.log(`📦 Extracted ${leads.length} raw leads.`);
 
-        // Filter and Validate
-        const qualifiedLeads = [];
-        console.log("🕵️‍♂️ Validating leads (Checking for broken links & low ratings)...");
+        // Filter qualified leads (Rating < 4.5 OR No Website)
+        const qualifiedLeads = leads.filter(l => (l.rating > 0 && l.rating < 4.5) || !l.website).map(l => ({
+            ...l,
+            city: detectCity(l.address)
+        }));
 
-        for (const lead of rawLeads) {
-            let reason = null;
+        console.log(`🎯 Found ${qualifiedLeads.length} qualified leads (Low Rating or No Website).`);
 
-            // 1. Check Rating
-            if (lead.rating > 0 && lead.rating < 3.5) {
-                reason = `Low Rating (${lead.rating})`;
-            }
-            // 2. Check Missing Website
-            else if (!lead.website) {
-                reason = "No Website";
-            }
-            // 3. Check Broken Website (if website exists)
-            else if (lead.website) {
-                process.stdout.write(`   Checking ${lead.website}... `);
-                const isBroken = await checkWebsiteBroken(lead.website);
-                if (isBroken) {
-                    reason = "Broken Website (404/Error)";
-                    console.log("❌ BROKEN");
-                } else {
-                    console.log("✅ OK");
-                }
-            }
+        if (qualifiedLeads.length > 0) {
+            // Upsert to Supabase
+            const { data, error } = await supabase
+                .from('leads')
+                .upsert(qualifiedLeads.map(l => ({
+                    name: l.name,
+                    rating: l.rating,
+                    address: l.address,
+                    website: l.website,
+                    phone: l.phone,
+                    city: l.city,
+                    status: 'New'
+                })), { onConflict: 'name', ignoreDuplicates: true });
 
-            if (reason) {
-                qualifiedLeads.push({ ...lead, note: reason });
+            if (error) {
+                console.error("❌ Failed to save leads to Supabase:", error);
+            } else {
+                console.log(`✅ Successfully saved qualified leads to database!`);
             }
+        } else {
+            console.log("⚠️ No qualified leads found to save.");
         }
-
-        console.log(`🎯 Qualified ${qualifiedLeads.length} leads.`);
-
-        // Merge and Save
-        let existingLeads = [];
-        if (fs.existsSync(OUTPUT_FILE)) {
-            existingLeads = JSON.parse(fs.readFileSync(OUTPUT_FILE, 'utf8'));
-        }
-
-        const allLeads = [...existingLeads];
-        qualifiedLeads.forEach(newLead => {
-            if (!allLeads.find(l => l.name === newLead.name)) {
-                allLeads.push(newLead);
-            }
-        });
-
-        fs.writeFileSync(OUTPUT_FILE, JSON.stringify(allLeads, null, 2));
-        console.log(`💾 Saved ${allLeads.length} leads to ${OUTPUT_FILE}`);
 
     } catch (error) {
-        console.error('❌ Error scraping:', error);
+        console.error("❌ Error during scraping:", error);
     } finally {
         await browser.close();
     }
@@ -128,28 +145,25 @@ async function autoScroll(page) {
         const wrapper = document.querySelector('div[role="feed"]');
         if (!wrapper) return;
 
-        await new Promise((resolve, reject) => {
-            var totalHeight = 0;
-            var distance = 1000;
-            var attempts = 0;
-
-            var timer = setInterval(() => {
-                var scrollHeight = wrapper.scrollHeight;
+        await new Promise((resolve) => {
+            let totalHeight = 0;
+            let distance = 1000;
+            let attempts = 0;
+            let timer = setInterval(() => {
+                let scrollHeight = wrapper.scrollHeight;
                 wrapper.scrollBy(0, distance);
                 totalHeight += distance;
 
-                // If we reached the bottom, wait a bit to see if more load
                 if (totalHeight >= scrollHeight) {
                     attempts++;
-                    // Try 5 times to wait for more content (Google Maps lazy loads in chunks)
                     if (attempts > 5) {
                         clearInterval(timer);
                         resolve();
                     }
                 } else {
-                    attempts = 0; // Reset attempts if we successfully scrolled
+                    attempts = 0;
                 }
-            }, 500); // Slower scroll to let network catch up
+            }, 500);
         });
     });
 }
@@ -157,18 +171,18 @@ async function autoScroll(page) {
 async function checkWebsiteBroken(url) {
     try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
 
         const response = await fetch(url, {
             method: 'HEAD',
             signal: controller.signal,
-            headers: { 'User-Agent': 'Mozilla/5.0' } // Pretend to be a browser
+            headers: { 'User-Agent': 'Mozilla/5.0' }
         });
         clearTimeout(timeoutId);
 
-        return response.status >= 400; // 404, 500, etc.
+        return response.status >= 400;
     } catch (error) {
-        return true; // DNS error, timeout, network fail = Broken
+        return true;
     }
 }
 
