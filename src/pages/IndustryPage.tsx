@@ -2,7 +2,7 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle2, TrendingUp, Users, Calendar, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2, TrendingUp, Users, Calendar, Sparkles, Bot } from "lucide-react";
 import programmaticData from "@/data/programmaticData.json";
 
 interface IndustryPageProps {
@@ -174,7 +174,7 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
                             We don't use generic strategies. Our entire marketing stack is built specifically for {specialty.label} clinics in {city.label}.
                         </p>
                     </div>
-                    <div className="grid md:grid-cols-3 gap-8">
+                    <div className="grid md:grid-cols-2 gap-8">
                         <div className="bg-background p-8 rounded-xl border border-border hover:shadow-lg transition-shadow">
                             <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
                                 <TrendingUp className="w-6 h-6 text-primary" />
@@ -200,6 +200,18 @@ const IndustryPage = ({ specialtyId: propSpecialtyId, cityId: propCityId }: Indu
                             <h3 className="text-xl font-semibold mb-3">Website Design for {specialty.label} Clinics</h3>
                             <p className="text-muted-foreground">
                                 Convert visitors into patients with a fast, mobile-friendly website that highlights your expertise and patient testimonials.
+                            </p>
+                        </div>
+                        <div className="relative overflow-hidden bg-primary/5 p-8 rounded-xl border border-primary/30 hover:shadow-lg transition-shadow">
+                            <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs px-3 py-1 rounded-bl-xl font-medium">
+                                New for 2025
+                            </div>
+                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                                <Bot className="w-6 h-6 text-primary" />
+                            </div>
+                            <h3 className="text-xl font-semibold mb-3">AI Search Optimization (AEO)</h3>
+                            <p className="text-muted-foreground">
+                                Be the top recommendation when patients ask ChatGPT, Perplexity, or Gemini for a "{specialty.label} in {city.label}".
                             </p>
                         </div>
                     </div>
