@@ -12,11 +12,11 @@ import { Link } from "react-router-dom";
 const DemoGenerator = () => {
     const { toast } = useToast();
     const [formData, setFormData] = useState({
-        name: "Dr. Faiyaz Ahmad",
-        specialty: "neurologist",
-        city: "Patna",
+        name: "Dr. Anjali Desai",
+        specialty: "dentist",
+        city: "Mumbai",
         phone: "+91 98765 43210",
-        location: "Raja Bazar, Patna"
+        location: "Bandra West, Mumbai"
     });
     const [copied, setCopied] = useState(false);
 
