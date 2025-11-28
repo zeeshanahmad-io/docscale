@@ -19,7 +19,8 @@ const DemoGenerator = () => {
         specialty: searchParams.get("specialty") || "dentist",
         city: searchParams.get("city") || "Mumbai",
         phone: searchParams.get("phone") || "+91 98765 43210",
-        location: searchParams.get("location") || "Bandra West, Mumbai"
+        location: searchParams.get("location") || "Bandra West, Mumbai",
+        style: searchParams.get("style") || "standard"
     });
     const [copied, setCopied] = useState(false);
 
@@ -36,6 +37,7 @@ const DemoGenerator = () => {
         if (formData.city) params.append("city", formData.city);
         if (formData.phone) params.append("phone", formData.phone);
         if (formData.location) params.append("location", formData.location);
+        if (formData.style) params.append("style", formData.style);
 
         return `${window.location.origin}/demo/preview?${params.toString()}`;
     };
@@ -133,6 +135,22 @@ const DemoGenerator = () => {
                                     </SelectContent>
                                 </Select>
                             </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="style" className="text-foreground">Visual Theme</Label>
+                            <Select
+                                value={formData.style}
+                                onValueChange={(value) => handleChange("style", value)}
+                            >
+                                <SelectTrigger className="bg-background border-input text-foreground focus:ring-primary">
+                                    <SelectValue placeholder="Select theme style" />
+                                </SelectTrigger>
+                                <SelectContent className="bg-popover border-border text-popover-foreground">
+                                    <SelectItem value="standard" className="focus:bg-accent focus:text-accent-foreground">Standard (Clean & Professional)</SelectItem>
+                                    <SelectItem value="luxury" className="focus:bg-accent focus:text-accent-foreground">Luxury (Premium Black & Gold)</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-6">
