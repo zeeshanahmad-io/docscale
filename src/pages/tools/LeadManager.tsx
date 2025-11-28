@@ -563,5 +563,4 @@ const LeadManager = () => {
         </div>
     );
 };
-
 export default LeadManager;
