@@ -1,0 +1,314 @@
+{
+    "default": {
+        "theme": {
+            "primary": "#1e3a8a",
+            "secondary": "#eff6ff",
+            "accent": "#1e3a8a",
+            "border": "#1e3a8a",
+            "gradient": "linear-gradient(to right, #1e3a8a, #1e40af)"
+        },
+        "heroImage": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=2864&auto=format&fit=crop",
+        "aboutImage": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2940&auto=format&fit=crop",
+        "services": [
+            {
+                "title": "General Consultation",
+                "description": "Comprehensive health assessment and personalized care plans."
+            },
+            {
+                "title": "Preventive Care",
+                "description": "Regular check-ups and screenings to maintain optimal health."
+            },
+            {
+                "title": "Specialized Treatment",
+                "description": "Advanced medical treatments tailored to your specific condition."
+            }
+        ],
+        "stats": [
+            {
+                "label": "Years Experience",
+                "value": "15+"
+            },
+            {
+                "label": "Happy Patients",
+                "value": "5000+"
+            },
+            {
+                "label": "Surgeries",
+                "value": "1000+"
+            }
+        ]
+    },
+    "dentist": {
+        "theme": {
+            "primary": "#134e4a",
+            "secondary": "#f0fdfa",
+            "accent": "#134e4a",
+            "border": "#134e4a",
+            "gradient": "linear-gradient(to right, #134e4a, #115e59)"
+        },
+        "heroImage": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=2874&auto=format&fit=crop",
+        "aboutImage": "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=2874&auto=format&fit=crop",
+        "services": [
+            {
+                "title": "Cosmetic Dentistry",
+                "description": "Smile makeovers, veneers, and teeth whitening for a perfect smile."
+            },
+            {
+                "title": "Root Canal Treatment",
+                "description": "Painless root canal therapy to save your natural teeth."
+            },
+            {
+                "title": "Dental Implants",
+                "description": "Permanent, natural-looking solutions for missing teeth."
+            }
+        ],
+        "stats": [
+            {
+                "label": "Smiles Created",
+                "value": "2000+"
+            },
+            {
+                "label": "Implants Placed",
+                "value": "500+"
+            },
+            {
+                "label": "Years Experience",
+                "value": "12+"
+            }
+        ]
+    },
+    "cardiologist": {
+        "theme": {
+            "primary": "#881337",
+            "secondary": "#fff1f2",
+            "accent": "#881337",
+            "border": "#881337",
+            "gradient": "linear-gradient(to right, #881337, #9f1239)"
+        },
+        "heroImage": "https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?q=80&w=2940&auto=format&fit=crop",
+        "aboutImage": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2940&auto=format&fit=crop",
+        "services": [
+            {
+                "title": "Cardiac Screening",
+                "description": "Comprehensive heart health evaluations and risk assessment."
+            },
+            {
+                "title": "Interventional Cardiology",
+                "description": "Minimally invasive procedures for heart conditions."
+            },
+            {
+                "title": "Heart Failure Management",
+                "description": "Long-term care and monitoring for heart failure patients."
+            }
+        ],
+        "stats": [
+            {
+                "label": "Hearts Healed",
+                "value": "10k+"
+            },
+            {
+                "label": "Procedures",
+                "value": "3000+"
+            },
+            {
+                "label": "Years Experience",
+                "value": "20+"
+            }
+        ]
+    },
+    "dermatologist": {
+        "theme": {
+            "primary": "#831843",
+            "secondary": "#fdf2f8",
+            "accent": "#831843",
+            "border": "#831843",
+            "gradient": "linear-gradient(to right, #831843, #9d174d)"
+        },
+        "heroImage": "https://images.unsplash.com/photo-1616391182219-e080b4d1043a?q=80&w=2883&auto=format&fit=crop",
+        "aboutImage": "https://images.unsplash.com/photo-1579165466741-7f35e4755652?q=80&w=2779&auto=format&fit=crop",
+        "services": [
+            {
+                "title": "Acne Treatment",
+                "description": "Advanced solutions for active acne and scar reduction."
+            },
+            {
+                "title": "Anti-Aging",
+                "description": "Botox, fillers, and laser treatments for youthful skin."
+            },
+            {
+                "title": "Clinical Dermatology",
+                "description": "Diagnosis and treatment of skin, hair, and nail conditions."
+            }
+        ],
+        "stats": [
+            {
+                "label": "Skin Transformations",
+                "value": "5000+"
+            },
+            {
+                "label": "Laser Sessions",
+                "value": "8000+"
+            },
+            {
+                "label": "Years Experience",
+                "value": "10+"
+            }
+        ]
+    },
+    "neurologist": {
+        "theme": {
+            "primary": "#312e81",
+            "secondary": "#eef2ff",
+            "accent": "#312e81",
+            "border": "#312e81",
+            "gradient": "linear-gradient(to right, #312e81, #3730a3)"
+        },
+        "heroImage": "https://images.unsplash.com/photo-1559757175-5700dde675bc?q=80&w=2940&auto=format&fit=crop",
+        "aboutImage": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=2960&auto=format&fit=crop",
+        "services": [
+            {
+                "title": "Stroke Management",
+                "description": "Rapid assessment and comprehensive post-stroke rehabilitation."
+            },
+            {
+                "title": "Epilepsy Care",
+                "description": "Advanced diagnosis and management of seizure disorders."
+            },
+            {
+                "title": "Headache Clinic",
+                "description": "Specialized treatment for migraines and chronic headaches."
+            }
+        ],
+        "stats": [
+            {
+                "label": "Patients Treated",
+                "value": "8000+"
+            },
+            {
+                "label": "Complex Cases",
+                "value": "1500+"
+            },
+            {
+                "label": "Years Experience",
+                "value": "18+"
+            }
+        ]
+    },
+    "wellness-clinic": {
+        "theme": {
+            "primary": "#064e3b",
+            "secondary": "#ecfdf5",
+            "accent": "#064e3b",
+            "border": "#064e3b",
+            "gradient": "linear-gradient(to right, #064e3b, #065f46)"
+        },
+        "heroImage": "https://images.unsplash.com/photo-1544367563-12123d8965cd?q=80&w=2940&auto=format&fit=crop",
+        "aboutImage": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2940&auto=format&fit=crop",
+        "services": [
+            {
+                "title": "Holistic Wellness",
+                "description": "Integrative approach combining modern medicine with lifestyle changes."
+            },
+            {
+                "title": "Stress Management",
+                "description": "Mindfulness, meditation, and therapy for mental well-being."
+            },
+            {
+                "title": "Nutritional Counseling",
+                "description": "Personalized diet plans for weight management and vitality."
+            }
+        ],
+        "stats": [
+            {
+                "label": "Lives Transformed",
+                "value": "3000+"
+            },
+            {
+                "label": "Wellness Plans",
+                "value": "5000+"
+            },
+            {
+                "label": "Years Experience",
+                "value": "8+"
+            }
+        ]
+    },
+    "orthopedic": {
+        "theme": {
+            "primary": "#0f172a",
+            "secondary": "#f8fafc",
+            "accent": "#0f172a",
+            "border": "#0f172a",
+            "gradient": "linear-gradient(to right, #0f172a, #1e293b)"
+        },
+        "heroImage": "https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=2832&auto=format&fit=crop",
+        "aboutImage": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?q=80&w=2832&auto=format&fit=crop",
+        "services": [
+            {
+                "title": "Joint Replacement",
+                "description": "Advanced knee and hip replacement surgeries for restored mobility."
+            },
+            {
+                "title": "Sports Medicine",
+                "description": "Specialized care for athletes and sports-related injuries."
+            },
+            {
+                "title": "Spine Surgery",
+                "description": "Minimally invasive procedures for back and neck pain relief."
+            }
+        ],
+        "stats": [
+            {
+                "label": "Joints Replaced",
+                "value": "4000+"
+            },
+            {
+                "label": "Athletes Treated",
+                "value": "2500+"
+            },
+            {
+                "label": "Years Experience",
+                "value": "22+"
+            }
+        ]
+    },
+    "pediatrician": {
+        "theme": {
+            "primary": "#7c2d12",
+            "secondary": "#fff7ed",
+            "accent": "#7c2d12",
+            "border": "#7c2d12",
+            "gradient": "linear-gradient(to right, #7c2d12, #9a3412)"
+        },
+        "heroImage": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=2864&auto=format&fit=crop",
+        "aboutImage": "https://images.unsplash.com/photo-1632053001859-995c7356285c?q=80&w=2940&auto=format&fit=crop",
+        "services": [
+            {
+                "title": "Newborn Care",
+                "description": "Comprehensive check-ups and guidance for new parents."
+            },
+            {
+                "title": "Vaccinations",
+                "description": "Safe and timely immunization schedules for your child."
+            },
+            {
+                "title": "Growth Monitoring",
+                "description": "Tracking developmental milestones to ensure healthy growth."
+            }
+        ],
+        "stats": [
+            {
+                "label": "Happy Kids",
+                "value": "12k+"
+            },
+            {
+                "label": "Vaccinations",
+                "value": "50k+"
+            },
+            {
+                "label": "Years Experience",
+                "value": "14+"
+            }
+        ]
+    }
+}

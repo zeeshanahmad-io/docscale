@@ -27,7 +27,8 @@ import {
   User,
   Send,
   Mail,
-  Menu
+  Menu,
+  Bot
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Helmet } from "react-helmet-async";
@@ -351,6 +352,12 @@ const Index = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
+                icon: <Bot className="h-8 w-8" />,
+                title: "AI Search Optimization (AEO)",
+                description: "Be the top recommendation when patients ask ChatGPT, Perplexity, or Gemini for a doctor in your area. The future of search is here.",
+                isPremium: true
+              },
+              {
                 icon: <Stethoscope className="h-8 w-8" />,
                 title: "Website Design & Development",
                 description: "A professional, mobile-friendly website that is your digital clinic, designed for seamless patient booking."
@@ -374,14 +381,23 @@ const Index = () => {
                 icon: <FileText className="h-8 w-8" />,
                 title: "Content Marketing",
                 description: "We create expert blog posts and articles for your website to establish you as a thought leader in your field."
-              },
-              {
-                icon: <Shield className="h-8 w-8" />,
-                title: "24/7 Support & Monitoring",
-                description: "Round-the-clock monitoring of your digital presence with dedicated support to ensure everything runs smoothly."
               }
             ].map((service, index) => (
-              <Card key={index} className="card-gradient p-8 hover:shadow-medium transition-spring border-0">
+              <Card
+                key={index}
+                className={`p-8 hover:shadow-medium transition-spring ${
+                  // @ts-ignore
+                  service.isPremium
+                    ? "relative overflow-hidden bg-primary/5 border border-primary/30"
+                    : "card-gradient border-0"
+                  }`}
+              >
+                {/* @ts-ignore */}
+                {service.isPremium && (
+                  <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs px-3 py-1 rounded-bl-xl font-medium">
+                    New for 2025
+                  </div>
+                )}
                 <div className="text-primary mb-4">{service.icon}</div>
                 <h3 className="text-xl font-semibold mb-3 text-foreground">{service.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{service.description}</p>

@@ -51,6 +51,9 @@
 - **The Pitch**:
     - **Subject**: "I found a broken link on your Google Profile" (High open rate).
     - **Body**: "Hi Dr. [Name], I'm a software engineer, not a salesperson. I noticed your website link is broken on Google Maps. I built a mockup of what it *could* look like here: [Link]. Want me to fix it?"
+- **The "Chameleon" Weapon**:
+    - Use the **Dynamic Demo Template**: `docscale.in/demo/preview?name=Dr.Smith&specialty=dentist&city=Mumbai`
+    - **Why**: It instantly generates a personalized site with their name, specialty colors, and relevant images. It looks like you spent hours, but you spent 0 seconds.
 - **Why it works**: It's hyper-personalized and helpful, not salesy.
 
 ---
@@ -71,6 +74,18 @@
 - **Live Speed Test**: On your homepage, have a live comparison: "Your Current Site Speed vs. DocScale Site Speed".
 - **Uptime Guarantee**: Offer a "99.9% Uptime SLA" (easy for you to manage with Vercel/AWS, but sounds impressive to non-techs).
 - **Security Badge**: "HIPAA/DISHA Compliant Tech Stack" (You know how to secure databases; emphasize this).
+
+---
+
+## 6. The "Local Trust" Anchor (Google Business Profile)
+*Prove you exist in the real world.*
+
+- **Concept**: Set up a Google Business Profile (GBP) for "DocScale".
+- **Why**: Doctors are skeptical. A Knowledge Panel with a map pin and reviews signals "Real Company," not "Internet Ghost."
+- **Strategy**:
+    - **Service Area Business**: Hide your home address. Set service area to "India" (or key cities).
+    - **Reviews**: This is the *only* place reviews are trusted 100%. Get 5-10 genuine reviews here.
+    - **Impact**: Increases conversion on brand searches ("Is DocScale legit?") even if you don't rank locally.
 
 ---
 

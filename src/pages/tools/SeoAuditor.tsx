@@ -26,6 +26,7 @@ interface AuditResult {
     bestPractices: number;
     finalUrl: string;
     h1Status: 'present' | 'missing' | 'unknown';
+    failedAudits: { title: string; description: string; displayValue?: string }[];
 }
 
 const SeoAuditor = () => {
@@ -83,6 +84,58 @@ const SeoAuditor = () => {
 
             const data = await response.json();
 
+            // Extract failed audits
+            const audits = data.lighthouseResult.audits;
+            const failedAudits: { title: string; description: string; displayValue?: string }[] = [];
+
+            const importantAudits = [
+                'first-contentful-paint',
+                'largest-contentful-paint',
+                'total-blocking-time',
+                'cumulative-layout-shift',
+                'server-response-time',
+                'render-blocking-resources',
+                'modern-image-formats',
+                'offscreen-images',
+                'unused-javascript',
+                'unused-css-rules',
+                'meta-description',
+                'document-title',
+                'unminified-javascript',
+                'unminified-css',
+                'viewport',
+                'image-alt'
+            ];
+
+            importantAudits.forEach(auditId => {
+                const audit = audits[auditId];
+                if (audit && (audit.score === 0 || (audit.score !== null && audit.score < 0.9))) {
+                    // Clean up description (remove markdown links if possible, simple regex)
+                    const cleanDesc = audit.description.split('[')[0].replace(/\.$/, '');
+
+                    let displayValue = audit.displayValue;
+
+                    // Fallback if displayValue is missing but numericValue exists
+                    if (!displayValue && typeof audit.numericValue === 'number') {
+                        if (['first-contentful-paint', 'largest-contentful-paint', 'server-response-time'].includes(auditId)) {
+                            displayValue = `${(audit.numericValue / 1000).toFixed(1)} s`;
+                        } else if (auditId === 'total-blocking-time') {
+                            displayValue = `${Math.round(audit.numericValue)} ms`;
+                        } else if (auditId === 'cumulative-layout-shift') {
+                            displayValue = audit.numericValue.toFixed(3);
+                        }
+                    }
+
+                    failedAudits.push({
+                        title: audit.title,
+                        description: cleanDesc,
+                        displayValue: displayValue
+                    });
+                }
+            });
+
+            console.log("Captured Failed Audits:", failedAudits); // Debugging log
+
             // Extract scores
             const scores: AuditResult = {
                 performance: Math.round(data.lighthouseResult.categories.performance.score * 100),
@@ -90,11 +143,11 @@ const SeoAuditor = () => {
                 accessibility: Math.round(data.lighthouseResult.categories.accessibility.score * 100),
                 bestPractices: Math.round(data.lighthouseResult.categories['best-practices'].score * 100),
                 finalUrl: data.lighthouseResult.finalUrl,
-                h1Status: 'unknown'
+                h1Status: 'unknown',
+                failedAudits: failedAudits.slice(0, 10) // Top 10 failures
             };
 
             // Check for H1
-            const audits = data.lighthouseResult.audits;
             if (audits['h1-missing']) { // Some versions
                 scores.h1Status = audits['h1-missing'].score === 1 ? 'present' : 'missing';
             } else if (audits['heading-order']) {
