@@ -27,6 +27,8 @@ import { useEffect } from "react";
 
 const queryClient = new QueryClient();
 
+import ScrollToTop from "./components/ScrollToTop";
+
 const App = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -46,6 +48,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>}>
             <Routes>
               <Route path="/" element={<Index />} />

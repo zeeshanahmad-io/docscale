@@ -45,10 +45,6 @@ const BlogPost = () => {
   }
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [slug]);
-
-  useEffect(() => {
     // Generate table of contents from headings
     const headings = content.match(/^#{2,3}\s+(.+)$/gm);
     if (headings) {
@@ -229,7 +225,7 @@ const BlogPost = () => {
             )}
 
             {/* Main Content */}
-            <div className="flex-1 max-w-4xl pr-4 md:pr-0">
+            <div className="flex-1 max-w-4xl min-w-0 px-2 md:px-0">
               {/* Article Header without Placeholder Image */}
               <header className="mb-16 text-center">
                 {post.featuredImage && (
