@@ -46,6 +46,7 @@ urls.push({ loc: `${SITE_URL}/`, lastmod: new Date().toISOString(), changefreq: 
 urls.push({ loc: `${SITE_URL}/blog`, lastmod: new Date().toISOString(), changefreq: 'weekly', priority: '0.8' });
 urls.push({ loc: `${SITE_URL}/privacy-policy`, lastmod: new Date().toISOString(), changefreq: 'monthly', priority: '0.5' });
 urls.push({ loc: `${SITE_URL}/terms-of-service`, lastmod: new Date().toISOString(), changefreq: 'monthly', priority: '0.5' });
+urls.push({ loc: `${SITE_URL}/tools/seo-auditor`, lastmod: new Date().toISOString(), changefreq: 'weekly', priority: '0.9' });
 
 // Programmatic SEO Pages
 const PROGRAMMATIC_DATA_PATH = path.resolve(process.cwd(), 'src/data/programmaticData.json');
