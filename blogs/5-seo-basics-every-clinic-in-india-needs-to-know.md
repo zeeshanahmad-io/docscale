@@ -3,7 +3,7 @@ title: Why Your Clinic isn’t Ranking on Google (And 5 Ways to Fix It)
 description: >-
   Learn the essential SEO practices to help your clinic rank higher and attract
   more local patients.
-published_date: 2025-09-20
+published_date: 2025-11-29
 author: DocScale Team
 featuredImage: /images/5-seo-basics-every-clinic-in-india-needs-to-know/featuredImage.png
 ---
@@ -13,7 +13,7 @@ What are they doing differently? It’s likely not their medical expertise—it�
 
 According to recent industry data, over **65% of patients in India search online** before booking a consultation. If your clinic doesn’t show up in that crucial "near me" search, you effectively don’t exist for hundreds of potential patients in your neighborhood.
 
-At **DocScale**, we talk to doctors every day who feel overwhelmed by digital marketing jargon. The good news? You don’t need to be a tech wizard to improve your ranking. You just need to master these 5 SEO basics tailored for the Indian healthcare market.
+At **[DocScale](/)**, we talk to doctors every day who feel overwhelmed by digital marketing jargon. The good news? You don’t need to be a tech wizard to improve your ranking. You just need to master these 5 SEO basics tailored for the Indian healthcare market (Updated for late 2025).
 
 ---
 
