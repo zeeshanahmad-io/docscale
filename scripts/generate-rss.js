@@ -39,7 +39,7 @@ const items = files.map(file => {
   const date = data.published_date || new Date().toISOString();
   const author = data.author || '';
   return { title, description, url, date, author };
-}).sort((a,b) => new Date(b.date) - new Date(a.date));
+}).sort((a, b) => new Date(b.date) - new Date(a.date));
 
 const rssItems = items.map(i => `  <item>\n    <title><![CDATA[${i.title}]]></title>\n    <link>${i.url}</link>\n    <description><![CDATA[${i.description}]]></description>\n    <pubDate>${new Date(i.date).toUTCString()}</pubDate>\n  </item>`).join('\n');
 
@@ -49,3 +49,10 @@ const rss = `<?xml version="1.0" encoding="UTF-8"?>\n` +
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
 fs.writeFileSync(path.join(OUT_DIR, 'rss.xml'), rss, 'utf8');
 console.log('Generated public/rss.xml');
+
+// Also write to dist if it exists (since this runs postbuild)
+const DIST_DIR = path.resolve(process.cwd(), 'dist');
+if (fs.existsSync(DIST_DIR)) {
+  fs.writeFileSync(path.join(DIST_DIR, 'rss.xml'), rss, 'utf8');
+  console.log('Generated dist/rss.xml');
+}
