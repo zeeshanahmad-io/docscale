@@ -127,7 +127,14 @@ async function scrapeLeads() {
                 // Wait for details panel to load (look for website button or heading)
                 // We wait a bit for the panel to update. 
                 // A good indicator is the heading matching the item name, but simple wait is safer for now.
-                await new Promise(r => setTimeout(r, 1500));
+                // Wait for details panel to load
+                // We wait for the main heading (h1) which indicates the panel has content
+                try {
+                    await page.waitForSelector('div[role="main"]', { timeout: 3000 });
+                    await new Promise(r => setTimeout(r, 1000)); // Extra buffer for dynamic buttons
+                } catch (e) {
+                    // console.log("Wait for panel failed, continuing...");
+                }
 
                 // Extract data from the LIST ITEM (Name, Rating, Address, Phone usually here)
                 const listData = await itemHandle.evaluate(item => {
@@ -151,9 +158,10 @@ async function scrapeLeads() {
                 // Extract Website from DETAILS PANEL (Global Scope)
                 const website = await page.evaluate(() => {
                     // Look for website button in the details panel
-                    // Common selectors: data-item-id="authority", aria-label="Website"
+                    // Common selectors: data-item-id="authority", aria-label="Website", data-tooltip="Website"
                     const websiteBtn = document.querySelector('a[data-item-id="authority"]') ||
-                        document.querySelector('a[aria-label*="Website"]');
+                        document.querySelector('a[aria-label*="Website"]') ||
+                        document.querySelector('a[data-tooltip="Website"]');
 
                     if (websiteBtn) return websiteBtn.href;
 
