@@ -225,7 +225,7 @@ const BlogPost = () => {
             )}
 
             {/* Main Content */}
-            <div className="flex-1 max-w-4xl">
+            <div className="flex-1 max-w-4xl pr-2 md:pr-0">
               {/* Article Header without Placeholder Image */}
               <header className="mb-16 text-center">
                 {post.featuredImage && (
@@ -305,7 +305,7 @@ const BlogPost = () => {
               )}
 
               {/* Enhanced Article Content */}
-              <div className="blog-content pr-2 md:pr-0">
+              <div className="blog-content">
                 <ReactMarkdown
                   components={{
                     h1: ({ children, ...props }) => (
