@@ -419,26 +419,26 @@ const BlogPost = () => {
             <div>
               <h3 className="font-semibold text-foreground mb-4">Services</h3>
               <ul className="space-y-2 text-muted-foreground">
-                <li>Website Development</li>
-                <li>SEO Optimization</li>
-                <li>Digital Marketing</li>
-                <li>Online Reputation</li>
+                <li><Link to="/#services" className="hover:text-primary transition-colors">Website Development</Link></li>
+                <li><Link to="/#services" className="hover:text-primary transition-colors">SEO Optimization</Link></li>
+                <li><Link to="/#services" className="hover:text-primary transition-colors">Digital Marketing</Link></li>
+                <li><Link to="/#services" className="hover:text-primary transition-colors">Online Reputation</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold text-foreground mb-4">Resources</h3>
               <ul className="space-y-2 text-muted-foreground">
                 <li><Link to="/blog" className="hover:text-primary transition-colors">Blog</Link></li>
-                <li>Case Studies</li>
-                <li>Documentation</li>
-                <li>Support</li>
+                <li><Link to="/#services" className="hover:text-primary transition-colors">Case Studies</Link></li>
+                <li><Link to="/#services" className="hover:text-primary transition-colors">Documentation</Link></li>
+                <li><Link to="/#contact" className="hover:text-primary transition-colors">Support</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold text-foreground mb-4">Contact</h3>
               <ul className="space-y-2 text-muted-foreground">
-                <li>hello@docscale.in</li>
-                <li>+91 6299337816</li>
+                <li><a href="mailto:hello@docscale.in" className="hover:text-primary transition-colors">hello@docscale.in</a></li>
+                <li><a href="tel:6299337816" className="hover:text-primary transition-colors">6299337816</a></li>
                 <li>Bengaluru, India</li>
               </ul>
             </div>
