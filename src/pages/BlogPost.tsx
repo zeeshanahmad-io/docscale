@@ -45,6 +45,10 @@ const BlogPost = () => {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
+
+  useEffect(() => {
     // Generate table of contents from headings
     const headings = content.match(/^#{2,3}\s+(.+)$/gm);
     if (headings) {
