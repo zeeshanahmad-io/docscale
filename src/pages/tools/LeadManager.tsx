@@ -120,13 +120,25 @@ const LeadManager = () => {
             "Worli": "Mumbai", "Colaba": "Mumbai", "Dadar": "Mumbai", "Thane": "Mumbai",
             "Navi Mumbai": "Mumbai", "Mumbai": "Mumbai", "Santacruz": "Mumbai", "Khar": "Mumbai",
             "Malad": "Mumbai", "Goregaon": "Mumbai", "Borivali": "Mumbai", "Kandivali": "Mumbai",
+            "Vashi": "Mumbai", "Panvel": "Mumbai", "Kalyan": "Mumbai", "Dombivli": "Mumbai",
+            "Vasai": "Mumbai", "Virar": "Mumbai", "Mira Road": "Mumbai", "Bhayandar": "Mumbai",
+            "Ulhasnagar": "Mumbai", "Bhiwandi": "Mumbai", "Chembur": "Mumbai", "Ghatkopar": "Mumbai",
+            "Mulund": "Mumbai", "Kurla": "Mumbai", "Sakinaka": "Mumbai", "Versova": "Mumbai",
+            "Dahisar": "Mumbai", "Jogeshwari": "Mumbai", "Vile Parle": "Mumbai", "Sion": "Mumbai",
 
             // Bangalore Areas
             "Indiranagar": "Bangalore", "Koramangala": "Bangalore", "Whitefield": "Bangalore",
             "HSR Layout": "Bangalore", "Bellandur": "Bangalore", "Jayanagar": "Bangalore",
             "Malleswaram": "Bangalore", "Yelahanka": "Bangalore", "Hebbal": "Bangalore",
             "Bengaluru": "Bangalore", "Bangalore": "Bangalore", "Marathahalli": "Bangalore",
-            "Electronic City": "Bangalore", "BTM Layout": "Bangalore",
+            "Electronic City": "Bangalore", "BTM Layout": "Bangalore", "JP Nagar": "Bangalore",
+            "Banashankari": "Bangalore", "Vijayanagar": "Bangalore", "Basavanagudi": "Bangalore",
+            "Frazer Town": "Bangalore", "Cooke Town": "Bangalore", "Benson Town": "Bangalore",
+            "Ulsoor": "Bangalore", "Domlur": "Bangalore", "Kasturi Nagar": "Bangalore",
+            "Kalyan Nagar": "Bangalore", "Kammanahalli": "Bangalore", "Banaswadi": "Bangalore",
+            "Peenya": "Bangalore", "Yeshwanthpur": "Bangalore", "Rajajinagar": "Bangalore",
+            "RT Nagar": "Bangalore", "Sadashivnagar": "Bangalore", "Sahakara Nagar": "Bangalore",
+            "Hennur": "Bangalore", "Kothanur": "Bangalore",
 
             // Other Major Cities
             "Delhi": "Delhi", "New Delhi": "Delhi", "Gurgaon": "Delhi", "Noida": "Delhi",
@@ -137,17 +149,30 @@ const LeadManager = () => {
             "Ahmedabad": "Ahmedabad"
         };
 
-        // Check if the current city is already a valid major city
-        if (currentCity && Object.values(cityMappings).includes(currentCity)) {
-            return currentCity;
+        // Check if the current city is already a valid major city (Trust the scraper/DB)
+        if (currentCity) {
+            // Check against hardcoded mappings
+            if (Object.values(cityMappings).includes(currentCity)) return currentCity;
+
+            // Check against master list
+            const masterCity = programmaticData.cities.find(c => c.label.toLowerCase() === currentCity.toLowerCase());
+            if (masterCity) return masterCity.label;
         }
 
-        // Otherwise try to detect from address
+        // 1. Try to detect from hardcoded mappings
         for (const [key, city] of Object.entries(cityMappings)) {
             if (address.toLowerCase().includes(key.toLowerCase())) {
                 return city;
             }
         }
+
+        // 2. Try to detect from programmaticData (Master List)
+        for (const cityData of programmaticData.cities) {
+            if (address.toLowerCase().includes(cityData.label.toLowerCase())) {
+                return cityData.label;
+            }
+        }
+
         return "Unknown";
     };
 
@@ -279,7 +304,8 @@ const LeadManager = () => {
         params.append("specialty", specialty);
         const city = lead.city || "Mumbai";
         params.append("city", city);
-        const cleanPhone = lead.phone.replace(/Open.*?·|Closes.*?·/g, '').trim();
+        // STRICTLY clean phone number: remove everything except digits and +
+        const cleanPhone = lead.phone.replace(/[^\d+]/g, '').trim();
         params.append("phone", cleanPhone);
         params.append("location", lead.address);
 
@@ -401,9 +427,9 @@ See how much revenue you might be losing here: https://docscale.in
 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-foreground mb-2">Lead Manager (Sniper)</h1>
+                        <h1 className="text-3xl font-bold text-foreground mb-2">Lead Manager</h1>
                         <p className="text-muted-foreground">
-                            Manage and track your outreach pipeline.
+                            Showing <span className="font-medium text-foreground">{filteredLeads.length}</span> of <span className="font-medium text-foreground">{totalLeads}</span> leads.
                         </p>
                     </div>
                     <div className="flex flex-col sm:flex-row items-center gap-2 w-full md:w-auto">
