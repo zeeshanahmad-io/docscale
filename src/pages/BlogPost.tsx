@@ -305,7 +305,7 @@ const BlogPost = () => {
               )}
 
               {/* Enhanced Article Content */}
-              <div className="blog-content">
+              <div className="blog-content pr-2 md:pr-0">
                 <ReactMarkdown
                   components={{
                     h1: ({ children, ...props }) => (
