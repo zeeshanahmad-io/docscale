@@ -229,7 +229,7 @@ const BlogPost = () => {
             )}
 
             {/* Main Content */}
-            <div className="flex-1 max-w-4xl min-w-0 px-2 md:px-0">
+            <div className="flex-1 max-w-4xl min-w-0">
               {/* Article Header without Placeholder Image */}
               <header className="mb-16 text-center">
                 {post.featuredImage && (
