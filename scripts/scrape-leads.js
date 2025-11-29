@@ -67,6 +67,28 @@ const extractSpecialtyFromQuery = (query) => {
     return null; // Let LeadManager infer if not found in query
 };
 
+// Helper to infer city from scraped addresses
+const inferCityFromLeads = (leads) => {
+    const cityCounts = {};
+    for (const lead of leads) {
+        const city = detectCity(lead.address);
+        if (city !== "Unknown") {
+            cityCounts[city] = (cityCounts[city] || 0) + 1;
+        }
+    }
+
+    // Find the most frequent city
+    let bestCity = "Unknown";
+    let maxCount = 0;
+    for (const [city, count] of Object.entries(cityCounts)) {
+        if (count > maxCount) {
+            maxCount = count;
+            bestCity = city;
+        }
+    }
+    return bestCity;
+};
+
 async function scrapeLeads() {
     console.log(`🔍 Searching for: "${SEARCH_QUERY}"...`);
 
@@ -83,6 +105,19 @@ async function scrapeLeads() {
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
     await page.setViewport({ width: 1280, height: 800 });
+
+    // Determine Target City (Initial Guess)
+    let targetCity = "Unknown";
+    const locationMatch = SEARCH_QUERY.match(/ in (.+)$/i);
+    if (locationMatch) {
+        const location = locationMatch[1];
+        targetCity = detectCity(location); // Check internal mappings
+        if (targetCity !== "Unknown") {
+            console.log(`✅ Known location: ${location} -> ${targetCity}`);
+        }
+    } else {
+        targetCity = detectCity(SEARCH_QUERY);
+    }
 
     try {
         await page.goto(`https://www.google.com/maps/search/${encodeURIComponent(SEARCH_QUERY)}`, {
@@ -191,6 +226,15 @@ async function scrapeLeads() {
 
         console.log(`📦 Extracted ${leads.length} raw leads.`);
 
+        // Infer City if unknown
+        if (targetCity === "Unknown") {
+            const inferredCity = inferCityFromLeads(leads);
+            if (inferredCity !== "Unknown") {
+                console.log(`✅ Inferred City from results: ${inferredCity}`);
+                targetCity = inferredCity;
+            }
+        }
+
         // Filter qualified leads (Low Rating OR No Website OR Broken Link)
         const querySpecialty = extractSpecialtyFromQuery(SEARCH_QUERY);
 
@@ -203,10 +247,14 @@ async function scrapeLeads() {
             if (isNoWebsite) console.log(`   🎯 Qualified (No Website): ${l.name}`);
             if (isBrokenLink) console.log(`   🎯 Qualified (Broken Link): ${l.name}`);
 
+            if (!isLowRating && !isNoWebsite && !isBrokenLink) {
+                // console.log(`   ⏭️ Skipped (High Rating ${l.rating} & Good Website): ${l.name}`);
+            }
+
             return isLowRating || isNoWebsite || isBrokenLink;
         }).map(l => ({
             ...l,
-            city: detectCity(l.address),
+            city: targetCity !== "Unknown" ? targetCity : detectCity(l.address), // Use detected city
             specialty: querySpecialty // Tag with query-based specialty
         }));
 
