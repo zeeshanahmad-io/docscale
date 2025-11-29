@@ -13,6 +13,7 @@ import { ExternalLink, Mail, MapPin, Phone, Star, RefreshCw, Search, Copy, Check
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
+import programmaticData from "@/data/programmaticData.json";
 
 // Define Lead type based on Supabase schema
 interface Lead {
@@ -27,6 +28,7 @@ interface Lead {
     email_sent: boolean;
     whatsapp_sent: boolean;
     note?: string;
+    specialty?: string;
 }
 
 type LeadStatus = "New" | "In Progress" | "Call Scheduled" | "Closed" | "Not Interested";
@@ -80,12 +82,36 @@ const LeadManager = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("All");
     const [cityFilter, setCityFilter] = useState("All");
+    const [specialtyFilter, setSpecialtyFilter] = useState("All");
     const [issueFilter, setIssueFilter] = useState("All");
 
     // Email Draft State
     const [selectedTemplate, setSelectedTemplate] = useState<keyof typeof EMAIL_TEMPLATES>("broken_link");
     const [emailDraft, setEmailDraft] = useState("");
     const [activeLead, setActiveLead] = useState<Lead | null>(null);
+
+    // Helper to detect specialty from name
+    const detectSpecialty = (name: string) => {
+        const lowerName = name.toLowerCase();
+
+        // Map common keywords to specialties
+        if (lowerName.includes('dent') || lowerName.includes('smile') || lowerName.includes('tooth') || lowerName.includes('teeth')) return 'Dentist';
+        if (lowerName.includes('skin') || lowerName.includes('derma') || lowerName.includes('hair') || lowerName.includes('cosmetic')) return 'Dermatologist';
+        if (lowerName.includes('eye') || lowerName.includes('vision') || lowerName.includes('retina') || lowerName.includes('ophthal')) return 'Ophthalmologist';
+        if (lowerName.includes('ortho') || lowerName.includes('bone') || lowerName.includes('joint') || lowerName.includes('spine')) return 'Orthopedic Surgeon';
+        if (lowerName.includes('heart') || lowerName.includes('cardio')) return 'Cardiologist';
+        if (lowerName.includes('kidney') || lowerName.includes('nephro')) return 'Nephrologist';
+        if (lowerName.includes('neuro') || lowerName.includes('brain') || lowerName.includes('nerve')) return 'Neurologist';
+        if (lowerName.includes('woman') || lowerName.includes('gyn') || lowerName.includes('ivf') || lowerName.includes('fertility')) return 'Gynecologist';
+        if (lowerName.includes('child') || lowerName.includes('pedia') || lowerName.includes('baby')) return 'Pediatrician';
+        if (lowerName.includes('physio') || lowerName.includes('rehab')) return 'Physiotherapist';
+        if (lowerName.includes('mind') || lowerName.includes('psych')) return 'Psychiatrist';
+        if (lowerName.includes('ent') || lowerName.includes('ear') || lowerName.includes('nose') || lowerName.includes('throat')) return 'ENT Specialist';
+        if (lowerName.includes('physician') || lowerName.includes('general') || lowerName.includes('family') || lowerName.includes('consultant')) return 'General Physician';
+        if (lowerName.includes('wellness')) return 'Wellness Clinic';
+
+        return 'Unknown'; // Default fallback
+    };
 
     // Helper to detect city from address
     const detectCity = (address: string, currentCity?: string) => {
@@ -95,13 +121,25 @@ const LeadManager = () => {
             "Worli": "Mumbai", "Colaba": "Mumbai", "Dadar": "Mumbai", "Thane": "Mumbai",
             "Navi Mumbai": "Mumbai", "Mumbai": "Mumbai", "Santacruz": "Mumbai", "Khar": "Mumbai",
             "Malad": "Mumbai", "Goregaon": "Mumbai", "Borivali": "Mumbai", "Kandivali": "Mumbai",
+            "Vashi": "Mumbai", "Panvel": "Mumbai", "Kalyan": "Mumbai", "Dombivli": "Mumbai",
+            "Vasai": "Mumbai", "Virar": "Mumbai", "Mira Road": "Mumbai", "Bhayandar": "Mumbai",
+            "Ulhasnagar": "Mumbai", "Bhiwandi": "Mumbai", "Chembur": "Mumbai", "Ghatkopar": "Mumbai",
+            "Mulund": "Mumbai", "Kurla": "Mumbai", "Sakinaka": "Mumbai", "Versova": "Mumbai",
+            "Dahisar": "Mumbai", "Jogeshwari": "Mumbai", "Vile Parle": "Mumbai", "Sion": "Mumbai",
 
             // Bangalore Areas
             "Indiranagar": "Bangalore", "Koramangala": "Bangalore", "Whitefield": "Bangalore",
             "HSR Layout": "Bangalore", "Bellandur": "Bangalore", "Jayanagar": "Bangalore",
             "Malleswaram": "Bangalore", "Yelahanka": "Bangalore", "Hebbal": "Bangalore",
             "Bengaluru": "Bangalore", "Bangalore": "Bangalore", "Marathahalli": "Bangalore",
-            "Electronic City": "Bangalore", "BTM Layout": "Bangalore",
+            "Electronic City": "Bangalore", "BTM Layout": "Bangalore", "JP Nagar": "Bangalore",
+            "Banashankari": "Bangalore", "Vijayanagar": "Bangalore", "Basavanagudi": "Bangalore",
+            "Frazer Town": "Bangalore", "Cooke Town": "Bangalore", "Benson Town": "Bangalore",
+            "Ulsoor": "Bangalore", "Domlur": "Bangalore", "Kasturi Nagar": "Bangalore",
+            "Kalyan Nagar": "Bangalore", "Kammanahalli": "Bangalore", "Banaswadi": "Bangalore",
+            "Peenya": "Bangalore", "Yeshwanthpur": "Bangalore", "Rajajinagar": "Bangalore",
+            "RT Nagar": "Bangalore", "Sadashivnagar": "Bangalore", "Sahakara Nagar": "Bangalore",
+            "Hennur": "Bangalore", "Kothanur": "Bangalore",
 
             // Other Major Cities
             "Delhi": "Delhi", "New Delhi": "Delhi", "Gurgaon": "Delhi", "Noida": "Delhi",
@@ -112,17 +150,30 @@ const LeadManager = () => {
             "Ahmedabad": "Ahmedabad"
         };
 
-        // Check if the current city is already a valid major city
-        if (currentCity && Object.values(cityMappings).includes(currentCity)) {
-            return currentCity;
+        // Check if the current city is already a valid major city (Trust the scraper/DB)
+        if (currentCity) {
+            // Check against hardcoded mappings
+            if (Object.values(cityMappings).includes(currentCity)) return currentCity;
+
+            // Check against master list
+            const masterCity = programmaticData.cities.find(c => c.label.toLowerCase() === currentCity.toLowerCase());
+            if (masterCity) return masterCity.label;
         }
 
-        // Otherwise try to detect from address
+        // 1. Try to detect from hardcoded mappings
         for (const [key, city] of Object.entries(cityMappings)) {
             if (address.toLowerCase().includes(key.toLowerCase())) {
                 return city;
             }
         }
+
+        // 2. Try to detect from programmaticData (Master List)
+        for (const cityData of programmaticData.cities) {
+            if (address.toLowerCase().includes(cityData.label.toLowerCase())) {
+                return cityData.label;
+            }
+        }
+
         return "Unknown";
     };
 
@@ -138,10 +189,11 @@ const LeadManager = () => {
             toast.error("Failed to fetch leads");
             console.error(error);
         } else {
-            // Normalize cities on fetch
+            // Normalize cities and specialties on fetch
             const normalizedLeads = (data || []).map((lead: Lead) => ({
                 ...lead,
-                city: detectCity(lead.address, lead.city)
+                city: detectCity(lead.address, lead.city),
+                specialty: lead.specialty || detectSpecialty(lead.name)
             }));
             setLeads(normalizedLeads);
         }
@@ -229,13 +281,14 @@ const LeadManager = () => {
             lead.address?.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesStatus = statusFilter === "All" || lead.status === statusFilter;
         const matchesCity = cityFilter === "All" || (lead.city || "Unknown") === cityFilter;
+        const matchesSpecialty = specialtyFilter === "All" || (lead.specialty || "Unknown") === specialtyFilter;
 
         let matchesIssue = true;
         if (issueFilter === "No Website") matchesIssue = !lead.website;
         if (issueFilter === "Low Rating") matchesIssue = lead.rating < 3.5;
         if (issueFilter === "Broken Link") matchesIssue = lead.note?.toLowerCase().includes("broken") || false;
 
-        return matchesSearch && matchesStatus && matchesCity && matchesIssue;
+        return matchesSearch && matchesStatus && matchesCity && matchesSpecialty && matchesIssue;
     });
 
     // Gamification Stats
@@ -252,7 +305,8 @@ const LeadManager = () => {
         params.append("specialty", specialty);
         const city = lead.city || "Mumbai";
         params.append("city", city);
-        const cleanPhone = lead.phone.replace(/Open.*?·|Closes.*?·/g, '').trim();
+        // STRICTLY clean phone number: remove everything except digits and +
+        const cleanPhone = lead.phone.replace(/[^\d+]/g, '').trim();
         params.append("phone", cleanPhone);
         params.append("location", lead.address);
 
@@ -374,9 +428,9 @@ See how much revenue you might be losing here: https://docscale.in
 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-foreground mb-2">Lead Manager (Sniper)</h1>
+                        <h1 className="text-3xl font-bold text-foreground mb-2">Lead Manager</h1>
                         <p className="text-muted-foreground">
-                            Manage and track your outreach pipeline.
+                            Showing <span className="font-medium text-foreground">{filteredLeads.length}</span> of <span className="font-medium text-foreground">{totalLeads}</span> leads.
                         </p>
                     </div>
                     <div className="flex flex-col sm:flex-row items-center gap-2 w-full md:w-auto">
@@ -400,6 +454,21 @@ See how much revenue you might be losing here: https://docscale.in
                                 <SelectItem value="All">All Cities</SelectItem>
                                 {cities.map((city: any) => (
                                     <SelectItem key={city} value={city}>{city}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+
+                        {/* Specialty Filter Dropdown */}
+                        <Select value={specialtyFilter} onValueChange={(val: any) => setSpecialtyFilter(val)}>
+                            <SelectTrigger className="w-full sm:w-[150px]">
+                                <Star className="w-4 h-4 mr-2" />
+                                <SelectValue placeholder="Filter Specialty" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="All">All Specialties</SelectItem>
+                                <SelectItem value="Unknown">Unknown</SelectItem>
+                                {programmaticData.specialties.map((spec: any) => (
+                                    <SelectItem key={spec.label} value={spec.label}>{spec.label}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -460,6 +529,11 @@ See how much revenue you might be losing here: https://docscale.in
                                     <div className="flex-1 min-w-0 w-full">
                                         <div className="flex flex-wrap items-center gap-2 mb-2">
                                             <h3 className="font-semibold text-lg break-words w-full md:w-auto">{lead.name}</h3>
+
+                                            {/* Specialty Badge */}
+                                            <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
+                                                {lead.specialty}
+                                            </Badge>
 
                                             {/* Status Dropdown */}
                                             <Select

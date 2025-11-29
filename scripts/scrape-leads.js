@@ -47,6 +47,48 @@ const detectCity = (address) => {
     return "Unknown";
 };
 
+// Helper to extract specialty from query
+const extractSpecialtyFromQuery = (query) => {
+    const lowerQuery = query.toLowerCase();
+    if (lowerQuery.includes('dent')) return 'Dentist';
+    if (lowerQuery.includes('skin') || lowerQuery.includes('derma')) return 'Dermatologist';
+    if (lowerQuery.includes('eye') || lowerQuery.includes('ophthal')) return 'Ophthalmologist';
+    if (lowerQuery.includes('ortho')) return 'Orthopedic Surgeon';
+    if (lowerQuery.includes('heart') || lowerQuery.includes('cardio')) return 'Cardiologist';
+    if (lowerQuery.includes('kidney') || lowerQuery.includes('nephro')) return 'Nephrologist';
+    if (lowerQuery.includes('neuro')) return 'Neurologist';
+    if (lowerQuery.includes('woman') || lowerQuery.includes('gyn')) return 'Gynecologist';
+    if (lowerQuery.includes('child') || lowerQuery.includes('pedia')) return 'Pediatrician';
+    if (lowerQuery.includes('physio')) return 'Physiotherapist';
+    if (lowerQuery.includes('mind') || lowerQuery.includes('psych')) return 'Psychiatrist';
+    if (lowerQuery.includes('ent') || lowerQuery.includes('ear')) return 'ENT Specialist';
+    if (lowerQuery.includes('physician') || lowerQuery.includes('general')) return 'General Physician';
+    if (lowerQuery.includes('wellness')) return 'Wellness Clinic';
+    return null; // Let LeadManager infer if not found in query
+};
+
+// Helper to infer city from scraped addresses
+const inferCityFromLeads = (leads) => {
+    const cityCounts = {};
+    for (const lead of leads) {
+        const city = detectCity(lead.address);
+        if (city !== "Unknown") {
+            cityCounts[city] = (cityCounts[city] || 0) + 1;
+        }
+    }
+
+    // Find the most frequent city
+    let bestCity = "Unknown";
+    let maxCount = 0;
+    for (const [city, count] of Object.entries(cityCounts)) {
+        if (count > maxCount) {
+            maxCount = count;
+            bestCity = city;
+        }
+    }
+    return bestCity;
+};
+
 async function scrapeLeads() {
     console.log(`🔍 Searching for: "${SEARCH_QUERY}"...`);
 
@@ -56,7 +98,26 @@ async function scrapeLeads() {
     });
 
     const page = await browser.newPage();
+
+    // Forward browser logs to Node.js console
+    page.on('console', msg => console.log('PAGE LOG:', msg.text()));
+
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+
     await page.setViewport({ width: 1280, height: 800 });
+
+    // Determine Target City (Initial Guess)
+    let targetCity = "Unknown";
+    const locationMatch = SEARCH_QUERY.match(/ in (.+)$/i);
+    if (locationMatch) {
+        const location = locationMatch[1];
+        targetCity = detectCity(location); // Check internal mappings
+        if (targetCity !== "Unknown") {
+            console.log(`✅ Known location: ${location} -> ${targetCity}`);
+        }
+    } else {
+        targetCity = detectCity(SEARCH_QUERY);
+    }
 
     try {
         await page.goto(`https://www.google.com/maps/search/${encodeURIComponent(SEARCH_QUERY)}`, {
@@ -75,41 +136,126 @@ async function scrapeLeads() {
         console.log("📜 Scrolling to load ALL results (this may take a moment)...");
         await autoScroll(page);
 
-        // Extract raw data
-        console.log("⛏️ Extracting data...");
-        const leads = await page.evaluate(() => {
-            const items = Array.from(document.querySelectorAll('div[role="article"]'));
+        // Hover over the first item to trigger any dynamic buttons
+        try {
+            await page.hover('div[role="article"]');
+            await new Promise(r => setTimeout(r, 1000)); // Wait for render
+        } catch (e) {
+            console.log("Could not hover:", e);
+        }
 
-            return items.map(item => {
-                const ariaLabel = item.getAttribute('aria-label') || '';
-                const text = item.innerText;
-                const lines = text.split('\n');
+        // Extract data by clicking each item
+        console.log("⛏️ Extracting data (Clicking each item)...");
 
-                // Heuristic extraction
-                const name = ariaLabel || lines[0];
-                const ratingText = item.querySelector('span[role="img"]')?.getAttribute('aria-label');
-                const ratingMatch = ratingText ? ratingText.match(/([0-9.]+) stars/) : null;
-                const rating = ratingMatch ? parseFloat(ratingMatch[1]) : 0;
+        // Get list items handles
+        const itemHandles = await page.$$('div[role="article"]');
+        const leads = [];
 
-                // Find website link
-                const links = Array.from(item.querySelectorAll('a'));
-                const websiteLink = links.find(a => a.href && !a.href.includes('google.com/maps') && !a.href.includes('google.com/search'));
-                const website = websiteLink ? websiteLink.href : null;
+        for (const itemHandle of itemHandles) {
+            try {
+                // Scroll into view
+                await itemHandle.evaluate(el => el.scrollIntoView());
 
-                // Find address and phone (simple heuristics)
-                const address = lines[2] || lines.find(l => l.includes(',') && !l.match(/\d{5}/)) || "";
-                const phone = lines.find(l => l.match(/\+?\d[\d\s-]{7,}\d/)) || "";
+                // Click to load details
+                await itemHandle.click();
 
-                return { name, rating, address, website, phone };
-            });
-        });
+                // Wait for details panel to load (look for website button or heading)
+                // We wait a bit for the panel to update. 
+                // A good indicator is the heading matching the item name, but simple wait is safer for now.
+                // Wait for details panel to load
+                // We wait for the main heading (h1) which indicates the panel has content
+                try {
+                    await page.waitForSelector('div[role="main"]', { timeout: 3000 });
+                    await new Promise(r => setTimeout(r, 1000)); // Extra buffer for dynamic buttons
+                } catch (e) {
+                    // console.log("Wait for panel failed, continuing...");
+                }
+
+                // Extract data from the LIST ITEM (Name, Rating, Address, Phone usually here)
+                const listData = await itemHandle.evaluate(item => {
+                    const ariaLabel = item.getAttribute('aria-label') || '';
+                    const text = item.innerText;
+                    const lines = text.split('\n');
+
+                    const name = ariaLabel || lines[0];
+                    const ratingText = item.querySelector('span[role="img"]')?.getAttribute('aria-label');
+                    const ratingMatch = ratingText ? ratingText.match(/([0-9.]+) stars/) : null;
+                    const rating = ratingMatch ? parseFloat(ratingMatch[1]) : 0;
+
+                    // Address/Phone from list (fallback)
+                    const address = lines[2] || lines.find(l => l.includes(',') && !l.match(/\d{5}/)) || "";
+                    const phoneLine = lines.find(l => l.match(/(?:\+91|0)?[ -]?\d{3,4}[ -]?\d{3,4}/) && !l.includes('Open') && !l.includes('Closed'));
+                    const phone = phoneLine ? phoneLine.match(/[\d\s+-]{8,}/)?.[0]?.trim() : "";
+
+                    return { name, rating, address, phone };
+                });
+
+                // Extract Website from DETAILS PANEL (Global Scope)
+                const website = await page.evaluate(() => {
+                    // Look for website button in the details panel
+                    // Common selectors: data-item-id="authority", aria-label="Website", data-tooltip="Website"
+                    const websiteBtn = document.querySelector('a[data-item-id="authority"]') ||
+                        document.querySelector('a[aria-label*="Website"]') ||
+                        document.querySelector('a[data-tooltip="Website"]');
+
+                    if (websiteBtn) return websiteBtn.href;
+
+                    // Fallback: Look for any external link in the details panel container (usually role="main")
+                    // This is risky as it might pick up ads or other links, so we stick to specific buttons first.
+                    return null;
+                });
+
+                leads.push({ ...listData, website });
+
+            } catch (e) {
+                console.log("Error processing item:", e.message);
+            }
+        }
+
+        // Check for broken links (Post-processing)
+        console.log("🔗 Checking for broken links...");
+        for (let lead of leads) {
+            if (lead.website) {
+                const isBroken = await checkWebsiteBroken(lead.website);
+                if (isBroken) {
+                    lead.note = "Broken Link";
+                    console.log(`⚠️ Broken link found for: ${lead.name}`);
+                }
+            }
+        }
 
         console.log(`📦 Extracted ${leads.length} raw leads.`);
 
-        // Filter qualified leads (Rating < 4.5 OR No Website)
-        const qualifiedLeads = leads.filter(l => (l.rating > 0 && l.rating < 4.5) || !l.website).map(l => ({
+        // Infer City if unknown
+        if (targetCity === "Unknown") {
+            const inferredCity = inferCityFromLeads(leads);
+            if (inferredCity !== "Unknown") {
+                console.log(`✅ Inferred City from results: ${inferredCity}`);
+                targetCity = inferredCity;
+            }
+        }
+
+        // Filter qualified leads (Low Rating OR No Website OR Broken Link)
+        const querySpecialty = extractSpecialtyFromQuery(SEARCH_QUERY);
+
+        const qualifiedLeads = leads.filter(l => {
+            const isLowRating = l.rating > 0 && l.rating < 3.5;
+            const isNoWebsite = !l.website;
+            const isBrokenLink = l.note === "Broken Link";
+
+            if (isLowRating) console.log(`   🎯 Qualified (Low Rating ${l.rating}): ${l.name}`);
+            if (isNoWebsite) console.log(`   🎯 Qualified (No Website): ${l.name}`);
+            if (isBrokenLink) console.log(`   🎯 Qualified (Broken Link): ${l.name}`);
+
+            if (!isLowRating && !isNoWebsite && !isBrokenLink) {
+                // console.log(`   ⏭️ Skipped (High Rating ${l.rating} & Good Website): ${l.name}`);
+            }
+
+            return isLowRating || isNoWebsite || isBrokenLink;
+        }).map(l => ({
             ...l,
-            city: detectCity(l.address)
+            city: targetCity !== "Unknown" ? targetCity : detectCity(l.address), // Use detected city
+            specialty: querySpecialty // Tag with query-based specialty
         }));
 
         console.log(`🎯 Found ${qualifiedLeads.length} qualified leads (Low Rating or No Website).`);
@@ -125,6 +271,9 @@ async function scrapeLeads() {
                     website: l.website,
                     phone: l.phone,
                     city: l.city,
+                    city: l.city,
+                    note: l.note,
+                    specialty: l.specialty,
                     status: 'New'
                 })), { onConflict: 'name', ignoreDuplicates: true });
 
@@ -175,17 +324,56 @@ async function autoScroll(page) {
 async function checkWebsiteBroken(url) {
     try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const timeoutId = setTimeout(() => controller.abort(), 8000); // Increased timeout
 
-        const response = await fetch(url, {
-            method: 'HEAD',
-            signal: controller.signal,
-            headers: { 'User-Agent': 'Mozilla/5.0' }
-        });
-        clearTimeout(timeoutId);
+        try {
+            const response = await fetch(url, {
+                method: 'HEAD',
+                signal: controller.signal,
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                }
+            });
+            clearTimeout(timeoutId);
 
-        return response.status >= 400;
+            // If Method Not Allowed (405), try GET
+            if (response.status === 405) {
+                throw new Error("HEAD not allowed");
+            }
+
+            if (response.status >= 400) {
+                // Aggressive check: Fail on ANY error >= 400 (including 403/401)
+                console.log(`   ❌ Broken (Status ${response.status}): ${url}`);
+                return true;
+            }
+            // console.log(`   ✅ Working (${response.status}): ${url}`);
+            return false;
+
+        } catch (e) {
+            // Fallback to GET request if HEAD fails
+            console.log(`   ⚠️ HEAD failed, trying GET for: ${url}`);
+            const controllerGet = new AbortController();
+            const timeoutIdGet = setTimeout(() => controllerGet.abort(), 8000);
+
+            const response = await fetch(url, {
+                method: 'GET',
+                signal: controllerGet.signal,
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                }
+            });
+            clearTimeout(timeoutIdGet);
+
+            if (response.status >= 400) {
+                // Aggressive check: Fail on ANY error >= 400 (including 403/401)
+                console.log(`   ❌ Broken (Status ${response.status}): ${url}`);
+                return true;
+            }
+            // console.log(`   ✅ Working (${response.status}): ${url}`);
+            return false;
+        }
     } catch (error) {
+        console.log(`   ❌ Broken (Error: ${error.message}): ${url}`);
         return true;
     }
 }
