@@ -28,7 +28,8 @@ import {
   Send,
   Mail,
   Menu,
-  Bot
+  Bot,
+  ArrowRight
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Helmet } from "react-helmet-async";
@@ -59,6 +60,10 @@ const Index = () => {
       }
     }
   }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -1005,6 +1010,15 @@ const Index = () => {
           <FaWhatsapp />
         </a>
       </div >
+
+      {/* Scroll to Top Button */}
+      <Button
+        onClick={scrollToTop}
+        className="fixed bottom-6 left-6 z-40 rounded-full p-3 shadow-strong"
+        variant="primary"
+      >
+        <ArrowRight className="w-5 h-5 transform -rotate-90" />
+      </Button>
     </div >
   );
 };
