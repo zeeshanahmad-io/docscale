@@ -108,6 +108,7 @@ const LeadManager = () => {
         if (lowerName.includes('mind') || lowerName.includes('psych')) return 'Psychiatrist';
         if (lowerName.includes('ent') || lowerName.includes('ear') || lowerName.includes('nose') || lowerName.includes('throat')) return 'ENT Specialist';
         if (lowerName.includes('physician') || lowerName.includes('general') || lowerName.includes('family') || lowerName.includes('consultant')) return 'General Physician';
+        if (lowerName.includes('wellness')) return 'Wellness Clinic';
 
         return 'Unknown'; // Default fallback
     };
@@ -192,7 +193,7 @@ const LeadManager = () => {
             const normalizedLeads = (data || []).map((lead: Lead) => ({
                 ...lead,
                 city: detectCity(lead.address, lead.city),
-                specialty: detectSpecialty(lead.name)
+                specialty: lead.specialty || detectSpecialty(lead.name)
             }));
             setLeads(normalizedLeads);
         }
@@ -286,6 +287,7 @@ const LeadManager = () => {
         if (issueFilter === "No Website") matchesIssue = !lead.website;
         if (issueFilter === "Low Rating") matchesIssue = lead.rating < 3.5;
         if (issueFilter === "Broken Link") matchesIssue = lead.note?.toLowerCase().includes("broken") || false;
+        if (issueFilter === "No Issues") matchesIssue = !!lead.website && lead.rating >= 3.5 && (!lead.note?.toLowerCase().includes("broken"));
 
         return matchesSearch && matchesStatus && matchesCity && matchesSpecialty && matchesIssue;
     });
@@ -483,6 +485,7 @@ See how much revenue you might be losing here: https://docscale.in
                                 <SelectItem value="No Website">No Website</SelectItem>
                                 <SelectItem value="Low Rating">Low Rating</SelectItem>
                                 <SelectItem value="Broken Link">Broken Link</SelectItem>
+                                <SelectItem value="No Issues">No Issues (Good Leads)</SelectItem>
                             </SelectContent>
                         </Select>
 
