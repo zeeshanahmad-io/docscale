@@ -320,7 +320,12 @@ const LeadManager = () => {
     };
 
     const handleWhatsApp = (lead: Lead) => {
-        const cleanPhone = lead.phone.replace(/[^0-9]/g, '');
+        let cleanPhone = lead.phone ? lead.phone.replace(/[^0-9]/g, '') : '';
+        // Remove leading zero if present (common in India: 098...)
+        if (cleanPhone.startsWith('0')) {
+            cleanPhone = cleanPhone.substring(1);
+        }
+        // If 10 digits (standard Indian mobile), add 91
         const phone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
 
         const link = generateDemoLink(lead);
