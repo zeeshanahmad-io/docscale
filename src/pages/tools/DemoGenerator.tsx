@@ -149,6 +149,7 @@ const DemoGenerator = () => {
                                 <SelectContent className="bg-popover border-border text-popover-foreground">
                                     <SelectItem value="standard" className="focus:bg-accent focus:text-accent-foreground">Standard (Clean & Professional)</SelectItem>
                                     <SelectItem value="luxury" className="focus:bg-accent focus:text-accent-foreground">Luxury (Premium Black & Gold)</SelectItem>
+                                    <SelectItem value="modern" className="focus:bg-accent focus:text-accent-foreground">Modern Medical (Rich & Mobile-First)</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
