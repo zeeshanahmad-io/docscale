@@ -62,7 +62,7 @@ const ModernMedicalTemplate = ({ data, theme, name, specialtyLabel, city, phone,
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-primary/20" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-primary/20 pt-16 md:pt-28" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             <Helmet>
                 <title>{name} - Top {specialtyLabel} in {city}</title>
                 <meta name="robots" content="noindex, nofollow" />
@@ -83,62 +83,72 @@ const ModernMedicalTemplate = ({ data, theme, name, specialtyLabel, city, phone,
                 </span>
             </button>
 
-            {/* Top Bar */}
-            <div className="bg-white border-b border-slate-100 py-2 px-4 text-xs font-medium text-slate-500 hidden md:block">
-                <div className="container mx-auto max-w-7xl flex justify-between items-center">
-                    <div className="flex gap-6">
-                        <span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-primary" style={{ color: theme.primary }} /> {phone}</span>
-                        <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-primary" style={{ color: theme.primary }} /> {location}</span>
-                    </div>
-                    <div className="flex gap-4">
-                        <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-primary" style={{ color: theme.primary }} /> Mon - Sat: 10:00 AM - 7:00 PM</span>
+
+            {/* Unified Header - Top Bar + Navigation */}
+            <div className="fixed top-0 left-0 right-0 bg-white z-50">
+                {/* Top Bar */}
+                <div className="py-2 px-4 text-xs font-medium text-slate-500 hidden md:block border-b border-slate-100">
+                    <div className="container mx-auto max-w-7xl flex justify-between items-center">
+                        <div className="flex gap-6">
+                            <span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-primary" style={{ color: theme.primary }} /> {phone}</span>
+                            <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-primary" style={{ color: theme.primary }} /> {location}</span>
+                        </div>
+                        <div className="flex gap-4">
+                            <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-primary" style={{ color: theme.primary }} /> Mon - Sat: 10:00 AM - 7:00 PM</span>
+                        </div>
                     </div>
                 </div>
+
+                {/* Navigation */}
+                <nav className="border-b border-slate-200/50">
+                    <div className="container mx-auto max-w-7xl px-4 py-4 flex justify-between items-center">
+                        <div className="text-xl md:text-2xl font-bold tracking-tight flex items-center gap-2" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-white shadow-sm" style={{ background: theme.gradient }}>
+                                {name.charAt(0)}
+                            </div>
+                            <span className="text-slate-900">{name}</span>
+                        </div>
+
+                        <div className="hidden md:flex items-center gap-8 font-medium text-slate-600 text-sm">
+                            <button onClick={() => scrollToSection('home')} className="hover:text-primary transition-colors">Home</button>
+                            <button onClick={() => scrollToSection('services')} className="hover:text-primary transition-colors">Services</button>
+                            <button onClick={() => scrollToSection('about')} className="hover:text-primary transition-colors">About</button>
+                            <button onClick={() => scrollToSection('testimonials')} className="hover:text-primary transition-colors">Testimonials</button>
+                            <Button
+                                onClick={handleBookClick}
+                                style={{ backgroundColor: theme.primary }}
+                                className="hover:opacity-90 rounded-full px-6 shadow-md shadow-primary/20 transition-transform hover:scale-105"
+                            >
+                                Book Visit
+                            </Button>
+                        </div>
+                        <button className="md:hidden p-2 text-slate-600" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                            {isMenuOpen ? <X /> : <Menu />}
+                        </button>
+                    </div>
+                    {isMenuOpen && (
+                        <div className="md:hidden bg-white border-t border-slate-100 p-4 flex flex-col gap-4 shadow-xl">
+                            <button onClick={() => scrollToSection('home')} className="text-left py-2 font-medium text-slate-600">Home</button>
+                            <button onClick={() => scrollToSection('services')} className="text-left py-2 font-medium text-slate-600">Services</button>
+                            <button onClick={() => scrollToSection('about')} className="text-left py-2 font-medium text-slate-600">About</button>
+                            <button onClick={() => scrollToSection('testimonials')} className="text-left py-2 font-medium text-slate-600">Testimonials</button>
+                            <Button onClick={handleBookClick} style={{ backgroundColor: theme.primary }} className="w-full rounded-full">Book Appointment</Button>
+                        </div>
+                    )}
+                </nav>
             </div>
 
-            {/* Navigation */}
-            <nav className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200/50 z-40">
-                <div className="container mx-auto max-w-7xl px-4 py-4 flex justify-between items-center">
-                    <div className="text-xl md:text-2xl font-bold tracking-tight flex items-center gap-2" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-white shadow-sm" style={{ background: theme.gradient }}>
-                            {name.charAt(0)}
-                        </div>
-                        <span className="text-slate-900">{name}</span>
-                    </div>
-
-                    <div className="hidden md:flex items-center gap-8 font-medium text-slate-600 text-sm">
-                        <button onClick={() => scrollToSection('home')} className="hover:text-primary transition-colors">Home</button>
-                        <button onClick={() => scrollToSection('services')} className="hover:text-primary transition-colors">Services</button>
-                        <button onClick={() => scrollToSection('about')} className="hover:text-primary transition-colors">About</button>
-                        <button onClick={() => scrollToSection('testimonials')} className="hover:text-primary transition-colors">Testimonials</button>
-                        <Button
-                            onClick={handleBookClick}
-                            style={{ backgroundColor: theme.primary }}
-                            className="hover:opacity-90 rounded-full px-6 shadow-md shadow-primary/20 transition-transform hover:scale-105"
-                        >
-                            Book Visit
-                        </Button>
-                    </div>
-                    <button className="md:hidden p-2 text-slate-600" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                        {isMenuOpen ? <X /> : <Menu />}
-                    </button>
-                </div>
-                {isMenuOpen && (
-                    <div className="md:hidden bg-white border-t border-slate-100 p-4 flex flex-col gap-4 shadow-xl absolute w-full animate-in slide-in-from-top-5">
-                        <button onClick={() => scrollToSection('home')} className="text-left py-2 font-medium text-slate-600">Home</button>
-                        <button onClick={() => scrollToSection('services')} className="text-left py-2 font-medium text-slate-600">Services</button>
-                        <button onClick={() => scrollToSection('about')} className="text-left py-2 font-medium text-slate-600">About</button>
-                        <button onClick={() => scrollToSection('testimonials')} className="text-left py-2 font-medium text-slate-600">Testimonials</button>
-                        <Button onClick={handleBookClick} style={{ backgroundColor: theme.primary }} className="w-full rounded-full">Book Appointment</Button>
-                    </div>
-                )}
-            </nav>
-
             {/* Hero Section */}
-            <section id="home" className="relative pt-12 pb-20 lg:pt-24 lg:pb-32 overflow-hidden">
-                <div className="container mx-auto max-w-7xl px-4">
+            <section id="home" className="relative min-h-screen lg:min-h-0 pt-12 pb-20 lg:pt-24 lg:pb-32 overflow-hidden flex items-center">
+                {/* Mobile: Full background image with overlay */}
+                <div className="lg:hidden absolute inset-0 z-0">
+                    <img src={data.heroImage} alt="Doctor Hero" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-white/50"></div>
+                </div>
+
+                <div className="container mx-auto max-w-7xl px-4 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
-                        <div className="order-2 lg:order-1 relative z-10">
+                        <div className="order-2 lg:order-1 relative">
                             <div
                                 style={{ color: theme.primary, backgroundColor: theme.secondary }}
                                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide mb-6 border border-primary/10"
@@ -147,7 +157,7 @@ const ModernMedicalTemplate = ({ data, theme, name, specialtyLabel, city, phone,
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: theme.primary }}></span>
                                     <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: theme.primary }}></span>
                                 </span>
-                                ACCEPTING NEW PATIENTS
+                                #1 RATED {specialtyLabel.toUpperCase()} IN {city.toUpperCase()}
                             </div>
                             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6 leading-[1.1] tracking-tight" style={{ fontFamily: "'Outfit', sans-serif" }}>
                                 Modern Care for <br />
@@ -155,7 +165,7 @@ const ModernMedicalTemplate = ({ data, theme, name, specialtyLabel, city, phone,
                                     Better Living
                                 </span>
                             </h1>
-                            <p className="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed max-w-lg">
+                            <p className="text-lg md:text-xl text-slate-700 mb-8 leading-relaxed max-w-lg">
                                 {data.heroDescription || `Experience world-class ${specialtyLabel.toLowerCase()} treatments with ${name}. Advanced technology meets compassionate care.`}
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4">
@@ -177,18 +187,19 @@ const ModernMedicalTemplate = ({ data, theme, name, specialtyLabel, city, phone,
                                 </Button>
                             </div>
 
-                            {/* Stats Row */}
-                            <div className="mt-12 grid grid-cols-3 gap-4 md:gap-8 border-t border-slate-200 pt-8">
+                            {/* Stats Row - Desktop only */}
+                            <div className="mt-12 hidden lg:grid grid-cols-3 gap-4 md:gap-8 border-t border-slate-200 pt-8">
                                 {data.stats.map((stat: any, index: number) => (
                                     <div key={index}>
                                         <div className="text-2xl md:text-3xl font-bold text-slate-900" style={{ fontFamily: "'Outfit', sans-serif" }}>{stat.value}</div>
-                                        <div className="text-xs md:text-sm text-slate-500 font-medium mt-1">{stat.label}</div>
+                                        <div className="text-xs md:text-sm font-medium mt-1 text-slate-500">{stat.label}</div>
                                     </div>
                                 ))}
                             </div>
                         </div>
 
-                        <div className="order-1 lg:order-2 relative">
+                        {/* Desktop: Side image */}
+                        <div className="order-1 lg:order-2 relative hidden lg:block">
                             <div className="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-200 aspect-[4/5] md:aspect-square lg:aspect-[4/5]">
                                 <img src={data.heroImage} alt="Doctor Hero" className="w-full h-full object-cover" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
@@ -210,6 +221,20 @@ const ModernMedicalTemplate = ({ data, theme, name, specialtyLabel, city, phone,
                             <div className="absolute -top-12 -right-12 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" style={{ backgroundColor: theme.primary }}></div>
                             <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Stats Row - Mobile only, completely separate section below hero */}
+            <section className="lg:hidden py-12 bg-slate-50">
+                <div className="container mx-auto max-w-7xl px-4">
+                    <div className="grid grid-cols-3 gap-4 md:gap-8">
+                        {data.stats.map((stat: any, index: number) => (
+                            <div key={index} className="text-center">
+                                <div className="text-2xl md:text-3xl font-bold text-slate-900" style={{ fontFamily: "'Outfit', sans-serif" }}>{stat.value}</div>
+                                <div className="text-xs md:text-sm font-medium mt-1 text-slate-600">{stat.label}</div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -412,7 +437,7 @@ const ModernMedicalTemplate = ({ data, theme, name, specialtyLabel, city, phone,
                         </div>
                     </div>
                     <div className="border-t border-slate-100 pt-8 text-center text-slate-400 text-sm">
-                        © 2025 {name}. All rights reserved. Powered by DocScale.
+                        © 2025 {name}. All rights reserved. Powered by <a href="https://docscale.in" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline" style={{ color: theme.primary }}>DocScale</a>.
                     </div>
                 </div>
             </footer>
@@ -434,7 +459,7 @@ const ModernMedicalTemplate = ({ data, theme, name, specialtyLabel, city, phone,
                         className="hover:opacity-90 rounded-lg h-10 px-4 font-bold shadow-lg ml-2"
                         onClick={() => window.location.href = "https://docscale.in/#contact"}
                     >
-                        Claim This Site
+                        Customize This Site
                     </Button>
                 </div>
             </div>
