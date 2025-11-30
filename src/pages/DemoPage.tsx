@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import demoData from "@/data/demoData.json";
 import StandardTemplate from "@/components/demo/StandardTemplate";
 import LuxuryTemplate from "@/components/demo/LuxuryTemplate";
+import ModernMedicalTemplate from "@/components/demo/ModernMedicalTemplate";
 
 const DemoPage = () => {
     const [searchParams] = useSearchParams();
@@ -35,6 +36,10 @@ const DemoPage = () => {
 
     if (style === "luxury") {
         return <LuxuryTemplate {...commonProps} />;
+    }
+
+    if (style === "modern") {
+        return <ModernMedicalTemplate {...commonProps} />;
     }
 
     return <StandardTemplate {...commonProps} />;
