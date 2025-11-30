@@ -204,7 +204,7 @@ const Index = () => {
       <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm border-b border-border z-50 transition-smooth">
         <div className="container-width">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 cursor-pointer" onClick={scrollToTop}>
               <img src="/logo.png" alt="DocScale Logo" className="h-8" width="32" height="32" />
               <span className="text-xl font-bold">
                 <span className="text-primary">Doc</span>

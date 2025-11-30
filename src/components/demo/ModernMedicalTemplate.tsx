@@ -434,7 +434,7 @@ const ModernMedicalTemplate = ({ data, theme, name, specialtyLabel, city, phone,
                         className="hover:opacity-90 rounded-lg h-10 px-4 font-bold shadow-lg ml-2"
                         onClick={() => window.location.href = "https://docscale.in/#contact"}
                     >
-                        Claim This Site
+                        Customize This Site
                     </Button>
                 </div>
             </div>
