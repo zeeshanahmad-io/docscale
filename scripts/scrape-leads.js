@@ -190,22 +190,35 @@ async function scrapeLeads() {
                     return { name, rating, address, phone };
                 });
 
-                // Extract Website from DETAILS PANEL (Global Scope)
-                const website = await page.evaluate(() => {
-                    // Look for website button in the details panel
-                    // Common selectors: data-item-id="authority", aria-label="Website", data-tooltip="Website"
+                // Extract Website AND Phone from DETAILS PANEL (Global Scope)
+                const detailsData = await page.evaluate(() => {
+                    // Website
                     const websiteBtn = document.querySelector('a[data-item-id="authority"]') ||
                         document.querySelector('a[aria-label*="Website"]') ||
                         document.querySelector('a[data-tooltip="Website"]');
+                    const website = websiteBtn ? websiteBtn.href : null;
 
-                    if (websiteBtn) return websiteBtn.href;
+                    // Phone
+                    // Look for button with data-item-id starting with "phone:tel:"
+                    const phoneBtn = document.querySelector('button[data-item-id^="phone:tel:"]');
+                    let phone = null;
+                    if (phoneBtn) {
+                        phone = phoneBtn.getAttribute('data-item-id').replace('phone:tel:', '');
+                    } else {
+                        // Fallback: Look for button with aria-label containing "Phone:"
+                        const phoneAria = document.querySelector('button[aria-label*="Phone:"]');
+                        if (phoneAria) {
+                            // Extract from aria-label "Phone: +91 12345 67890"
+                            phone = phoneAria.getAttribute('aria-label').replace('Phone:', '').trim();
+                        }
+                    }
 
-                    // Fallback: Look for any external link in the details panel container (usually role="main")
-                    // This is risky as it might pick up ads or other links, so we stick to specific buttons first.
-                    return null;
+                    return { website, phone };
                 });
 
-                leads.push({ ...listData, website });
+                // Merge with list data, prioritizing details panel phone
+                const finalPhone = detailsData.phone || listData.phone;
+                leads.push({ ...listData, website: detailsData.website, phone: finalPhone });
 
             } catch (e) {
                 console.log("Error processing item:", e.message);

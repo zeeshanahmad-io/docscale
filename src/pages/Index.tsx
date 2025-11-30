@@ -158,6 +158,7 @@ const Index = () => {
               "@type": "ProfessionalService",
               "name": "DocScale",
               "image": "https://docscale.in/logo.png",
+              "logo": "https://docscale.in/logo.png",
               "url": "https://docscale.in",
               "telephone": "+916299337816",
               "email": "contact@docscale.in",
